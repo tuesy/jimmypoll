@@ -1,0 +1,7 @@
+{
+	"name": "Poll",
+	"author": "Jimmy Zhang",
+	"license": "MIT",
+	"repositoryUrl": "https://github.com/tuesy/poll",
+	"optionalPermissions": ["user-interaction"]
+}
