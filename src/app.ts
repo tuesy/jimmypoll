@@ -8,20 +8,14 @@ const BUTTON_HEIGHT = 0.6;
 
 export default class Poll {
 	private assets: MRE.AssetContainer;
-
   private libraryActors: MRE.Actor[] = [];
-
   private infoText : any;
 
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
 		this.context.onStarted(() => this.started());
 	}
 
-	/**
-	 * Once the context is "started", initialize the app.
-	 */
 	private async started() {
-		// set up somewhere to store loaded assets (meshes, textures, animations, gltfs, etc.)
 		this.assets = new MRE.AssetContainer(this.context);
 
     this.createInterface();
@@ -52,8 +46,8 @@ export default class Poll {
      });
     helpButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
       user.prompt(`
-This app helps you polls users in your Event or World
-`).then(res => {
+  This app helps you polls users in your Event or World
+  `).then(res => {
           if(res.submitted){
             // clicked 'OK'
           }
@@ -66,3 +60,7 @@ This app helps you polls users in your Event or World
     });
   }
 }
+
+
+
+
