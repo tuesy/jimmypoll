@@ -52,7 +52,7 @@ export default class Poll {
      });
     helpButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
       user.prompt(`
-This app helps you polls users in your Event or World.
+This app helps you polls users in your Event or World
 `).then(res => {
           if(res.submitted){
             // clicked 'OK'
