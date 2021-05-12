@@ -25,15 +25,9 @@ export default class Poll {
 
 	private async started() {
 		this.assets = new MRE.AssetContainer(this.context);
-
     this.createInterface();
-
-    // moderator initiates the poll
-    if(DEBUG){
-      // this.startPoll('1135296936455177005', 'yes or no');
     }
 	}
-
 
   private startPoll(pollId: string, name: string){
     name = name.trim().charAt(0).toUpperCase() + name.slice(1); // capitalize first letter
@@ -69,9 +63,6 @@ export default class Poll {
       }
       this.updatePoll(pollId);
     }
-
-    // if(DEBUG)
-    //   console.log(this.polls);
   }
 
   private updatePoll(pollId: string){
@@ -142,18 +133,29 @@ export default class Poll {
       }
     });
     pollButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(`Enter a question and click "OK" (e.g. 'is this the year of vr' => 'Is this the year of VR?').`, true)
-      .then(res => {
+      if(this.canManagePolls(user)){
+        user.prompt(`Enter a question and click "OK" (e.g. 'is this the year of vr' => 'Is this the year of VR?').`, true)
+        .then(res => {
           if(res.submitted && res.text.length > 0){
             this.startPoll(this.pollIdFor(user), res.text);
           }
           else{
             // user clicked 'Cancel'
           }
-      })
-      .catch(err => {
-        console.error(err);
-      });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      }
+      else{
+        user.prompt(`Sorry, you don't have permission to manage polls.`, false).then(res => {});
+      }
     });
+  }
+
+  // handles when user has no roles
+  private canManagePolls(user: MRE.User) : boolean{
+    let roles = user.properties['altspacevr-roles'].split(',');
+    return roles && (roles.includes('moderator') || roles.includes('terraformer') || roles.includes('host'))
   }
 }
