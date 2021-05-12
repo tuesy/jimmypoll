@@ -30,7 +30,7 @@ export default class Poll {
 
     // moderator initiates the poll
     if(DEBUG){
-      this.startPoll('1135296936455177005', 'doge');
+      // this.startPoll('1135296936455177005', 'yes or no');
     }
 	}
 
@@ -40,7 +40,7 @@ export default class Poll {
     if(name.charAt(name.length-1) != '?') // stick a question at the end
       name += '?';
 
-    this.infoText.text.contents = name;
+    this.infoText.text.contents = `Poll: ${name}`;
 
     // overrides exxisting polls
     this.polls[pollId] = {
@@ -50,26 +50,28 @@ export default class Poll {
     };
 
     if(DEBUG)
-      console.log(`Starting poll: ${name}`);
+      console.log(`[Poll] Start: "${name}" (${pollId})`);
   }
 
   private takePoll(pollId: string, user: MRE.User, response: string){
     let userId = String(user.id);
     // update poll database
 
-    if(response == 'Yes'){
-      this.polls[pollId].yes.add(userId);
-      this.polls[pollId].no.delete(userId);
-    }
-    if(response == 'No'){
-      this.polls[pollId].yes.delete(userId);
-      this.polls[pollId].no.add(userId);
+    if(pollId in this.polls){
+      let poll = this.polls[pollId];
+      if(response == 'Yes'){
+        poll.yes.add(userId);
+        poll.no.delete(userId);
+      }
+      if(response == 'No'){
+        poll.yes.delete(userId);
+        poll.no.add(userId);
+      }
+      this.updatePoll(pollId);
     }
 
-    this.updatePoll(pollId);
-
-    if(DEBUG)
-      console.log(this.polls);
+    // if(DEBUG)
+    //   console.log(this.polls);
   }
 
   private updatePoll(pollId: string){
@@ -79,19 +81,15 @@ export default class Poll {
     }
   }
 
+  // could be from an Event or a World
   private pollIdFor(user: MRE.User) : string{
     let pollId = null;
     if(user.properties['altspacevr-event-id']){
       pollId = user.properties['altspacevr-event-id'];
-      if(DEBUG)
-        console.log(`PollId: ${pollId} (Event)`);
     }
     else{
       pollId = user.properties['altspacevr-space-id'];
-      if(DEBUG)
-        console.log(`PollId: ${pollId} (World)`);
     }
-
     return pollId;
   }
 
@@ -144,7 +142,7 @@ export default class Poll {
       }
     });
     pollButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(`Enter a poll question and click "OK". We'll format it to save you the trouble. (e.g. 'doge' => 'Doge?').`, true)
+      user.prompt(`Enter a question and click "OK" (e.g. 'is this the year of vr' => 'Is this the year of VR?').`, true)
       .then(res => {
           if(res.submitted && res.text.length > 0){
             this.startPoll(this.pollIdFor(user), res.text);
@@ -152,7 +150,6 @@ export default class Poll {
           else{
             // user clicked 'Cancel'
           }
-
       })
       .catch(err => {
         console.error(err);
