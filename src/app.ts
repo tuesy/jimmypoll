@@ -15,18 +15,21 @@ type PollDescriptor = {
 
 export default class Poll {
 	private assets: MRE.AssetContainer;
+  private attachedWatches = new Map<MRE.Guid, MRE.Actor>();
   private libraryActors: MRE.Actor[] = [];
   private infoText : any;
   private polls: { [key: string]: PollDescriptor } = {};
 
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
 		this.context.onStarted(() => this.started());
+    this.context.onUserLeft(user => this.userLeft(user));
+    this.context.onUserJoined(user => this.userJoined(user));
 	}
 
 	private async started() {
 		this.assets = new MRE.AssetContainer(this.context);
     this.createInterface();
-    }
+    this.startPoll('1135296936455177005', 'test');
 	}
 
   private startPoll(pollId: string, name: string){
@@ -47,8 +50,9 @@ export default class Poll {
       console.log(`[Poll] Start: "${name}" (${pollId})`);
   }
 
-  private takePoll(pollId: string, user: MRE.User, response: string){
+  private takePoll(user: MRE.User, response: string){
     let userId = String(user.id);
+    let pollId = this.pollIdFor(user);
     // update poll database
 
     if(pollId in this.polls){
@@ -112,11 +116,11 @@ export default class Poll {
           let pollId = this.pollIdFor(user);
           if(res.submitted){
             // clicked 'OK'
-            this.takePoll(pollId, user, 'Yes');
+            this.takePoll(user, 'Yes');
           }
           else{
             // clicked 'Cancel'
-            this.takePoll(pollId, user, 'No');
+            this.takePoll(user, 'No');
           }
       })
       .catch(err => {
@@ -138,6 +142,7 @@ export default class Poll {
         .then(res => {
           if(res.submitted && res.text.length > 0){
             this.startPoll(this.pollIdFor(user), res.text);
+            this.wearControls(user.id);
           }
           else{
             // user clicked 'Cancel'
@@ -148,7 +153,8 @@ export default class Poll {
         });
       }
       else{
-        user.prompt(`Sorry, you don't have permission to manage polls.`, false).then(res => {});
+        // everybody gets the controls so they can vote
+        this.wearControls(user.id);
       }
     });
   }
@@ -157,5 +163,80 @@ export default class Poll {
   private canManagePolls(user: MRE.User) : boolean{
     let roles = user.properties['altspacevr-roles'].split(',');
     return roles && (roles.includes('moderator') || roles.includes('terraformer') || roles.includes('host'))
+  }
+
+  private wearControls(userId: MRE.Guid) {
+    // If the user is wearing a watch, destroy it.
+    if (this.attachedWatches.has(userId)) this.attachedWatches.get(userId).destroy();
+    this.attachedWatches.delete(userId);
+
+    const position = { x: 0, y: -0.04, z: 0 } // move it out of the hand
+    const scale = { x: 0.1, y: 0.1, z: 0.1 }
+    const rotation = { x: 90, y: 0, z: 0 }
+    const attachPoint = <MRE.AttachPoint> 'left-hand';
+
+    const watch = MRE.Actor.Create(this.context, {
+      // resourceId: 'artifact:1579238405710021245',
+      actor: {
+          transform: {
+              local: {
+                  position: position,
+                  rotation: MRE.Quaternion.FromEulerAngles(
+                      rotation.x * MRE.DegreesToRadians,
+                      rotation.y * MRE.DegreesToRadians,
+                      rotation.z * MRE.DegreesToRadians),
+                  scale: scale
+              }
+          },
+          attachment: {
+              attachPoint: attachPoint,
+              userId
+          }
+      }
+    })
+
+    const buttonSpacing = 0.2;
+
+    // add buttons
+    const yesButton = MRE.Actor.CreateFromLibrary(this.context, {
+      resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
+      actor: {
+        transform: { local: { position: { x: -buttonSpacing, y: 0, z: 0 } } },
+        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+        parentId: watch.id
+      }
+    });
+    yesButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
+      this.takePoll(user, 'Yes');
+    });
+
+    const noButton = MRE.Actor.CreateFromLibrary(this.context, {
+      resourceId: 'artifact:1579238405710021245', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
+      actor: {
+        transform: { local: { position: { x: buttonSpacing, y: 0, z: 0 } } },
+        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+        parentId: watch.id
+      }
+    });
+    noButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
+      this.takePoll(user, 'No');
+    });
+
+    this.attachedWatches.set(userId, watch);
+  }
+
+  private userLeft(user: MRE.User) {
+    // If the user was wearing a watch, destroy it. Otherwise it would be
+    // orphaned in the world.
+    if (this.attachedWatches.has(user.id)) { this.attachedWatches.get(user.id).destroy(); }
+    this.attachedWatches.delete(user.id);
+  }
+
+  private userJoined(user: MRE.User) {
+    let pollId = this.pollIdFor(user);
+    if(!(pollId in this.polls))
+      return;
+
+    this.wearControls(user.id);
   }
 }
