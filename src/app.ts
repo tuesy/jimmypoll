@@ -5,7 +5,7 @@ const url = require('url')
 const WELCOME_TEXT = 'Poll App';
 const INFO_TEXT_HEIGHT = 1.2;
 const BUTTON_HEIGHT = 0.6;
-const DEBUG = true;
+const DEBUG = false;
 
 type PollDescriptor = {
   name: string,
@@ -29,7 +29,8 @@ export default class Poll {
 	private async started() {
 		this.assets = new MRE.AssetContainer(this.context);
     this.createInterface();
-    this.startPoll('1135296936455177005', 'test');
+    if(DEBUG)
+      this.startPoll('1135296936455177005', 'test');
 	}
 
   private startPoll(pollId: string, name: string){
@@ -53,7 +54,10 @@ export default class Poll {
   private takePoll(user: MRE.User, response: string){
     let userId = String(user.id);
     let pollId = this.pollIdFor(user);
+
     // update poll database
+    if(DEBUG)
+      console.log(`[Poll][Taking] ${pollId} - ${user.id} - ${response}`);
 
     if(pollId in this.polls){
       let poll = this.polls[pollId];
@@ -116,11 +120,11 @@ export default class Poll {
           let pollId = this.pollIdFor(user);
           if(res.submitted){
             // clicked 'OK'
-            this.takePoll(user, 'Yes');
+            // this.takePoll(user, 'Yes');
           }
           else{
             // clicked 'Cancel'
-            this.takePoll(user, 'No');
+            // this.takePoll(user, 'No');
           }
       })
       .catch(err => {
@@ -166,6 +170,10 @@ export default class Poll {
   }
 
   private wearControls(userId: MRE.Guid) {
+    // don't do anything if there's no active poll
+    if(!(this.pollIdFor(this.context.user(userId)) in this.polls))
+      return;
+
     // If the user is wearing a watch, destroy it.
     if (this.attachedWatches.has(userId)) this.attachedWatches.get(userId).destroy();
     this.attachedWatches.delete(userId);
@@ -176,7 +184,6 @@ export default class Poll {
     const attachPoint = <MRE.AttachPoint> 'left-hand';
 
     const watch = MRE.Actor.Create(this.context, {
-      // resourceId: 'artifact:1579238405710021245',
       actor: {
           transform: {
               local: {
@@ -233,10 +240,6 @@ export default class Poll {
   }
 
   private userJoined(user: MRE.User) {
-    let pollId = this.pollIdFor(user);
-    if(!(pollId in this.polls))
-      return;
-
     this.wearControls(user.id);
   }
 }
