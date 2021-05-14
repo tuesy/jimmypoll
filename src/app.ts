@@ -94,6 +94,8 @@ export default class Poll {
       }
     }
 
+    this.infoText.text.height = 0.2;
+
     if(DEBUG){
       console.log(`[Poll][Start] "${pollName}" (${pollId})`);
       console.log(this.polls[pollId]);
@@ -124,11 +126,19 @@ export default class Poll {
   private updatePoll(pollId: string){
     let poll = this.polls[pollId];
     if(poll){
-      let display = `${poll.name}\n\n`;
+      let display = `${poll.name}\n`;
       for(let i = 0; i < poll.choices.length; i++){
         display += `${poll.choices[i].name}: ${poll.choices[i].userIds.size}\n`;
       }
       this.infoText.text.contents = display;
+
+      // make it smaller so we can see all the results
+      if(poll.choices.length > 3){
+        this.infoText.text.height = 0.1;
+      }
+      else{
+        this.infoText.text.height = 0.2;
+      }
     }
   }
 
@@ -162,9 +172,10 @@ export default class Poll {
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
         text: {
           contents: WELCOME_TEXT,
-          height: 0.1,
+          height: 0.2,
           anchor: MRE.TextAnchorLocation.MiddleCenter,
-          justify: MRE.TextJustify.Center
+          justify: MRE.TextJustify.Center,
+          font: MRE.TextFontFamily.Cursive
         }
       }
     });
@@ -297,7 +308,8 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
           contents: `Poll: ${poll.name}`,
           height: 0.2,
           anchor: MRE.TextAnchorLocation.MiddleLeft,
-          justify: MRE.TextJustify.Left
+          justify: MRE.TextJustify.Left,
+          font: MRE.TextFontFamily.Cursive
         },
         parentId: watch.id
       }
@@ -328,7 +340,8 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
             contents: poll.choices[i].name,
             height: 0.2,
             anchor: MRE.TextAnchorLocation.MiddleLeft,
-            justify: MRE.TextJustify.Left
+            justify: MRE.TextJustify.Left,
+            font: MRE.TextFontFamily.Cursive
           },
           parentId: button.id
         }
