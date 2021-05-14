@@ -8,6 +8,8 @@ const BUTTON_HEIGHT = 0.18;
 const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
 const SCREEN_HEIGHT = 1.5;
+const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
+const SCREEN_BACKGROUND_IMAGE = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)]; // randomly choose one by default
 
 // if you're looking at your left palm, this is how much to it's coming towards you
 // the more negative it is, the farther away from the wrist it'll be
@@ -155,6 +157,7 @@ export default class Poll {
   }
 
   private createInterface(){
+    // theater screen
     let screenScale = 0.5;
     const screen = MRE.Actor.CreateFromLibrary(this.context, {
       resourceId: 'artifact:1338743673998803669', // https://account.altvr.com/kits/1329955493782749272/artifacts/1338743673998803669
@@ -165,12 +168,11 @@ export default class Poll {
       }
      });
 
-    // add some background
+    // add some background pattern
     const backgroundMaterial = this.assets.createMaterial("bgMat", {
-      color: { r: 1, g: 0, b: 0, a: .8 },
-      alphaMode: MRE.AlphaMode.Blend
+      mainTextureId: this.assets.createTexture("bgTex", { uri: SCREEN_BACKGROUND_IMAGE } ).id,
+      mainTextureScale: {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
     });
-
     const background = MRE.Actor.Create(this.context, {
       actor: {
         transform: { local: { position: { x: 0, y: 0, z: -0.02 } } }, // -Z is towards you when looking at the screen
