@@ -5,7 +5,15 @@ const url = require('url')
 const WELCOME_TEXT = 'Poll App';
 const INFO_TEXT_HEIGHT = 1.2;
 const BUTTON_HEIGHT = 0.6;
-const DEBUG = true;
+const MAX_CHOICES = 4;
+const CHOICE_SPACING = 0.2;
+
+// if you're looking at your left palm, this is how much to it's coming towards you
+// the more negative it is, the farther away from the wrist it'll be
+const WRIST_OFFSET = -0.05;
+
+const DEBUG = false;
+
 
 type PollDescriptor = {
   name: string,
@@ -34,39 +42,34 @@ export default class Poll {
 		this.assets = new MRE.AssetContainer(this.context);
     this.createInterface();
     if(DEBUG){
-      this.startPoll('1135296936455177005', 'default yes no poll');
+      // this.startPoll('806780906349003424', 'default yes no poll');
+      this.startPoll('806780906349003424', '3-choice poll|one|two|three');
     }
 	}
 
-/*
+  private startPoll(pollId: string, input: string){
+    let inputs = input.split('|');
+    let pollName = inputs.slice(0,1)[0].trim();
+    let choiceNames = inputs.slice(1,MAX_CHOICES);
 
-{
-  '1135296936455177005': { name: 'Default yes no poll?', yes: Set(0) {}, no: Set(0) {} }
-}
+    if(DEBUG){
+      console.log(`inputs: ${inputs}, pollName: ${pollName}, choiceNames: ${choiceNames}`);
+    }
 
-{
-  '1135296936455177005': { name: 'two choice poll?', yes: Set(0) {}, no: Set(0) {} }
-}
+    pollName = pollName.trim().charAt(0).toUpperCase() + pollName.slice(1); // capitalize first letter
+    if(pollName.charAt(pollName.length-1) != '?') // stick a question at the end
+      pollName += '?';
 
-*/
-
-  private startPoll(pollId: string, name: string){
-    let choices = [];
-
-    name = name.trim().charAt(0).toUpperCase() + name.slice(1); // capitalize first letter
-    if(name.charAt(name.length-1) != '?') // stick a question at the end
-      name += '?';
-
-    this.infoText.text.contents = `Poll: ${name}`;
+    this.infoText.text.contents = `Poll: ${pollName}`;
 
     // overrides exxisting polls
     this.polls[pollId] = {
-      name: name,
+      name: pollName,
       choices: []
     };
 
     // by default, it's Yes or No
-    if(choices.length < 1){
+    if(choiceNames.length < 2){
       this.polls[pollId].choices.push({
         name: 'Yes',
         userIds: new Set<string>()
@@ -77,10 +80,21 @@ export default class Poll {
         userIds: new Set<string>()
       });
     }
+    else{
+      // setup choices by name and index
+      for (let i = 0; i < choiceNames.length; i++){
+        let x = choiceNames[i].trim();
+        x = x.trim().charAt(0).toUpperCase() + x.slice(1);
+        this.polls[pollId].choices.push({
+          name: x, // capitalize first letter
+          userIds: new Set<string>()
+        });
+      }
+    }
 
     if(DEBUG){
-      console.log(`[Poll][Start] "${name}" (${pollId})`);
-      console.log(this.polls);
+      console.log(`[Poll][Start] "${pollName}" (${pollId})`);
+      console.log(this.polls[pollId]);
     }
   }
 
@@ -94,13 +108,12 @@ export default class Poll {
 
     if(pollId in this.polls){
       let poll = this.polls[pollId];
-      if(response == 0){
-        poll.choices[0].userIds.add(userId);
-        poll.choices[1].userIds.delete(userId);
-      }
-      if(response == 1){
-        poll.choices[0].userIds.delete(userId);
-        poll.choices[1].userIds.add(userId);
+      // remove from
+      for (let i = 0; i < poll.choices.length; i++) {
+        if(i == response)
+          poll.choices[i].userIds.add(userId);
+        else
+          poll.choices[i].userIds.delete(userId);
       }
       this.updatePoll(pollId);
     }
@@ -109,7 +122,11 @@ export default class Poll {
   private updatePoll(pollId: string){
     let poll = this.polls[pollId];
     if(poll){
-      this.infoText.text.contents = `${poll.name}\n\nYes: ${poll.choices[0].userIds.size}\nNo: ${poll.choices[1].userIds.size}`;
+      let display = `${poll.name}\n\n`;
+      for(let i = 0; i < poll.choices.length; i++){
+        display += `${poll.choices[i].name}: ${poll.choices[i].userIds.size}\n`;
+      }
+      this.infoText.text.contents = display;
     }
   }
 
@@ -203,15 +220,20 @@ export default class Poll {
   }
 
   private wearControls(userId: MRE.Guid) {
+    if(DEBUG)
+      console.log(`User ${userId} attempting to wear consoles, poll: ${this.pollIdFor(this.context.user(userId))}`);
+
+    let poll = this.polls[this.pollIdFor(this.context.user(userId))];
     // don't do anything if there's no active poll
-    if(!(this.pollIdFor(this.context.user(userId)) in this.polls))
+    if(!poll){
       return;
+    }
 
     // If the user is wearing a watch, destroy it.
     if (this.attachedWatches.has(userId)) this.attachedWatches.get(userId).destroy();
     this.attachedWatches.delete(userId);
 
-    const position = { x: 0, y: -0.04, z: 0 } // move it out of the hand
+    const position = { x: 0, y: WRIST_OFFSET, z: 0 } // move it out of the hand
     const scale = { x: 0.1, y: 0.1, z: 0.1 }
     const rotation = { x: 90, y: 0, z: 0 }
     const attachPoint = <MRE.AttachPoint> 'left-hand';
@@ -236,32 +258,40 @@ export default class Poll {
       }
     })
 
-    const buttonSpacing = 0.2;
+    let y = 0;
+    const buttonSpacing = 0.4;
 
-    // add buttons
-    const yesButton = MRE.Actor.CreateFromLibrary(this.context, {
-      resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
-      actor: {
-        transform: { local: { position: { x: -buttonSpacing, y: 0, z: 0 } } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-        parentId: watch.id
-      }
-    });
-    yesButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      this.takePoll(user, 0);
-    });
+    for (let i = 0; i < poll.choices.length; i++){
+      // add buttons
+      const button = MRE.Actor.CreateFromLibrary(this.context, {
+        resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
+        actor: {
+          transform: { local: { position: { x: 0, y: y, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
+                      0 * MRE.DegreesToRadians,
+                      180 * MRE.DegreesToRadians,
+                      0 * MRE.DegreesToRadians)}},
+          collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+          parentId: watch.id
+        }
+      });
+      button.setBehavior(MRE.ButtonBehavior).onClick(user => {
+        this.takePoll(user, i);
+      });
+      const label = MRE.Actor.Create(this.context, {
+        actor: {
+          transform: { local: { position: { x: CHOICE_SPACING, y: 0, z: 0 } } },
+          text: {
+            contents: poll.choices[i].name,
+            height: 0.2,
+            anchor: MRE.TextAnchorLocation.MiddleLeft,
+            justify: MRE.TextJustify.Left
+          },
+          parentId: button.id
+        }
+      });
 
-    const noButton = MRE.Actor.CreateFromLibrary(this.context, {
-      resourceId: 'artifact:1579238405710021245', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
-      actor: {
-        transform: { local: { position: { x: buttonSpacing, y: 0, z: 0 } } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-        parentId: watch.id
-      }
-    });
-    noButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      this.takePoll(user, 1);
-    });
+      y -= buttonSpacing;
+    }
 
     this.attachedWatches.set(userId, watch);
   }
