@@ -50,7 +50,6 @@ export default class Poll {
     if(this.params.bg){
       let index = Number(this.params.bg);
       let total = BACKGROUND_IMAGES.length;
-      console.log(index);
       if(index > 0 && index < total)
         this.screenBackgroundImage = BACKGROUND_IMAGES[index-1];
     }
