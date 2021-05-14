@@ -3,10 +3,11 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 const fetch = require('node-fetch');
 const url = require('url')
 const WELCOME_TEXT = 'Poll App';
-const INFO_TEXT_HEIGHT = 1.2;
-const BUTTON_HEIGHT = 0.6;
+const INFO_TEXT_HEIGHT = 1.6;
+const BUTTON_HEIGHT = 0.18;
 const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
+const SCREEN_HEIGHT = 1.5;
 
 // if you're looking at your left palm, this is how much to it's coming towards you
 // the more negative it is, the farther away from the wrist it'll be
@@ -144,6 +145,16 @@ export default class Poll {
   }
 
   private createInterface(){
+    let screenScale = 0.5;
+    const screen = MRE.Actor.CreateFromLibrary(this.context, {
+      resourceId: 'artifact:1338743673998803669', // https://account.altvr.com/kits/1329955493782749272/artifacts/1338743673998803669
+      actor: {
+        name: 'Theater Screen',
+        transform: { local: { position: { x: 0, y: SCREEN_HEIGHT, z: 0.1 }, scale: {x: screenScale, y: screenScale, z: 1} } },
+        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
+      }
+     });
+
     this.infoText = MRE.Actor.Create(this.context, {
       actor: {
         name: 'Info Text',
