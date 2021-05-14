@@ -5,7 +5,7 @@ const url = require('url')
 const WELCOME_TEXT = 'Poll App';
 const INFO_TEXT_HEIGHT = 1.2;
 const BUTTON_HEIGHT = 0.6;
-const MAX_CHOICES = 4;
+const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
 
 // if you're looking at your left palm, this is how much to it's coming towards you
@@ -43,14 +43,15 @@ export default class Poll {
     this.createInterface();
     if(DEBUG){
       // this.startPoll('806780906349003424', 'default yes no poll');
-      this.startPoll('806780906349003424', '3-choice poll|one|two|three');
+      //this.startPoll('806780906349003424', '3-choice poll|one|two|three');
+      //this.startPoll('806780906349003424', '4-choice poll|one|two|three|four');
     }
 	}
 
   private startPoll(pollId: string, input: string){
     let inputs = input.split('|');
     let pollName = inputs.slice(0,1)[0].trim();
-    let choiceNames = inputs.slice(1,MAX_CHOICES);
+    let choiceNames = inputs.slice(1,MAX_CHOICES+1);
 
     if(DEBUG){
       console.log(`inputs: ${inputs}, pollName: ${pollName}, choiceNames: ${choiceNames}`);
@@ -161,20 +162,28 @@ export default class Poll {
       resourceId: 'artifact:1579238405710021245',
       actor: {
         name: 'Help Button',
-        transform: { local: { position: { x: 0.35, y: BUTTON_HEIGHT, z: 0 } } },
+        transform: { local: { position: { x: 0.2, y: BUTTON_HEIGHT, z: 0 } } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
       }
      });
     helpButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(`This app helps you polls users in your Event or World`).then(res => {
-          let pollId = this.pollIdFor(user);
+      user.prompt(`Take a quick poll!
+
+Moderators can click the orange button to start a poll and everyone else can click to take the poll. You can change your response at any time.
+
+The controls will be on your left hand and you can either touch or click the buttons.
+
+Only one poll per Event or World and Events with multiple rooms will be part of a single poll. Starting a new poll clears the last one.
+
+Click "OK" for an example.
+ `).then(res => {
           if(res.submitted){
             // clicked 'OK'
-            // this.takePoll(user, 'Yes');
+            this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Hololens|Other');
+            this.wearControls(user.id);
           }
           else{
             // clicked 'Cancel'
-            // this.takePoll(user, 'No');
           }
       })
       .catch(err => {
@@ -186,13 +195,17 @@ export default class Poll {
       resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
       actor: {
         name: 'Poll Button',
-        transform: { local: { position: { x: 0, y: BUTTON_HEIGHT, z: 0 } } },
+        transform: { local: { position: { x: -0.2, y: BUTTON_HEIGHT, z: 0 } } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
       }
     });
     pollButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
       if(this.canManagePolls(user)){
-        user.prompt(`Enter a question and click "OK" (e.g. 'is this the year of vr' => 'Is this the year of VR?').`, true)
+        user.prompt(`Enter a question and click "OK"
+(e.g. "got milk" => "Got Milk?"")
+
+By default, users can choose "Yes" or "No". You can customize the choices (up to ${MAX_CHOICES}) by adding them after the question separated by "|".
+(e.g. "favorite color|blue|red|yellow")`, true)
         .then(res => {
           if(res.submitted && res.text.length > 0){
             this.startPoll(this.pollIdFor(user), res.text);
@@ -233,11 +246,12 @@ export default class Poll {
     if (this.attachedWatches.has(userId)) this.attachedWatches.get(userId).destroy();
     this.attachedWatches.delete(userId);
 
-    const position = { x: 0, y: WRIST_OFFSET, z: 0 } // move it out of the hand
+    const position = { x: 0.05, y: WRIST_OFFSET, z: 0 } // move it out of the hand
     const scale = { x: 0.1, y: 0.1, z: 0.1 }
     const rotation = { x: 90, y: 0, z: 0 }
     const attachPoint = <MRE.AttachPoint> 'left-hand';
 
+    // main object, the Watch
     const watch = MRE.Actor.Create(this.context, {
       actor: {
           transform: {
@@ -258,8 +272,27 @@ export default class Poll {
       }
     })
 
-    let y = 0;
-    const buttonSpacing = 0.4;
+    let y = -0.2;
+    const buttonSpacing = 0.3;
+
+    // title
+    const label = MRE.Actor.Create(this.context, {
+      actor: {
+        transform: { local: { position: { x: 0, y: 0, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
+                      0 * MRE.DegreesToRadians,
+                      180 * MRE.DegreesToRadians,
+                      0 * MRE.DegreesToRadians) } },
+        text: {
+          contents: `Poll: ${poll.name}`,
+          height: 0.2,
+          anchor: MRE.TextAnchorLocation.MiddleLeft,
+          justify: MRE.TextJustify.Left
+        },
+        parentId: watch.id
+      }
+    });
+
+    y -= buttonSpacing / 2;
 
     for (let i = 0; i < poll.choices.length; i++){
       // add buttons
@@ -269,7 +302,7 @@ export default class Poll {
           transform: { local: { position: { x: 0, y: y, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
                       0 * MRE.DegreesToRadians,
                       180 * MRE.DegreesToRadians,
-                      0 * MRE.DegreesToRadians)}},
+                      0 * MRE.DegreesToRadians) } },
           collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
           parentId: watch.id
         }
