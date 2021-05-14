@@ -198,7 +198,8 @@ export default class Poll {
           attachment: {
               attachPoint: attachPoint,
               userId
-          }
+          },
+          exclusiveToUser: userId
       }
     })
 
