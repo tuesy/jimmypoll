@@ -5,7 +5,7 @@ const url = require('url')
 const WELCOME_TEXT = 'Poll App';
 const INFO_TEXT_HEIGHT = 1.2;
 const BUTTON_HEIGHT = 0.6;
-const DEBUG = false;
+const DEBUG = true;
 
 type PollDescriptor = {
   name: string,
@@ -29,8 +29,9 @@ export default class Poll {
 	private async started() {
 		this.assets = new MRE.AssetContainer(this.context);
     this.createInterface();
-    if(DEBUG)
-      this.startPoll('1135296936455177005', 'test');
+    if(DEBUG){
+      this.startPoll('1135296936455177005', 'default yes no poll');
+    }
 	}
 
   private startPoll(pollId: string, name: string){
@@ -47,8 +48,10 @@ export default class Poll {
       no: new Set<string>(),
     };
 
-    if(DEBUG)
-      console.log(`[Poll] Start: "${name}" (${pollId})`);
+    if(DEBUG){
+      console.log(`[Poll][Start] "${name}" (${pollId})`);
+      console.log(this.polls);
+    }
   }
 
   private takePoll(user: MRE.User, response: string){
@@ -241,6 +244,11 @@ export default class Poll {
   }
 
   private userJoined(user: MRE.User) {
+    if(DEBUG){
+      console.log("User has joined:");
+      console.log(user.properties);
+    }
+
     this.wearControls(user.id);
   }
 }
