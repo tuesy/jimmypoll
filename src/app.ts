@@ -9,7 +9,6 @@ const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
 const SCREEN_HEIGHT = 1.5;
 const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
-const SCREEN_BACKGROUND_IMAGE = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)]; // randomly choose one by default
 
 // if you're looking at your left palm, this is how much to it's coming towards you
 // the more negative it is, the farther away from the wrist it'll be
@@ -34,6 +33,8 @@ export default class Poll {
   private libraryActors: MRE.Actor[] = [];
   private infoText : any;
   private polls: { [key: string]: PollDescriptor } = {};
+  private screenBackgroundImage = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)]; // randomly choose one by default
+
 
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
 		this.context.onStarted(() => this.started());
@@ -44,6 +45,16 @@ export default class Poll {
 	private async started() {
 		this.assets = new MRE.AssetContainer(this.context);
     this.createInterface();
+
+    // hosts can choose a background
+    if(this.params.bg){
+      let index = Number(this.params.bg);
+      let total = BACKGROUND_IMAGES.length;
+      console.log(index);
+      if(index > 0 && index < total)
+        this.screenBackgroundImage = BACKGROUND_IMAGES[index-1];
+    }
+
     if(DEBUG){
       // this.startPoll('806780906349003424', 'default yes no poll');
       //this.startPoll('806780906349003424', '3-choice poll|one|two|three');
@@ -170,7 +181,7 @@ export default class Poll {
 
     // add some background pattern
     const backgroundMaterial = this.assets.createMaterial("bgMat", {
-      mainTextureId: this.assets.createTexture("bgTex", { uri: SCREEN_BACKGROUND_IMAGE } ).id,
+      mainTextureId: this.assets.createTexture("bgTex", { uri: this.screenBackgroundImage } ).id,
       mainTextureScale: {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
     });
     const background = MRE.Actor.Create(this.context, {
