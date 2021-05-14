@@ -165,6 +165,24 @@ export default class Poll {
       }
      });
 
+    // add some background
+    const backgroundMaterial = this.assets.createMaterial("bgMat", {
+      color: { r: 1, g: 0, b: 0, a: .8 },
+      alphaMode: MRE.AlphaMode.Blend
+    });
+
+    const background = MRE.Actor.Create(this.context, {
+      actor: {
+        transform: { local: { position: { x: 0, y: 0, z: -0.02 } } }, // -Z is towards you when looking at the screen
+        appearance: {
+            meshId: this.assets.createBoxMesh("cube", 7.8, 4.38, 0.02).id, // X is width, Y is height, Z is depth when looking at screen
+            materialId: backgroundMaterial.id
+        },
+        parentId: screen.id
+      }
+    });
+
+
     this.infoText = MRE.Actor.Create(this.context, {
       actor: {
         name: 'Info Text',
