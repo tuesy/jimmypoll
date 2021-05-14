@@ -9,9 +9,13 @@ const DEBUG = true;
 
 type PollDescriptor = {
   name: string,
-  yes: Set<string>;
-  no: Set<string>;
+  choices: PollChoiceDescriptor[];
 };
+
+type PollChoiceDescriptor = {
+  name: string,
+  userIds: Set<string>
+}
 
 export default class Poll {
 	private assets: MRE.AssetContainer;
@@ -34,7 +38,21 @@ export default class Poll {
     }
 	}
 
+/*
+
+{
+  '1135296936455177005': { name: 'Default yes no poll?', yes: Set(0) {}, no: Set(0) {} }
+}
+
+{
+  '1135296936455177005': { name: 'two choice poll?', yes: Set(0) {}, no: Set(0) {} }
+}
+
+*/
+
   private startPoll(pollId: string, name: string){
+    let choices = [];
+
     name = name.trim().charAt(0).toUpperCase() + name.slice(1); // capitalize first letter
     if(name.charAt(name.length-1) != '?') // stick a question at the end
       name += '?';
@@ -44,9 +62,21 @@ export default class Poll {
     // overrides exxisting polls
     this.polls[pollId] = {
       name: name,
-      yes: new Set<string>(),
-      no: new Set<string>(),
+      choices: []
     };
+
+    // by default, it's Yes or No
+    if(choices.length < 1){
+      this.polls[pollId].choices.push({
+        name: 'Yes',
+        userIds: new Set<string>()
+      });
+
+      this.polls[pollId].choices.push({
+        name: 'No',
+        userIds: new Set<string>()
+      });
+    }
 
     if(DEBUG){
       console.log(`[Poll][Start] "${name}" (${pollId})`);
@@ -54,7 +84,7 @@ export default class Poll {
     }
   }
 
-  private takePoll(user: MRE.User, response: string){
+  private takePoll(user: MRE.User, response: number){
     let userId = String(user.id);
     let pollId = this.pollIdFor(user);
 
@@ -64,13 +94,13 @@ export default class Poll {
 
     if(pollId in this.polls){
       let poll = this.polls[pollId];
-      if(response == 'Yes'){
-        poll.yes.add(userId);
-        poll.no.delete(userId);
+      if(response == 0){
+        poll.choices[0].userIds.add(userId);
+        poll.choices[1].userIds.delete(userId);
       }
-      if(response == 'No'){
-        poll.yes.delete(userId);
-        poll.no.add(userId);
+      if(response == 1){
+        poll.choices[0].userIds.delete(userId);
+        poll.choices[1].userIds.add(userId);
       }
       this.updatePoll(pollId);
     }
@@ -79,7 +109,7 @@ export default class Poll {
   private updatePoll(pollId: string){
     let poll = this.polls[pollId];
     if(poll){
-      this.infoText.text.contents = `${poll.name}\n\nYes: ${poll.yes.size}\nNo: ${poll.no.size}`;
+      this.infoText.text.contents = `${poll.name}\n\nYes: ${poll.choices[0].userIds.size}\nNo: ${poll.choices[1].userIds.size}`;
     }
   }
 
@@ -218,7 +248,7 @@ export default class Poll {
       }
     });
     yesButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      this.takePoll(user, 'Yes');
+      this.takePoll(user, 0);
     });
 
     const noButton = MRE.Actor.CreateFromLibrary(this.context, {
@@ -230,7 +260,7 @@ export default class Poll {
       }
     });
     noButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      this.takePoll(user, 'No');
+      this.takePoll(user, 1);
     });
 
     this.attachedWatches.set(userId, watch);
