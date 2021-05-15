@@ -116,7 +116,7 @@ export default class Poll {
 
     this.infoText.text.height = START_POLL_HEIGHT;
 
-    // play a sound
+    // play a sound for the user to give feedback since most people don't have haptic feedback enabled (to save battery)
     const musicAsset = this.assets.createSound('startPollSound', { uri: 'start.ogg' } );
     const musicSoundInstance = this.infoText.startSound(musicAsset.id, {
         volume: 0.2,
@@ -389,9 +389,10 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
       button.setBehavior(MRE.ButtonBehavior).onClick(user => {
         this.takePoll(user, i);
 
-        // play a sound
+        // play a sound for everyone to let people know a new poll started
+        // attach this to the watch so it's exclusive to the user
         const musicAsset = this.assets.createSound('startPollSound', { uri: 'click.ogg' } );
-        const musicSoundInstance = this.infoText.startSound(musicAsset.id, {
+        const musicSoundInstance = watch.startSound(musicAsset.id, {
             volume: 0.1,
             looping: false,
             doppler: 0.0,
