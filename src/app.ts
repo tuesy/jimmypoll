@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const url = require('url')
 const WELCOME_TEXT = 'Poll App';
 const INFO_TEXT_HEIGHT = 1.6;
-const BUTTON_HEIGHT = 0.18;
 const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
 const SCREEN_HEIGHT = 1.5;
@@ -27,8 +26,7 @@ const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png
 
 const FONT = MRE.TextFontFamily.Cursive;
 
-
-const HELP_BUTTON_POSITION = { x: 1.74, y: 0.62, z: 0 }; // bottom right corner of the screen
+const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
 const HELP_BUTTON_TEXT = `Take a poll!
 
 When a poll starts you'll hear a sound and see choices on your left wrist.
@@ -36,6 +34,7 @@ When a poll starts you'll hear a sound and see choices on your left wrist.
 You can vote by clicking or touching the button next to your choice. You may change your vote as often as you'd like.
 
 Once the first vote is in, results will update on the screen live.`;
+const POLL_BUTTON_POSITION = { x: HELP_BUTTON_POSITION.x - 0.34, y: HELP_BUTTON_POSITION.y, z: HELP_BUTTON_POSITION.z }; // to the left of the help button
 
 
 const DEBUG = false;
@@ -286,7 +285,7 @@ export default class Poll {
       resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
       actor: {
         name: 'Poll Button',
-        transform: { local: { position: { x: -0.2, y: BUTTON_HEIGHT, z: 0 } } },
+        transform: { local: { position: POLL_BUTTON_POSITION } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
       }
     });
