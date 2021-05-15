@@ -146,9 +146,12 @@ export default class Poll {
   private updatePoll(pollId: string){
     let poll = this.polls[pollId];
     if(poll){
+      let totalVotes = poll.choices.reduce((sum, current) => sum + current.userIds.size, 0);
       let display = `Poll: ${poll.name}\n`;
       for(let i = 0; i < poll.choices.length; i++){
-        display += `${poll.choices[i].name}: ${poll.choices[i].userIds.size}\n`;
+        let votes = poll.choices[i].userIds.size;
+        let percentage = Math.round(votes / totalVotes * 100);
+        display += `${percentage}%  ${poll.choices[i].name} (${votes})\n`;
       }
 
       this.infoText.transform.local.position.x = -1;
