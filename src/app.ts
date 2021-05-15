@@ -10,11 +10,6 @@ const SCREEN_HEIGHT = 1.5;
 const APP_TITLE_HEIGHT = 0.4;
 const START_POLL_HEIGHT = 0.2;
 const UPDATE_POLL_HEIGHT = 0.3;
-
-const CONTAINER_WIDTH = 7.8;
-const CONTAINER_HEIGHT = 4.38;
-
-
 const CONTROLS_SCALE = {x: 0.2, y: 0.2, z: 0.2};
 const CONTROLS_POSITION = {
   x: 0.1, // move it left to accomodate long choice names
