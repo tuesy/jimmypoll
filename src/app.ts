@@ -30,7 +30,13 @@ You can vote by clicking or touching the button next to your choice. You may cha
 
 Once the first vote is in, results will update on the screen live.`;
 const POLL_BUTTON_POSITION = { x: HELP_BUTTON_POSITION.x - 0.34, y: HELP_BUTTON_POSITION.y, z: HELP_BUTTON_POSITION.z }; // to the left of the help button
+const POLL_BUTTON_TEXT = `Enter a question and click "OK". We'll format it nicely for you.
 
+Ex. "got milk" => "Got Milk?"
+
+By default, users see "Yes" or "No". You can customize the choices by adding them after the question separated by "|" (up to ${MAX_CHOICES}).
+
+Ex. "favorite color|blue|red|yellow"`;
 
 const DEBUG = false;
 
@@ -275,40 +281,6 @@ export default class Poll {
         console.error(err);
       });
     });
-
-    const pollButton = MRE.Actor.CreateFromLibrary(this.context, {
-      resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
-      actor: {
-        name: 'Poll Button',
-        transform: { local: { position: POLL_BUTTON_POSITION } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
-      }
-    });
-    pollButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      if(this.canManagePolls(user)){
-        user.prompt(`Enter a question and click "OK"
-(e.g. "got milk" => "Got Milk?"")
-
-By default, users can choose "Yes" or "No". You can customize the choices (up to ${MAX_CHOICES}) by adding them after the question separated by "|".
-(e.g. "favorite color|blue|red|yellow")`, true)
-        .then(res => {
-          if(res.submitted && res.text.length > 0){
-            this.startPoll(this.pollIdFor(user), res.text);
-            this.wearControls(user.id);
-          }
-          else{
-            // user clicked 'Cancel'
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        });
-      }
-      else{
-        // everybody gets the controls so they can vote
-        this.wearControls(user.id);
-      }
-    });
   }
 
   // handles when user has no roles
@@ -441,6 +413,35 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
       console.log(user.properties);
     }
 
+    if(this.canManagePolls(user))
+      this.createPollButtonFor(user);
+
     this.wearControls(user.id);
+  }
+
+  private createPollButtonFor(user: MRE.User){
+    const pollButton = MRE.Actor.CreateFromLibrary(this.context, {
+      resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
+      actor: {
+        name: 'Poll Button',
+        transform: { local: { position: POLL_BUTTON_POSITION } },
+        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+        exclusiveToUser: user.id
+      }
+    });
+    pollButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
+      user.prompt(POLL_BUTTON_TEXT, true)
+      .then(res => {
+        if(res.submitted && res.text.length > 0){
+          this.startPoll(this.pollIdFor(user), res.text);
+        }
+        else{
+          // user clicked 'Cancel'
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    });
   }
 }
