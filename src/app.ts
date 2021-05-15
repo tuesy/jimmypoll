@@ -116,6 +116,16 @@ export default class Poll {
 
     this.infoText.text.height = START_POLL_HEIGHT;
 
+    // play a sound
+    const musicAsset = this.assets.createSound('startPollSound', { uri: 'start.ogg' } );
+    const musicSoundInstance = this.infoText.startSound(musicAsset.id, {
+        volume: 0.2,
+        looping: false,
+        doppler: 0.0,
+        spread: 0.7,
+        rolloffStartDistance: 2.5
+    });
+
     if(DEBUG){
       console.log(`[Poll][Start] "${pollName}" (${pollId})`);
       console.log(this.polls[pollId]);
