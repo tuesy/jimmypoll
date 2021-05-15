@@ -390,6 +390,17 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
       });
       button.setBehavior(MRE.ButtonBehavior).onClick(user => {
         this.takePoll(user, i);
+
+        // play a sound
+        const musicAsset = this.assets.createSound('startPollSound', { uri: 'click.ogg' } );
+        const musicSoundInstance = this.infoText.startSound(musicAsset.id, {
+            volume: 0.1,
+            looping: false,
+            doppler: 0.0,
+            spread: 0.7,
+            rolloffStartDistance: 2.5
+        });
+
       });
       const label = MRE.Actor.Create(this.context, {
         actor: {
