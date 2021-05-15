@@ -11,12 +11,17 @@ const SCREEN_HEIGHT = 1.5;
 const APP_TITLE_HEIGHT = 0.4;
 const START_POLL_HEIGHT = 0.2;
 const UPDATE_POLL_HEIGHT = 0.3;
-const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
-const FONT = MRE.TextFontFamily.Cursive;
 
-// if you're looking at your left palm, this is how much to it's coming towards you
-// the more negative it is, the farther away from the wrist it'll be
-const WRIST_OFFSET = -0.05;
+const CONTROLS_SCALE = {x: 0.2, y: 0.2, z: 0.2};
+const CONTROLS_POSITION = {
+  x: 0.1, // move it left to accomodate long choice names
+  y: -0.05, // move it out of the hand, toward you
+  z: 0.1 // move it up to allow everything to be super sized
+}
+
+const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
+
+const FONT = MRE.TextFontFamily.Cursive;
 
 const DEBUG = false;
 
@@ -324,8 +329,6 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
     if (this.attachedWatches.has(userId)) this.attachedWatches.get(userId).destroy();
     this.attachedWatches.delete(userId);
 
-    const position = { x: 0.05, y: WRIST_OFFSET, z: 0 } // move it out of the hand
-    const scale = { x: 0.1, y: 0.1, z: 0.1 }
     const rotation = { x: 90, y: 0, z: 0 }
     const attachPoint = <MRE.AttachPoint> 'left-hand';
 
@@ -334,12 +337,12 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
       actor: {
           transform: {
               local: {
-                  position: position,
+                  position: CONTROLS_POSITION,
                   rotation: MRE.Quaternion.FromEulerAngles(
                       rotation.x * MRE.DegreesToRadians,
                       rotation.y * MRE.DegreesToRadians,
                       rotation.z * MRE.DegreesToRadians),
-                  scale: scale
+                  scale: CONTROLS_SCALE
               }
           },
           attachment: {
