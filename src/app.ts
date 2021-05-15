@@ -254,13 +254,11 @@ Moderators can click the orange button to start a poll and everyone else can cli
 The controls will be on your left hand and you can either touch or click the buttons.
 
 Only one poll per Event or World and Events with multiple rooms will be part of a single poll. Starting a new poll clears the last one.
-
-Click "OK" for an example.
  `).then(res => {
           if(res.submitted){
             // clicked 'OK'
-            this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Other');
-            this.wearControls(user.id);
+            // this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Other');
+            // this.wearControls(user.id);
           }
           else{
             // clicked 'Cancel'
