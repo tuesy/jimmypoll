@@ -8,7 +8,11 @@ const BUTTON_HEIGHT = 0.18;
 const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
 const SCREEN_HEIGHT = 1.5;
+const APP_TITLE_HEIGHT = 0.4;
+const START_POLL_HEIGHT = 0.2;
+const UPDATE_POLL_HEIGHT = 0.3;
 const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
+const FONT = MRE.TextFontFamily.Cursive;
 
 // if you're looking at your left palm, this is how much to it's coming towards you
 // the more negative it is, the farther away from the wrist it'll be
@@ -74,6 +78,10 @@ export default class Poll {
     if(pollName.charAt(pollName.length-1) != '?') // stick a question at the end
       pollName += '?';
 
+    this.infoText.transform.local.position.x = 0;
+    this.infoText.text.height = START_POLL_HEIGHT;
+    this.infoText.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
+    this.infoText.text.justify = MRE.TextJustify.Center;
     this.infoText.text.contents = `Poll: ${pollName}`;
 
     // overrides exxisting polls
@@ -106,7 +114,7 @@ export default class Poll {
       }
     }
 
-    this.infoText.text.height = 0.2;
+    this.infoText.text.height = START_POLL_HEIGHT;
 
     if(DEBUG){
       console.log(`[Poll][Start] "${pollName}" (${pollId})`);
@@ -138,18 +146,25 @@ export default class Poll {
   private updatePoll(pollId: string){
     let poll = this.polls[pollId];
     if(poll){
-      let display = `${poll.name}\n`;
+      let display = `Poll: ${poll.name}\n`;
       for(let i = 0; i < poll.choices.length; i++){
         display += `${poll.choices[i].name}: ${poll.choices[i].userIds.size}\n`;
       }
+
+      this.infoText.transform.local.position.x = -1;
+      this.infoText.text.height = UPDATE_POLL_HEIGHT;
+      this.infoText.text.anchor = MRE.TextAnchorLocation.MiddleLeft;
+      this.infoText.text.justify = MRE.TextJustify.Left;
       this.infoText.text.contents = display;
 
       // make it smaller so we can see all the results
       if(poll.choices.length > 3){
-        this.infoText.text.height = 0.1;
+        this.infoText.text.height = 0.2;
+        this.infoText.transform.local.position.x = -1.5;
       }
       else{
-        this.infoText.text.height = 0.2;
+        this.infoText.text.height = 0.3;
+        this.infoText.transform.local.position.x = -1.5;
       }
     }
   }
@@ -202,10 +217,10 @@ export default class Poll {
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
         text: {
           contents: WELCOME_TEXT,
-          height: 0.2,
+          height: APP_TITLE_HEIGHT,
           anchor: MRE.TextAnchorLocation.MiddleCenter,
           justify: MRE.TextJustify.Center,
-          font: MRE.TextFontFamily.Cursive
+          font: FONT
         }
       }
     });
@@ -231,7 +246,7 @@ Click "OK" for an example.
  `).then(res => {
           if(res.submitted){
             // clicked 'OK'
-            this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Hololens|Other');
+            this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Other');
             this.wearControls(user.id);
           }
           else{
@@ -339,7 +354,7 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
           height: 0.2,
           anchor: MRE.TextAnchorLocation.MiddleLeft,
           justify: MRE.TextJustify.Left,
-          font: MRE.TextFontFamily.Cursive
+          font: FONT
         },
         parentId: watch.id
       }
@@ -371,7 +386,7 @@ By default, users can choose "Yes" or "No". You can customize the choices (up to
             height: 0.2,
             anchor: MRE.TextAnchorLocation.MiddleLeft,
             justify: MRE.TextJustify.Left,
-            font: MRE.TextFontFamily.Cursive
+            font: FONT
           },
           parentId: button.id
         }
