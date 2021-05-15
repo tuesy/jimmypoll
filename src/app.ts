@@ -12,6 +12,10 @@ const APP_TITLE_HEIGHT = 0.4;
 const START_POLL_HEIGHT = 0.2;
 const UPDATE_POLL_HEIGHT = 0.3;
 
+const CONTAINER_WIDTH = 7.8;
+const CONTAINER_HEIGHT = 4.38;
+
+
 const CONTROLS_SCALE = {x: 0.2, y: 0.2, z: 0.2};
 const CONTROLS_POSITION = {
   x: 0.1, // move it left to accomodate long choice names
@@ -24,6 +28,7 @@ const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png
 const FONT = MRE.TextFontFamily.Cursive;
 
 
+const HELP_BUTTON_POSITION = { x: 1.74, y: 0.62, z: 0 }; // bottom right corner of the screen
 const HELP_BUTTON_TEXT = `Take a poll!
 
 When a poll starts you'll hear a sound and see choices on your left wrist.
@@ -257,7 +262,7 @@ export default class Poll {
       resourceId: 'artifact:1579238405710021245',
       actor: {
         name: 'Help Button',
-        transform: { local: { position: { x: 0.2, y: BUTTON_HEIGHT, z: 0 } } },
+        transform: { local: { position: HELP_BUTTON_POSITION } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
       }
      });
