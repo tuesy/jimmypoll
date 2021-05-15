@@ -136,6 +136,13 @@ export default class Poll {
 
     this.infoText.text.height = START_POLL_HEIGHT;
 
+    // recreate everyone's controls
+    for (let i = 0; i < this.context.users.length; i++){
+      let user = this.context.users[i];
+      this.removeControls(user.id);
+      this.wearControls(user.id);
+    }
+
     // play a sound for everyone to let people know a new poll started
     const musicAsset = this.assets.createSound('startPollSound', { uri: 'start.ogg' } );
     const musicSoundInstance = this.infoText.startSound(musicAsset.id, {
@@ -270,8 +277,6 @@ export default class Poll {
       user.prompt(HELP_BUTTON_TEXT).then(res => {
           if(res.submitted){
             // clicked 'OK'
-            // this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Other');
-            // this.wearControls(user.id);
           }
           else{
             // clicked 'Cancel'
@@ -299,9 +304,7 @@ export default class Poll {
       return;
     }
 
-    // If the user is wearing a watch, destroy it.
-    if (this.attachedWatches.has(userId)) this.attachedWatches.get(userId).destroy();
-    this.attachedWatches.delete(userId);
+    this.removeControls(userId);
 
     const rotation = { x: 90, y: 0, z: 0 }
     const attachPoint = <MRE.AttachPoint> 'left-hand';
@@ -401,10 +404,14 @@ export default class Poll {
   }
 
   private userLeft(user: MRE.User) {
+    this.removeControls(user.id);
+  }
+
+  private removeControls(userId: MRE.Guid){
     // If the user was wearing a watch, destroy it. Otherwise it would be
     // orphaned in the world.
-    if (this.attachedWatches.has(user.id)) { this.attachedWatches.get(user.id).destroy(); }
-    this.attachedWatches.delete(user.id);
+    if (this.attachedWatches.has(userId)) { this.attachedWatches.get(userId).destroy(); }
+    this.attachedWatches.delete(userId);
   }
 
   private userJoined(user: MRE.User) {
