@@ -23,6 +23,16 @@ const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png
 
 const FONT = MRE.TextFontFamily.Cursive;
 
+
+const HELP_BUTTON_TEXT = `Take a poll!
+
+When a poll starts you'll hear a sound and see choices on your left wrist.
+
+You can vote by clicking or touching the button next to your choice. You may change your vote as often as you'd like.
+
+Once the first vote is in, results will update on the screen live.`;
+
+
 const DEBUG = false;
 
 
@@ -252,14 +262,7 @@ export default class Poll {
       }
      });
     helpButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(`Take a quick poll!
-
-Moderators can click the orange button to start a poll and everyone else can click to take the poll. You can change your response at any time.
-
-The controls will be on your left hand and you can either touch or click the buttons.
-
-Only one poll per Event or World and Events with multiple rooms will be part of a single poll. Starting a new poll clears the last one.
- `).then(res => {
+      user.prompt(HELP_BUTTON_TEXT).then(res => {
           if(res.submitted){
             // clicked 'OK'
             // this.startPoll(this.pollIdFor(user), 'what platform are you on|Oculus Quest|PC|Mac|Other');
