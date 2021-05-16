@@ -63,16 +63,9 @@ export default class Poll {
 	}
 
 	private async started() {
-		this.assets = new MRE.AssetContainer(this.context);
+    this.assets = new MRE.AssetContainer(this.context);
+    this.processParams();
     this.createInterface();
-
-    // hosts can choose a background
-    if(this.params.bg){
-      let index = Number(this.params.bg);
-      let total = BACKGROUND_IMAGES.length;
-      if(index > 0 && index < total)
-        this.screenBackgroundImage = BACKGROUND_IMAGES[index-1];
-    }
 
     if(DEBUG){
       // this.startPoll('806780906349003424', 'default yes no poll');
@@ -230,6 +223,9 @@ export default class Poll {
      });
 
     // add some background pattern
+    if(DEBUG)
+      console.log(`Background: ${this.screenBackgroundImage}`);
+
     const backgroundMaterial = this.assets.createMaterial("bgMat", {
       mainTextureId: this.assets.createTexture("bgTex", { uri: this.screenBackgroundImage } ).id,
       mainTextureScale: {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
@@ -446,5 +442,15 @@ export default class Poll {
         console.error(err);
       });
     });
+  }
+
+  private processParams(){
+    // hosts can choose a background
+    if(this.params.bg){
+      let index = Number(this.params.bg);
+      let total = BACKGROUND_IMAGES.length;
+      if(index > 0 && index < total)
+        this.screenBackgroundImage = BACKGROUND_IMAGES[index-1];
+    }
   }
 }
