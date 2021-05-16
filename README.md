@@ -16,20 +16,21 @@ You can also place it manually using:
 
 ![Hosting Screenshot](https://github.com/tuesy/poll/blob/main/hosting.png?raw=true)
 
-
 Only hosts see an orange "Poll" button at the bottom right of the screen. When you click it,
-you can enter a question to start a poll.
-
-For example:
+you can enter a question to start a poll. For example:
 
 > "Are we in a simulation?"
 
 The app will automatically format your question by capitalizing the first letter and adding a
-question mark at the end if there isn't one. This makes polling easier and faster.
+question mark at the end if there isn't one. This makes polling easier and faster. For example:
 
-For example:
+> "are we in a simulation"
 
-> "are we in a simulation" => "Are we in a simulation?"
+```
+Are we in a simulation?
+1. Yes
+2. No
+```
 
 When you click "OK" after entering the question, you start a poll. Users will hear a sound and
 see two choices by default, "Yes" and "No", that they can vote on. Once the first vote is submitted
@@ -39,7 +40,18 @@ another question, a new poll will start.
 
 ## Custom Choices
 
-TODO
+Hosts can customize the choices beyond "Yes" and "No". You can specify up to *6* choices by
+appending them to the end of the question separated by the "|" character. For example:
+
+> "how many fingers am I holding up|one|two|three|four"
+
+```
+How many fingers am I holding up?
+1. One
+2. Two
+3. Three
+4. Four
+```
 
 ## Backgrounds
 
@@ -57,12 +69,6 @@ By default, the app will randomly select a background but you can specify one:
 8. ![Background Tile 8](https://github.com/tuesy/poll/blob/main/public/tile08.png?raw=true)
 9. ![Background Tile 9](https://github.com/tuesy/poll/blob/main/public/tile09.png?raw=true)
 
-## Examples
-Simple Yes/No poll:
-
-> can you hear me now => Can you hear me now?
-> 1. Yes
-> 2. No
 
 # Development
 * Fork this repo
