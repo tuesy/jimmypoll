@@ -30,13 +30,9 @@ You can vote by clicking or touching the button next to your choice. You may cha
 
 Once the first vote is in, results will update on the screen live.`;
 const POLL_BUTTON_POSITION = { x: HELP_BUTTON_POSITION.x - 0.34, y: HELP_BUTTON_POSITION.y, z: HELP_BUTTON_POSITION.z }; // to the left of the help button
-const POLL_BUTTON_TEXT = `Enter a question and click "OK". We'll format it nicely for you.
+const POLL_BUTTON_TEXT = `Enter a question and click "OK" to start a new poll.
 
-Ex. "got milk" => "Got Milk?"
-
-By default, users see "Yes" or "No". You can customize the choices by adding them after the question separated by "|" (up to ${MAX_CHOICES}).
-
-Ex. "favorite color|blue|red|yellow"`;
+Learn more at github.com/tuesy/poll`;
 
 const DEBUG = false;
 
