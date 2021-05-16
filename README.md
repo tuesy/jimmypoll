@@ -59,15 +59,15 @@ By default, the app will randomly select a background but you can specify one:
 
 > wss://mankindforward-poll.herokuapp.com?bg=1
 
-1. ![Background Tile 1](https://github.com/tuesy/poll/blob/main/public/tile01.png?raw=true)
-2. ![Background Tile 2](https://github.com/tuesy/poll/blob/main/public/tile02.png?raw=true)
-3. ![Background Tile 3](https://github.com/tuesy/poll/blob/main/public/tile03.png?raw=true)
-4. ![Background Tile 4](https://github.com/tuesy/poll/blob/main/public/tile04.png?raw=true)
-5. ![Background Tile 5](https://github.com/tuesy/poll/blob/main/public/tile05.png?raw=true)
-6. ![Background Tile 6](https://github.com/tuesy/poll/blob/main/public/tile06.png?raw=true)
-7. ![Background Tile 7](https://github.com/tuesy/poll/blob/main/public/tile07.png?raw=true)
-8. ![Background Tile 8](https://github.com/tuesy/poll/blob/main/public/tile08.png?raw=true)
-9. ![Background Tile 9](https://github.com/tuesy/poll/blob/main/public/tile09.png?raw=true)
+1. ![Background Tile 1](https://github.com/tuesy/poll/blob/main/public/tile01.png?raw=true) wss://mankindforward-poll.herokuapp.com?bg=1
+2. ![Background Tile 2](https://github.com/tuesy/poll/blob/main/public/tile02.png?raw=true) wss://mankindforward-poll.herokuapp.com?bg=2
+3. ![Background Tile 3](https://github.com/tuesy/poll/blob/main/public/tile03.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=2
+4. ![Background Tile 4](https://github.com/tuesy/poll/blob/main/public/tile04.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=4
+5. ![Background Tile 5](https://github.com/tuesy/poll/blob/main/public/tile05.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=5
+6. ![Background Tile 6](https://github.com/tuesy/poll/blob/main/public/tile06.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=6
+7. ![Background Tile 7](https://github.com/tuesy/poll/blob/main/public/tile07.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=7
+8. ![Background Tile 8](https://github.com/tuesy/poll/blob/main/public/tile08.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=8
+9. ![Background Tile 9](https://github.com/tuesy/poll/blob/main/public/tile09.png?raw=true)wss://mankindforward-poll.herokuapp.com?bg=9
 
 
 # Development
