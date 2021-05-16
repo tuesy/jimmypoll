@@ -1,7 +1,7 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 import * as UI from "./ui";
 import * as Audio from "./audio";
-// import * as Utils from "./utils";
+import * as Utils from "./utils";
 
 const fetch = require('node-fetch');
 const url = require('url')
@@ -47,15 +47,11 @@ export default class Poll {
 
   private startPoll(pollId: string, input: string){
     let inputs = input.split('|');
-    let pollName = inputs.slice(0,1)[0].trim();
-    let choiceNames = inputs.slice(1,MAX_CHOICES+1);
+    let pollName = Utils.pollNameFrom(inputs);
+    let choiceNames = Utils.choiceNamesFrom(inputs, MAX_CHOICES);
 
     if(DEBUG)
       console.log(`inputs: ${inputs}, pollName: ${pollName}, choiceNames: ${choiceNames}`);
-
-    pollName = pollName.trim().charAt(0).toUpperCase() + pollName.slice(1); // capitalize first letter
-    if(pollName.charAt(pollName.length-1) != '?') // stick a question at the end
-      pollName += '?';
 
     // overrides exxisting polls
     this.polls[pollId] = {
@@ -78,10 +74,8 @@ export default class Poll {
     else{
       // setup choices by name and index
       for (let i = 0; i < choiceNames.length; i++){
-        let x = choiceNames[i].trim();
-        x = x.trim().charAt(0).toUpperCase() + x.slice(1);
         this.polls[pollId].choices.push({
-          name: x, // capitalize first letter
+          name: choiceNames[i],
           userIds: new Set<MRE.Guid>()
         });
       }
