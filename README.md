@@ -1,7 +1,3 @@
-# Poll App
-
-![Promo](https://github.com/tuesy/poll/blob/main/promo.png?raw=true)
-
 Poll is an Altspace MRE app for taking quick polls. Hosts asks questions and people
 can respond in real-time. Great for breaking the ice at meetups or surveying the team
 at meetings.
@@ -17,6 +13,9 @@ You can also place it manually using:
 > wss://mankindforward-poll.herokuapp.com
 
 ## Hosting
+
+![Hosting Screenshot](https://github.com/tuesy/poll/blob/main/hosting.png?raw=true)
+
 
 Only hosts see an orange "Poll" button at the bottom right of the screen. When you click it,
 you can enter a question to start a poll.
