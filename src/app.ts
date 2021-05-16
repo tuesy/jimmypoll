@@ -1,4 +1,5 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
+import * as Utils from "./utils";
 
 const fetch = require('node-fetch');
 const url = require('url')
@@ -17,8 +18,6 @@ const CONTROLS_POSITION = {
   z: 0.1 // move it up to allow everything to be super sized
 }
 
-const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
-
 const FONT = MRE.TextFontFamily.Cursive;
 
 const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
@@ -36,7 +35,6 @@ Learn more at github.com/tuesy/poll`;
 
 const DEBUG = false;
 
-
 type PollDescriptor = {
   name: string,
   choices: PollChoiceDescriptor[];
@@ -53,8 +51,7 @@ export default class Poll {
   private libraryActors: MRE.Actor[] = [];
   private infoText : any;
   private polls: { [key: string]: PollDescriptor } = {};
-  private screenBackgroundImage = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)]; // randomly choose one by default
-
+  private backgroundImage : string;
 
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
 		this.context.onStarted(() => this.started());
@@ -64,14 +61,8 @@ export default class Poll {
 
 	private async started() {
     this.assets = new MRE.AssetContainer(this.context);
-    this.processParams();
+    this.backgroundImage = Utils.chooseBackgroundImage(this.params);
     this.createInterface();
-
-    if(DEBUG){
-      // this.startPoll('806780906349003424', 'default yes no poll');
-      //this.startPoll('806780906349003424', '3-choice poll|one|two|three');
-      //this.startPoll('806780906349003424', '4-choice poll|one|two|three|four');
-    }
 	}
 
   private startPoll(pollId: string, input: string){
@@ -224,10 +215,10 @@ export default class Poll {
 
     // add some background pattern
     if(DEBUG)
-      console.log(`Background: ${this.screenBackgroundImage}`);
+      console.log(`Background: ${this.backgroundImage}`);
 
     const backgroundMaterial = this.assets.createMaterial("bgMat", {
-      mainTextureId: this.assets.createTexture("bgTex", { uri: this.screenBackgroundImage } ).id,
+      mainTextureId: this.assets.createTexture("bgTex", { uri: this.backgroundImage } ).id,
       mainTextureScale: {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
     });
     const background = MRE.Actor.Create(this.context, {
@@ -442,15 +433,5 @@ export default class Poll {
         console.error(err);
       });
     });
-  }
-
-  private processParams(){
-    // hosts can choose a background
-    if(this.params.bg){
-      let index = Number(this.params.bg);
-      let total = BACKGROUND_IMAGES.length;
-      if(index > 0 && index < total)
-        this.screenBackgroundImage = BACKGROUND_IMAGES[index-1];
-    }
   }
 }
