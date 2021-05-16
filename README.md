@@ -1,6 +1,6 @@
 # Poll App
 
-TODO: add promo image
+![Promo](https://github.com/tuesy/poll/blob/main/promo.png?raw=true)
 
 Poll is an Altspace MRE app for taking quick polls. Hosts asks questions and people
 can respond in real-time. Great for breaking the ice at meetups or surveying the team
