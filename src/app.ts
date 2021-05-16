@@ -1,16 +1,12 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
-import * as Utils from "./utils";
+import * as UI from "./ui";
+import * as Audio from "./audio";
+// import * as Utils from "./utils";
 
 const fetch = require('node-fetch');
 const url = require('url')
-const WELCOME_TEXT = 'Poll App';
-const INFO_TEXT_HEIGHT = 1.6;
 const MAX_CHOICES = 6;
 const CHOICE_SPACING = 0.2;
-const SCREEN_HEIGHT = 1.5;
-const APP_TITLE_HEIGHT = 0.4;
-const START_POLL_HEIGHT = 0.2;
-const UPDATE_POLL_HEIGHT = 0.3;
 const CONTROLS_SCALE = {x: 0.2, y: 0.2, z: 0.2};
 const CONTROLS_POSITION = {
   x: 0.1, // move it left to accomodate long choice names
@@ -18,40 +14,23 @@ const CONTROLS_POSITION = {
   z: 0.1 // move it up to allow everything to be super sized
 }
 
-const FONT = MRE.TextFontFamily.Cursive;
+const DEBUG = true;
 
-const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
-const HELP_BUTTON_TEXT = `Take a poll!
-
-When a poll starts you'll hear a sound and see choices on your left wrist.
-
-You can vote by clicking or touching the button next to your choice. You may change your vote as often as you'd like.
-
-Once the first vote is in, results will update on the screen live.`;
-const POLL_BUTTON_POSITION = { x: HELP_BUTTON_POSITION.x - 0.34, y: HELP_BUTTON_POSITION.y, z: HELP_BUTTON_POSITION.z }; // to the left of the help button
-const POLL_BUTTON_TEXT = `Enter a question and click "OK" to start a new poll.
-
-Learn more at github.com/tuesy/poll`;
-
-const DEBUG = false;
-
-type PollDescriptor = {
+export type PollDescriptor = {
   name: string,
   choices: PollChoiceDescriptor[];
 };
 
-type PollChoiceDescriptor = {
+export type PollChoiceDescriptor = {
   name: string,
-  userIds: Set<string>
+  userIds: Set<MRE.Guid>
 }
 
 export default class Poll {
 	private assets: MRE.AssetContainer;
-  private attachedWatches = new Map<MRE.Guid, MRE.Actor>();
-  private libraryActors: MRE.Actor[] = [];
+  private attachedControls = new Map<MRE.Guid, MRE.Actor>();
   private infoText : any;
   private polls: { [key: string]: PollDescriptor } = {};
-  private backgroundImage : string;
 
 	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
 		this.context.onStarted(() => this.started());
@@ -61,8 +40,9 @@ export default class Poll {
 
 	private async started() {
     this.assets = new MRE.AssetContainer(this.context);
-    this.backgroundImage = Utils.chooseBackgroundImage(this.params);
-    this.createInterface();
+    UI.chooseBackgroundImage(this.params);
+    UI.create(this.context, this.assets);
+    Audio.preload(this.assets);
 	}
 
   private startPoll(pollId: string, input: string){
@@ -70,19 +50,12 @@ export default class Poll {
     let pollName = inputs.slice(0,1)[0].trim();
     let choiceNames = inputs.slice(1,MAX_CHOICES+1);
 
-    if(DEBUG){
+    if(DEBUG)
       console.log(`inputs: ${inputs}, pollName: ${pollName}, choiceNames: ${choiceNames}`);
-    }
 
     pollName = pollName.trim().charAt(0).toUpperCase() + pollName.slice(1); // capitalize first letter
     if(pollName.charAt(pollName.length-1) != '?') // stick a question at the end
       pollName += '?';
-
-    this.infoText.transform.local.position.x = 0;
-    this.infoText.text.height = START_POLL_HEIGHT;
-    this.infoText.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
-    this.infoText.text.justify = MRE.TextJustify.Center;
-    this.infoText.text.contents = `Poll: ${pollName}`;
 
     // overrides exxisting polls
     this.polls[pollId] = {
@@ -94,12 +67,12 @@ export default class Poll {
     if(choiceNames.length < 2){
       this.polls[pollId].choices.push({
         name: 'Yes',
-        userIds: new Set<string>()
+        userIds: new Set<MRE.Guid>()
       });
 
       this.polls[pollId].choices.push({
         name: 'No',
-        userIds: new Set<string>()
+        userIds: new Set<MRE.Guid>()
       });
     }
     else{
@@ -109,12 +82,10 @@ export default class Poll {
         x = x.trim().charAt(0).toUpperCase() + x.slice(1);
         this.polls[pollId].choices.push({
           name: x, // capitalize first letter
-          userIds: new Set<string>()
+          userIds: new Set<MRE.Guid>()
         });
       }
     }
-
-    this.infoText.text.height = START_POLL_HEIGHT;
 
     // recreate everyone's controls
     for (let i = 0; i < this.context.users.length; i++){
@@ -123,15 +94,10 @@ export default class Poll {
       this.wearControls(user.id);
     }
 
+    UI.pollStarted(this.context, this.assets, this.polls[pollId]);
+
     // play a sound for everyone to let people know a new poll started
-    const musicAsset = this.assets.createSound('startPollSound', { uri: 'start.ogg' } );
-    const musicSoundInstance = this.infoText.startSound(musicAsset.id, {
-        volume: 0.2,
-        looping: false,
-        doppler: 0.0,
-        spread: 0.7,
-        rolloffStartDistance: 2.5
-    });
+    Audio.pollStarted(UI.infoText);
 
     if(DEBUG){
       console.log(`[Poll][Start] "${pollName}" (${pollId})`);
@@ -140,135 +106,28 @@ export default class Poll {
   }
 
   private takePoll(user: MRE.User, response: number){
-    let userId = String(user.id);
     let pollId = this.pollIdFor(user);
-
-    // update poll database
-    if(DEBUG)
-      console.log(`[Poll][Taking] ${pollId} - ${user.id} - ${response}`);
 
     if(pollId in this.polls){
       let poll = this.polls[pollId];
-      // remove from
       for (let i = 0; i < poll.choices.length; i++) {
         if(i == response)
-          poll.choices[i].userIds.add(userId);
+          poll.choices[i].userIds.add(user.id);
         else
-          poll.choices[i].userIds.delete(userId);
+          poll.choices[i].userIds.delete(user.id);
       }
-      this.updatePoll(pollId);
-    }
-  }
-
-  private updatePoll(pollId: string){
-    let poll = this.polls[pollId];
-    if(poll){
-      let totalVotes = poll.choices.reduce((sum, current) => sum + current.userIds.size, 0);
-      let display = `Poll: ${poll.name}\n`;
-      for(let i = 0; i < poll.choices.length; i++){
-        let votes = poll.choices[i].userIds.size;
-        let percentage = Math.round(votes / totalVotes * 100);
-        display += `${percentage}%  ${poll.choices[i].name} (${votes})\n`;
-      }
-
-      this.infoText.transform.local.position.x = -1;
-      this.infoText.text.height = UPDATE_POLL_HEIGHT;
-      this.infoText.text.anchor = MRE.TextAnchorLocation.MiddleLeft;
-      this.infoText.text.justify = MRE.TextJustify.Left;
-      this.infoText.text.contents = display;
-
-      // make it smaller so we can see all the results
-      if(poll.choices.length > 3){
-        this.infoText.text.height = 0.2;
-        this.infoText.transform.local.position.x = -1.5;
-      }
-      else{
-        this.infoText.text.height = 0.3;
-        this.infoText.transform.local.position.x = -1.5;
-      }
+      UI.updateResults(this.context, this.assets, poll);
     }
   }
 
   // could be from an Event or a World
   private pollIdFor(user: MRE.User) : string{
-    let pollId = null;
-    if(user.properties['altspacevr-event-id']){
+    let pollId : string;
+    if(user.properties['altspacevr-event-id'])
       pollId = user.properties['altspacevr-event-id'];
-    }
-    else{
+    else
       pollId = user.properties['altspacevr-space-id'];
-    }
     return pollId;
-  }
-
-  private createInterface(){
-    // theater screen
-    let screenScale = 0.5;
-    const screen = MRE.Actor.CreateFromLibrary(this.context, {
-      resourceId: 'artifact:1338743673998803669', // https://account.altvr.com/kits/1329955493782749272/artifacts/1338743673998803669
-      actor: {
-        name: 'Theater Screen',
-        transform: { local: { position: { x: 0, y: SCREEN_HEIGHT, z: 0.1 }, scale: {x: screenScale, y: screenScale, z: 1} } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
-      }
-     });
-
-    // add some background pattern
-    if(DEBUG)
-      console.log(`Background: ${this.backgroundImage}`);
-
-    const backgroundMaterial = this.assets.createMaterial("bgMat", {
-      mainTextureId: this.assets.createTexture("bgTex", { uri: this.backgroundImage } ).id,
-      mainTextureScale: {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
-    });
-    const background = MRE.Actor.Create(this.context, {
-      actor: {
-        transform: { local: { position: { x: 0, y: 0, z: -0.02 } } }, // -Z is towards you when looking at the screen
-        appearance: {
-            meshId: this.assets.createBoxMesh("cube", 7.8, 4.38, 0.02).id, // X is width, Y is height, Z is depth when looking at screen
-            materialId: backgroundMaterial.id
-        },
-        parentId: screen.id
-      }
-    });
-
-
-    this.infoText = MRE.Actor.Create(this.context, {
-      actor: {
-        name: 'Info Text',
-        transform: { local: { position: { x: 0, y: INFO_TEXT_HEIGHT, z: 0 } } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-        text: {
-          contents: WELCOME_TEXT,
-          height: APP_TITLE_HEIGHT,
-          anchor: MRE.TextAnchorLocation.MiddleCenter,
-          justify: MRE.TextJustify.Center,
-          font: FONT
-        }
-      }
-    });
-
-    const helpButton = MRE.Actor.CreateFromLibrary(this.context, {
-      resourceId: 'artifact:1579238405710021245',
-      actor: {
-        name: 'Help Button',
-        transform: { local: { position: HELP_BUTTON_POSITION } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
-      }
-     });
-    helpButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(HELP_BUTTON_TEXT).then(res => {
-          if(res.submitted){
-            // clicked 'OK'
-          }
-          else{
-            // clicked 'Cancel'
-          }
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    });
   }
 
   // handles when user has no roles
@@ -327,8 +186,8 @@ export default class Poll {
           contents: `Poll: ${poll.name}`,
           height: 0.2,
           anchor: MRE.TextAnchorLocation.MiddleLeft,
-          justify: MRE.TextJustify.Left,
-          font: FONT
+          justify: MRE.TextJustify.Left//,
+          // font: FONT
         },
         parentId: watch.id
       }
@@ -353,18 +212,9 @@ export default class Poll {
       // on click
       button.setBehavior(MRE.ButtonBehavior).onClick(user => {
         this.takePoll(user, i);
-
         // play a sound for the user to give feedback since most people don't have haptic feedback enabled (to save battery)
-        // attach this to the watch so it's exclusive to the user
-        const musicAsset = this.assets.createSound('clickSound', { uri: 'click.ogg' } );
-        const musicSoundInstance = watch.startSound(musicAsset.id, {
-            volume: 0.1,
-            looping: false,
-            doppler: 0.0,
-            spread: 0.7,
-            rolloffStartDistance: 2.5
-        });
-
+        // attach this to the controls so it's exclusive to the user
+        Audio.pollTaken(watch);
       });
       const label = MRE.Actor.Create(this.context, {
         actor: {
@@ -373,8 +223,8 @@ export default class Poll {
             contents: poll.choices[i].name,
             height: 0.2,
             anchor: MRE.TextAnchorLocation.MiddleLeft,
-            justify: MRE.TextJustify.Left,
-            font: FONT
+            justify: MRE.TextJustify.Left//,
+            // font: FONT
           },
           parentId: button.id
         }
@@ -383,18 +233,11 @@ export default class Poll {
       y -= buttonSpacing;
     }
 
-    this.attachedWatches.set(userId, watch);
+    this.attachedControls.set(userId, watch);
   }
 
   private userLeft(user: MRE.User) {
     this.removeControls(user.id);
-  }
-
-  private removeControls(userId: MRE.Guid){
-    // If the user was wearing a watch, destroy it. Otherwise it would be
-    // orphaned in the world.
-    if (this.attachedWatches.has(userId)) { this.attachedWatches.get(userId).destroy(); }
-    this.attachedWatches.delete(userId);
   }
 
   private userJoined(user: MRE.User) {
@@ -409,18 +252,27 @@ export default class Poll {
     this.wearControls(user.id);
   }
 
+  private removeControls(userId: MRE.Guid){
+    // If the user was wearing a watch, destroy it. Otherwise it would be
+    // orphaned in the world.
+    if (this.attachedControls.has(userId)) { this.attachedControls.get(userId).destroy(); }
+    this.attachedControls.delete(userId);
+  }
+
   private createPollButtonFor(user: MRE.User){
-    const pollButton = MRE.Actor.CreateFromLibrary(this.context, {
+    const position = { x: UI.HELP_BUTTON_POSITION.x - 0.34, y: UI.HELP_BUTTON_POSITION.y, z: UI.HELP_BUTTON_POSITION.z }; // to the left of the help button
+    let text = `Enter a question and click "OK" to start a new poll.\n\nLearn more at github.com/tuesy/poll`;
+    const button = MRE.Actor.CreateFromLibrary(this.context, {
       resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
       actor: {
         name: 'Poll Button',
-        transform: { local: { position: POLL_BUTTON_POSITION } },
+        transform: { local: { position: position } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
         exclusiveToUser: user.id
       }
     });
-    pollButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(POLL_BUTTON_TEXT, true)
+    button.setBehavior(MRE.ButtonBehavior).onClick(user => {
+      user.prompt(text, true)
       .then(res => {
         if(res.submitted && res.text.length > 0){
           this.startPoll(this.pollIdFor(user), res.text);
