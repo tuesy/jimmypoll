@@ -13,7 +13,7 @@ export function preload(assets: MRE.AssetContainer){
 export function pollStarted(actor: MRE.Actor){
   if(actor){
     actor.startSound(startSound.id, {
-      volume: 0.2,
+      volume: 0.1,
       looping: false,
       doppler: 0.0,
       spread: 0.7,
@@ -29,7 +29,7 @@ export function pollTaken(actor: MRE.Actor){
       looping: false,
       doppler: 0.0,
       spread: 0.7,
-      rolloffStartDistance: 2.5
+      rolloffStartDistance: 100 // everyone needs to hear it, albeit at a low volume
     });
   }
 }
