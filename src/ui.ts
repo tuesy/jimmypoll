@@ -194,9 +194,13 @@ function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
   if(DEBUG)
     console.log(`Background: ${backgroundImage}`);
 
+  const backgroundTexture = assets.createTexture("bgTex", { uri: backgroundImage } );
   const backgroundMaterial = assets.createMaterial("bgMat", {
-    mainTextureId: assets.createTexture("bgTex", { uri: backgroundImage } ).id,
-    mainTextureScale: BACKGROUND_TEXTURE_SCALE
+    mainTextureId: backgroundTexture.id,
+    mainTextureScale: BACKGROUND_TEXTURE_SCALE,
+    emissiveTextureId: backgroundTexture.id,
+    emissiveTextureScale: BACKGROUND_TEXTURE_SCALE,
+    emissiveColor: new MRE.Color3(0.3, 0.3, 0.3)
   });
   const background = MRE.Actor.Create(context, {
     actor: {
