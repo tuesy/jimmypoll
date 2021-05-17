@@ -29,7 +29,7 @@ export function pollTaken(actor: MRE.Actor){
       looping: false,
       doppler: 0.0,
       spread: 0.7,
-      rolloffStartDistance: 100 // everyone needs to hear it, albeit at a low volume
+      rolloffStartDistance: 1000 // everyone needs to hear it, albeit at a low volume
     });
   }
 }
