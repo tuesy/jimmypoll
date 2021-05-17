@@ -110,3 +110,8 @@ export function unattach(attached: Map<MRE.Guid, MRE.Actor>, userId: MRE.Guid){
   if (attached.has(userId)) { attached.get(userId).destroy(); }
   attached.delete(userId);
 }
+
+export function watchFor(attached: Map<MRE.Guid, MRE.Actor>, userId: MRE.Guid) : MRE.Actor {
+  if(attached.has(userId))
+    return attached.get(userId);
+}

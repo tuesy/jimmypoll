@@ -169,7 +169,7 @@ export default class Poll {
         this.takePoll(user, i);
         // play a sound for the user to give feedback since most people don't have haptic feedback enabled (to save battery)
         // attach this to the controls so it's exclusive to the user
-        Audio.pollTaken(buttons[i]);
+        Audio.pollTaken(Controls.watchFor(this.attachedControls, user.id));
       });
     }
   }
