@@ -5,7 +5,7 @@ import * as Controls from "./controls";
 import * as Utils from "./utils";
 
 const MAX_CHOICES = 6;
-const DEBUG = true;
+const DEBUG = false;
 
 export type PollDescriptor = {
   name: string,
