@@ -10,6 +10,7 @@ const CONTROLS_POSITION = {
   z: 0.1 // move it up to allow everything to be super sized
 }
 const FONT = MRE.TextFontFamily.Cursive;
+const WATCH_ENABLED = false;
 const DEBUG = false;
 
 // returns the control buttons that were created for things to get wiredup
@@ -43,60 +44,62 @@ export function attach(context: MRE.Context, attached: Map<MRE.Guid, MRE.Actor>,
     }
   })
 
-  let y = -0.2;
-  const buttonSpacing = 0.3;
+  if(WATCH_ENABLED){
+    let y = -0.2;
+    const buttonSpacing = 0.3;
 
-  // title
-  const label = MRE.Actor.Create(context, {
-    actor: {
-      transform: { local: { position: { x: 0, y: 0, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
-                    0 * MRE.DegreesToRadians,
-                    180 * MRE.DegreesToRadians,
-                    0 * MRE.DegreesToRadians) } },
-      text: {
-        contents: `Poll: ${poll.name}`,
-        height: 0.2,
-        anchor: MRE.TextAnchorLocation.MiddleLeft,
-        justify: MRE.TextJustify.Left,
-        font: FONT
-      },
-      parentId: watch.id
-    }
-  });
-
-  y -= buttonSpacing / 2;
-
-  for (let i = 0; i < poll.choices.length; i++){
-    // add buttons
-    let button = MRE.Actor.CreateFromLibrary(context, {
-      resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
-      actor: {
-        transform: { local: { position: { x: 0, y: y, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
-                    0 * MRE.DegreesToRadians,
-                    180 * MRE.DegreesToRadians,
-                    0 * MRE.DegreesToRadians) } },
-        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-        parentId: watch.id
-      }
-    });
-
-    buttons.push(button);
-
+    // title
     const label = MRE.Actor.Create(context, {
       actor: {
-        transform: { local: { position: { x: CHOICE_SPACING, y: 0, z: 0 } } },
+        transform: { local: { position: { x: 0, y: 0, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
+                      0 * MRE.DegreesToRadians,
+                      180 * MRE.DegreesToRadians,
+                      0 * MRE.DegreesToRadians) } },
         text: {
-          contents: poll.choices[i].name,
+          contents: `Poll: ${poll.name}`,
           height: 0.2,
           anchor: MRE.TextAnchorLocation.MiddleLeft,
           justify: MRE.TextJustify.Left,
           font: FONT
         },
-        parentId: button.id
+        parentId: watch.id
       }
     });
 
-    y -= buttonSpacing;
+    y -= buttonSpacing / 2;
+
+    for (let i = 0; i < poll.choices.length; i++){
+      // add buttons
+      let button = MRE.Actor.CreateFromLibrary(context, {
+        resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
+        actor: {
+          transform: { local: { position: { x: 0, y: y, z: 0 }, rotation: MRE.Quaternion.FromEulerAngles(
+                      0 * MRE.DegreesToRadians,
+                      180 * MRE.DegreesToRadians,
+                      0 * MRE.DegreesToRadians) } },
+          collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+          parentId: watch.id
+        }
+      });
+
+      buttons.push(button);
+
+      const label = MRE.Actor.Create(context, {
+        actor: {
+          transform: { local: { position: { x: CHOICE_SPACING, y: 0, z: 0 } } },
+          text: {
+            contents: poll.choices[i].name,
+            height: 0.2,
+            anchor: MRE.TextAnchorLocation.MiddleLeft,
+            justify: MRE.TextJustify.Left,
+            font: FONT
+          },
+          parentId: button.id
+        }
+      });
+
+      y -= buttonSpacing;
+    }
   }
 
   attached.set(userId, watch);
