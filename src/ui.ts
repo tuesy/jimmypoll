@@ -17,8 +17,9 @@ const BACKGROUND_DEPTH = 0.02;
 
 const DEBUG = true;
 
+
 let backgroundImage : string;
-export let infoText : MRE.Actor;
+let infoText : MRE.Actor;
 export let screenHeader : MRE.Actor;
 
 export function create(context: MRE.Context, assets: MRE.AssetContainer){
@@ -27,7 +28,8 @@ export function create(context: MRE.Context, assets: MRE.AssetContainer){
   createHelpButton(context, assets);
 }
 
-// setTitle('Poll App', 'Center')
+// setTitle('Title', 'Poll App')
+// setTitle('Results', 'Poll: Are we living in a simulation?')
 export function setHeader(style: string, text: string){
   let header = screenHeader;
 
@@ -40,32 +42,31 @@ export function setHeader(style: string, text: string){
       header.text.justify = MRE.TextJustify.Center;
       header.transform.local.position = new MRE.Vector3(0, 1.5, 0);
       break;
-    case 'Message':
+    default: // scalable, centered, at the top of the screen
       // scale the height based on the number of characters
       let chars = text.length - 7; // accounting for "Poll: ?"
 
       if(chars < 20){ // test 19 and 20
         header.text.height = 0.3;
       }
+      else if(chars < 25) { // test 29 and 30
+        header.text.height = 0.25;
+      }
       else if(chars < 30) { // test 29 and 30
         header.text.height = 0.2;
       }
-      else{ // 60 is about the limit
-        header.text.height = 0.1;
+      else{ // any smaller and it'll be hard to read
+        header.text.height = 0.15;
       }
 
       header.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
       header.text.justify = MRE.TextJustify.Center;
-      header.transform.local.position = new MRE.Vector3(0, 1.5, 0);
-    default:
-      // header.text.anchor = MRE.TextAnchorLocation.MiddleLeft;
-      // infoText.text.justify = MRE.TextJustify.Left;
-      break;
+      header.transform.local.position = new MRE.Vector3(0, 2.3, 0);
   }
 }
 
 export function pollStarted(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
-  setHeader('Message', `Poll: ${poll.name}`);
+  setHeader('Results', `Poll: ${poll.name}`);
 }
 
 export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
