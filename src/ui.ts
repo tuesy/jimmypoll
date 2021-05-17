@@ -6,7 +6,6 @@ export const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right c
 const SCREEN_HEIGHT = 1.5;
 const SCREEN_SCALE = 0.5;
 
-const UPDATE_POLL_HEIGHT = 0.3;
 const FONT = MRE.TextFontFamily.Cursive;
 
 const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
@@ -17,10 +16,9 @@ const BACKGROUND_DEPTH = 0.02;
 
 const DEBUG = true;
 
-
 let backgroundImage : string;
-let infoText : MRE.Actor;
 export let screenHeader : MRE.Actor;
+let screenChoices : MRE.Actor;
 
 export function create(context: MRE.Context, assets: MRE.AssetContainer){
   createScreen(context, assets);
@@ -65,34 +63,111 @@ export function setHeader(style: string, text: string){
   }
 }
 
-export function pollStarted(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
+export function pollStarted(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor) : MRE.Actor[] {
   setHeader('Results', `Poll: ${poll.name}`);
+  return createScreenChoices(context, poll);
+}
+
+function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.Actor [] {
+  if(screenChoices)
+    screenChoices.destroy();
+
+  screenChoices = MRE.Actor.Create(context, {
+    actor: {
+      name: 'Choices',
+      transform: { local: { position: { x: -1.3, y: 2, z: 0 } } },
+      collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+      text: {
+        contents: null,
+        height: null,
+        anchor: MRE.TextAnchorLocation.MiddleCenter,
+        justify: MRE.TextJustify.Center,
+        font: FONT
+      }
+    }
+  });
+
+  let buttons : MRE.Actor[] = [];
+  let y = -0.2;
+  const buttonSpacing = 0.3;
+  const choiceSpacing = 0.2;
+
+  for(let i = 0; i < poll.choices.length; i++){
+    let button = MRE.Actor.CreateFromLibrary(context, {
+      resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
+      actor: {
+        name: 'Screen Button',
+        transform: { local: { position: { x: 0, y: y, z: 0 } } },
+        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+        parentId: screenChoices.id
+      }
+    });
+
+    buttons.push(button);
+
+    let label = MRE.Actor.Create(context, {
+      actor: {
+        transform: { local: { position: { x: choiceSpacing, y: 0, z: 0 } } },
+        text: {
+          contents: poll.choices[i].name,
+          height: 0.2,
+          anchor: MRE.TextAnchorLocation.MiddleLeft,
+          justify: MRE.TextJustify.Left,
+          font: FONT
+        },
+        parentId: button.id
+      }
+    });
+
+    y -= buttonSpacing;
+
+  }
+  return buttons;
 }
 
 export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
   let total = poll.choices.reduce((sum, current) => sum + current.userIds.size, 0);
-  let display = `Poll: ${poll.name}\n`;
+  let y = 0;
+  let buttonSpacing = 0;
+
+  // space out the buttons vertically based on the number of choices
+  switch (poll.choices.length){
+    case 2:
+      y = -0.3;
+      buttonSpacing = 0.5;
+      break;
+    case 3:
+      y = -0.15;
+      buttonSpacing = 0.5;
+      break;
+    case 4:
+      y = -0.05;
+      buttonSpacing = 0.4;
+      break;
+    case 5:
+      y = 0;
+      buttonSpacing = 0.35;
+      break;
+    case 6:
+      y = 0.1;
+      buttonSpacing = 0.3;
+      break;
+  }
+
+  if(DEBUG){ console.log(`y: ${y}, buttonSpacing: ${buttonSpacing}`) }
+
   for(let i = 0; i < poll.choices.length; i++){
     let votes = poll.choices[i].userIds.size;
     let percentage = Math.round(votes / total * 100);
-    display += `${percentage}%  ${poll.choices[i].name} (${votes})\n`;
+    let button = screenChoices.children[i];
+    let label = screenChoices.children[i].children[0];
+    if(total > 0){ // don't add percentages until there are votes
+      label.text.contents = `${percentage}%  ${poll.choices[i].name} (${votes})\n`;
+    }
+    button.transform.local.position.y = y;
+    y -= buttonSpacing;
   }
 
-  infoText.transform.local.position.x = -1;
-  infoText.text.height = UPDATE_POLL_HEIGHT;
-  infoText.text.anchor = MRE.TextAnchorLocation.MiddleLeft;
-  infoText.text.justify = MRE.TextJustify.Left;
-  infoText.text.contents = display;
-
-  // make it smaller so we can see all the results
-  if(poll.choices.length > 3){
-    infoText.text.height = 0.2;
-    infoText.transform.local.position.x = -1.5;
-  }
-  else{
-    infoText.text.height = 0.3;
-    infoText.transform.local.position.x = -1.5;
-  }
 }
 
 // hosts can choose a background

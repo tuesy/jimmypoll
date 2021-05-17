@@ -5,7 +5,7 @@ import * as Controls from "./controls";
 import * as Utils from "./utils";
 
 const MAX_CHOICES = 6;
-const DEBUG = false;
+const DEBUG = true;
 
 export type PollDescriptor = {
   name: string,
@@ -43,20 +43,22 @@ export default class Poll {
     if(DEBUG)
       console.log(`inputs: ${inputs}, pollName: ${pollName}, choiceNames: ${choiceNames}`);
 
-    // overrides exxisting polls
+    // overrides existing polls
     this.polls[pollId] = {
       name: pollName,
       choices: []
     };
 
+    let poll = this.polls[pollId];
+
     // by default, it's Yes or No
     if(choiceNames.length < 2){
-      this.polls[pollId].choices.push({
+      poll.choices.push({
         name: 'Yes',
         userIds: new Set<MRE.Guid>()
       });
 
-      this.polls[pollId].choices.push({
+      poll.choices.push({
         name: 'No',
         userIds: new Set<MRE.Guid>()
       });
@@ -64,7 +66,7 @@ export default class Poll {
     else{
       // setup choices by name and index
       for (let i = 0; i < choiceNames.length; i++){
-        this.polls[pollId].choices.push({
+        poll.choices.push({
           name: choiceNames[i],
           userIds: new Set<MRE.Guid>()
         });
@@ -74,17 +76,20 @@ export default class Poll {
     // recreate everyone's controls
     for (let i = 0; i < this.context.users.length; i++){
       let user = this.context.users[i];
-      this.wireUpControls(Controls.attach(this.context, this.attachedControls, user.id, this.polls[pollId]));
+      this.wireUpControls(Controls.attach(this.context, this.attachedControls, user.id, poll));
     }
 
-    UI.pollStarted(this.context, this.assets, this.polls[pollId]);
+    // recreate the screen controls
+    this.wireUpControls(UI.pollStarted(this.context, this.assets, poll));
 
     // play a sound for everyone to let people know a new poll started
     Audio.pollStarted(UI.screenHeader);
 
+    UI.updateResults(this.context, this.assets, poll);
+
     if(DEBUG){
-      console.log(`[Poll][Start] "${pollName}" (${pollId})`);
-      console.log(this.polls[pollId]);
+      console.log(`[Poll][Start] "${poll.name}" (${pollId})`);
+      console.log(poll);
     }
   }
 
