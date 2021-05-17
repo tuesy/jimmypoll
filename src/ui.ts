@@ -3,13 +3,9 @@ import { PollDescriptor, PollChoiceDescriptor } from "./app";
 
 export const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
 
-const WELCOME_TEXT = 'Poll App';
-const INFO_TEXT_HEIGHT = 1.6;
-
 const SCREEN_HEIGHT = 1.5;
 const SCREEN_SCALE = 0.5;
 
-const APP_TITLE_HEIGHT = 0.4;
 const UPDATE_POLL_HEIGHT = 0.3;
 const FONT = MRE.TextFontFamily.Cursive;
 
@@ -19,22 +15,57 @@ const BACKGROUND_WIDTH = 7.8;
 const BACKGROUND_HEIGHT = 4.38;
 const BACKGROUND_DEPTH = 0.02;
 
-const DEBUG = false;
+const DEBUG = true;
 
 let backgroundImage : string;
 export let infoText : MRE.Actor;
+export let screenHeader : MRE.Actor;
 
 export function create(context: MRE.Context, assets: MRE.AssetContainer){
   createScreen(context, assets);
+  setHeader('Title', 'Poll App');
   createHelpButton(context, assets);
 }
 
+// setTitle('Poll App', 'Center')
+export function setHeader(style: string, text: string){
+  let header = screenHeader;
+
+  header.text.contents = text;
+
+  switch (style) {
+    case 'Title': // big and centered vertically and horizontally on the screen
+      header.text.height = 0.4;
+      header.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
+      header.text.justify = MRE.TextJustify.Center;
+      header.transform.local.position = new MRE.Vector3(0, 1.5, 0);
+      break;
+    case 'Message':
+      // scale the height based on the number of characters
+      let chars = text.length - 7; // accounting for "Poll: ?"
+
+      if(chars < 20){ // test 19 and 20
+        header.text.height = 0.3;
+      }
+      else if(chars < 30) { // test 29 and 30
+        header.text.height = 0.2;
+      }
+      else{ // 60 is about the limit
+        header.text.height = 0.1;
+      }
+
+      header.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
+      header.text.justify = MRE.TextJustify.Center;
+      header.transform.local.position = new MRE.Vector3(0, 1.5, 0);
+    default:
+      // header.text.anchor = MRE.TextAnchorLocation.MiddleLeft;
+      // infoText.text.justify = MRE.TextJustify.Left;
+      break;
+  }
+}
+
 export function pollStarted(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
-  infoText.transform.local.position.x = 0;
-  infoText.text.height = 0.2;
-  infoText.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
-  infoText.text.justify = MRE.TextJustify.Center;
-  infoText.text.contents = `Poll: ${poll.name}`;
+  setHeader('Message', `Poll: ${poll.name}`);
 }
 
 export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
@@ -102,14 +133,14 @@ function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
     }
   });
 
-  infoText = MRE.Actor.Create(context, {
+  screenHeader = MRE.Actor.Create(context, {
     actor: {
-      name: 'Info Text',
-      transform: { local: { position: { x: 0, y: INFO_TEXT_HEIGHT, z: 0 } } },
+      name: 'Header',
+      transform: { local: { position: { x: 0, y: 0, z: 0 } } },
       collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
       text: {
-        contents: WELCOME_TEXT,
-        height: APP_TITLE_HEIGHT,
+        contents: null,
+        height: null,
         anchor: MRE.TextAnchorLocation.MiddleCenter,
         justify: MRE.TextJustify.Center,
         font: FONT

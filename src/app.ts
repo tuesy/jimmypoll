@@ -80,7 +80,7 @@ export default class Poll {
     UI.pollStarted(this.context, this.assets, this.polls[pollId]);
 
     // play a sound for everyone to let people know a new poll started
-    Audio.pollStarted(UI.infoText);
+    Audio.pollStarted(UI.screenHeader);
 
     if(DEBUG){
       console.log(`[Poll][Start] "${pollName}" (${pollId})`);
