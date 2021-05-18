@@ -7,7 +7,7 @@ import * as Utils from "./utils";
 const fetch = require('node-fetch');
 const MAX_CHOICES = 6;
 const MAIN_BUTTON_SPACING = 0.34;
-const DEBUG = true;
+const DEBUG = false;
 const SEPARATOR = '|';
 
 export type PollDescriptor = {
@@ -45,7 +45,7 @@ export default class Poll {
 	}
 
   private startPoll(pollId: string, input: string){
-    let inputs = input.split('|');
+    let inputs = input.split(SEPARATOR);
     let pollName = Utils.pollNameFrom(inputs);
     let choiceNames = Utils.choiceNamesFrom(inputs, MAX_CHOICES);
 

@@ -103,6 +103,45 @@ wss://mankindforward-poll.herokuapp.com?brt=0.5
 
 The default is *0.3* and *1.0* is the brightest.
 
+## Favorites
+
+![Favorites feature screenshot](https://github.com/tuesy/poll/blob/main/favorites.png?raw=true)
+
+You can preload polls with the Favorites feature by specifying a Content Pack:
+
+```
+wss://mankindforward-poll.herokuapp.com?content_pack=1739750885568807748
+```
+
+To create your own, start by navigating to http://account.altvr.com/content_packs/new. Give it a name an fill in the "Content" field with your polls in this format:
+
+```javascript
+{
+  "favorites": [
+    {
+      "name": "Poll 1",
+      "choices": [
+        "one",
+        "two"
+      ]
+    },
+    {
+      "name": "Poll 2",
+      "choices": [
+        "one",
+        "two",
+        "three"
+      ]
+    }
+  ]
+}
+```
+
+Click "Create" and then click "Copy to Clipboard" next to the ID. This is the value you'll need for the "content_pack" parameter:
+
+> wss://mankindforward-poll.herokuapp.com?*content_pack=1739750885568807748*
+
+
 # Development
 * Fork this repo
 * Create a Heroku app and link it to your github repo
