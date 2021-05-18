@@ -139,7 +139,7 @@ To create your own, start by navigating to http://account.altvr.com/content_pack
 
 Click "Create" and then click "Copy to Clipboard" next to the ID. This is the value you'll need for the "content_pack" parameter:
 
-> ...?content_pack=1739750885568807748
+> ...?content_pack=<your-id-here>
 
 
 # Development
