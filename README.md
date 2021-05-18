@@ -141,6 +141,11 @@ Click "Create" and then click "Copy to Clipboard" next to the ID. This is the va
 
 > ...?content_pack=\<your-id-here\>
 
+Try an old Altspace survey:
+
+```
+wss://mankindforward-poll.herokuapp.com?content_pack=1739835756899205385
+```
 
 # Development
 * Fork this repo
