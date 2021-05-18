@@ -1,6 +1,8 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 import { PollDescriptor, PollChoiceDescriptor } from "./app";
 
+const APP_NAME = 'JimmyPoll';
+
 export const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
 
 const SCREEN_HEIGHT = 1.5;
@@ -23,7 +25,7 @@ let screenChoices : MRE.Actor;
 
 export function create(context: MRE.Context, assets: MRE.AssetContainer){
   createScreen(context, assets);
-  setHeader('Title', 'Poll App');
+  setHeader('Title', APP_NAME);
   createHelpButton(context, assets);
 }
 
