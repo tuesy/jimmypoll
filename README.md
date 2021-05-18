@@ -147,6 +147,53 @@ Try an old Altspace survey:
 wss://mankindforward-poll.herokuapp.com?content_pack=1739835756899205385
 ```
 
+## Sample Content Packs
+
+### Altspace User Survey
+
+https://account.altvr.com/content_packs/1739835756899205385
+
+```javascript
+{
+  "favorites": [
+    {
+      "name": "How long have you been using AltspaceVR?",
+      "choices": [
+        "1-3 months",
+        "3-6 months",
+        "6 months - 1 year",
+        "1-3 years",
+        "3+ years"
+      ]
+    },
+    {
+      "name": "How often do you use AltspaceVR?",
+      "choices": [
+        "Infrequently",
+        "Monthly",
+        "Weekly",
+        "Daily"
+      ]
+    },
+    {
+      "name": "Have you been to at least 2 events in the past 2 weeks?",
+      "choices": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "name": "How would you feel if you could no longer use AltspaceVR?",
+      "choices": [
+        "Very disappointed",
+        "Somewhat disappointed",
+        "Not disappointed"
+      ]
+    }
+  ]
+}
+```
+
 # Development
 * Fork this repo
 * Create a Heroku app and link it to your github repo
