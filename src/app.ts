@@ -222,20 +222,6 @@ export default class Poll {
                 }
               });
 
-              MRE.Actor.Create(this.context, {
-                actor: {
-                  transform: { local: { position: { x: 0, y: 0, z: 0 } } },
-                  collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-                  text: {
-                    contents: 'Favorites',
-                    height: 0.3,
-                    anchor: MRE.TextAnchorLocation.MiddleLeft,
-                    justify: MRE.TextJustify.Left
-                  },
-                  parentId: favs.id
-                }
-              });
-
               let y = -0.4;
               let buttonSpacing = 0.4;
               let choiceSpacing = 0.2;
