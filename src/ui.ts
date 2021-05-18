@@ -6,7 +6,7 @@ export const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right c
 const SCREEN_HEIGHT = 1.5;
 const SCREEN_SCALE = 0.5;
 
-const FONT = MRE.TextFontFamily.Cursive;
+export const FONT = MRE.TextFontFamily.Cursive;
 
 const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
 const BACKGROUND_TEXTURE_SCALE = {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
@@ -173,7 +173,7 @@ export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, 
 
 // hosts can choose a background
 // hosts can also adjust the brightness
-export function chooseBackgroundImage(params: any){
+export function chooseBackgroundImage(params: MRE.ParameterSet){
   let index = Number(params.bg);
   let total = BACKGROUND_IMAGES.length;
   let brightness = Number(params.brt)
