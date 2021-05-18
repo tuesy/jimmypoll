@@ -101,7 +101,7 @@ The screen's brightness depends on the lighting in your World or Event. If you h
 wss://mankindforward-poll.herokuapp.com?brt=0.5
 ```
 
-The default is *0.3* and *1.0* is the brightest.
+The default is *0.3* and *1.0* is the brightest. If it's still too bright at *0.1*, you can't set it to *0* but you can set a really small value like *0.01*.
 
 ## Favorites
 
