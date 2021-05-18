@@ -93,6 +93,16 @@ wss://mankindforward-poll.herokuapp.com?bg=8
 wss://mankindforward-poll.herokuapp.com?bg=9
 ```
 
+## Background Brightness
+
+The screen's brightness depends on the lighting in your World or Event. If you have a directional light, just rotating the app will change the brightness. You can adjust it by setting a parameter:
+
+```
+wss://mankindforward-poll.herokuapp.com?brt=0.5
+```
+
+The default is *0.3* and *1.0* is the brightest.
+
 # Development
 * Fork this repo
 * Create a Heroku app and link it to your github repo

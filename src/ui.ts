@@ -17,6 +17,7 @@ const BACKGROUND_DEPTH = 0.02;
 const DEBUG = false;
 
 let backgroundImage : string;
+let backgroundImageBrightness = 0.3; // remember to update the README
 export let screenHeader : MRE.Actor;
 let screenChoices : MRE.Actor;
 
@@ -171,13 +172,19 @@ export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, 
 }
 
 // hosts can choose a background
+// hosts can also adjust the brightness
 export function chooseBackgroundImage(params: any){
   let index = Number(params.bg);
   let total = BACKGROUND_IMAGES.length;
+  let brightness = Number(params.brt)
+
   if(index > 0 && index < total)
     backgroundImage = BACKGROUND_IMAGES[index-1];
   else // randomly choose one by default
     backgroundImage = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)];
+
+  if(brightness > 0 && brightness < 1)
+    backgroundImageBrightness = brightness;
 }
 
 function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
@@ -192,7 +199,7 @@ function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
 
   // add some background pattern
   if(DEBUG)
-    console.log(`Background: ${backgroundImage}`);
+    console.log(`Background: ${backgroundImage}, brightness: ${backgroundImageBrightness}`);
 
   const backgroundTexture = assets.createTexture("bgTex", { uri: backgroundImage } );
   const backgroundMaterial = assets.createMaterial("bgMat", {
@@ -200,7 +207,7 @@ function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
     mainTextureScale: BACKGROUND_TEXTURE_SCALE,
     emissiveTextureId: backgroundTexture.id,
     emissiveTextureScale: BACKGROUND_TEXTURE_SCALE,
-    emissiveColor: new MRE.Color3(0.3, 0.3, 0.3)
+    emissiveColor: new MRE.Color3(backgroundImageBrightness, backgroundImageBrightness, backgroundImageBrightness)
   });
   const background = MRE.Actor.Create(context, {
     actor: {
