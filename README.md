@@ -147,9 +147,9 @@ Try an old Altspace survey:
 wss://mankindforward-poll.herokuapp.com?content_pack=1739835756899205385
 ```
 
-## Sample Content Packs
+# Sample Content Packs
 
-### Altspace User Survey
+## Altspace User Survey
 
 https://account.altvr.com/content_packs/1739835756899205385
 
