@@ -113,7 +113,7 @@ You can preload polls with the Favorites feature by specifying a Content Pack:
 wss://mankindforward-poll.herokuapp.com?content_pack=1739750885568807748
 ```
 
-To create your own, start by navigating to http://account.altvr.com/content_packs/new. Give it a name an fill in the "Content" field with your polls in this format:
+To create your own, start by navigating to http://account.altvr.com/content_packs/new. Give it a name and fill in the "Content" field with your own polls with this format:
 
 ```javascript
 {
@@ -139,7 +139,7 @@ To create your own, start by navigating to http://account.altvr.com/content_pack
 
 Click "Create" and then click "Copy to Clipboard" next to the ID. This is the value you'll need for the "content_pack" parameter:
 
-> wss://mankindforward-poll.herokuapp.com?*content_pack=1739750885568807748*
+> ...?content_pack=1739750885568807748
 
 
 # Development
