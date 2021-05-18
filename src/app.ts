@@ -231,7 +231,7 @@ export default class Poll {
               actor: {
                 transform: {
                   local: {
-                    position: { x: 2.3, y: 2.7, z: 0 },
+                    position: { x: 2.3, y: 2.9, z: 0 },
                     rotation: MRE.Quaternion.FromEulerAngles(0, 0 * MRE.DegreesToRadians, 0)
                   }
                 },
@@ -239,16 +239,28 @@ export default class Poll {
               }
             });
 
-            let y = -0.4;
-            let buttonSpacing = 0.4;
+            // default, up to 8
+            let y = -0.35;
+            let buttonSpacing = 0.3;
             let choiceSpacing = 0.2;
+            let height = 0.2;
+            let scale = 1.0;
+
+            // space out the buttons vertically based on the number of polls
+            if(importedPolls.length > 8){ // up to 15
+              y = -0.34;
+              buttonSpacing = 0.15;
+              choiceSpacing = 0.2;
+              height = 0.2;
+              scale = 0.5;
+            }
 
             for(let i = 0; i < importedPolls.length; i++){
               let button = MRE.Actor.CreateFromLibrary(context, {
                 resourceId: 'artifact:1579238678213952234', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579238678213952234
                 actor: {
                   name: 'Favorite Button',
-                  transform: { local: { position: { x: 0, y: y, z: 0 } } },
+                  transform: { local: { position: { x: 0, y: y, z: 0 }, scale: { x: scale, y: scale, z: scale } } },
                   collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
                   parentId: favs.id
                 }
@@ -263,7 +275,7 @@ export default class Poll {
                   transform: { local: { position: { x: choiceSpacing, y: 0, z: 0 } } },
                   text: {
                     contents: importedPolls[i].name,
-                    height: 0.2,
+                    height: height,
                     anchor: MRE.TextAnchorLocation.MiddleLeft,
                     justify: MRE.TextJustify.Left,
                     font: UI.FONT
