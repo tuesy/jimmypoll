@@ -43,17 +43,17 @@ export function setHeader(style: string, text: string){
       header.text.justify = MRE.TextJustify.Center;
       header.transform.local.position = new MRE.Vector3(0, 1.5, 0);
       break;
-    default: // scalable, centered, at the top of the screen
+    case 'Results': // scalable, centered, at the top of the screen
       // scale the height based on the number of characters
-      let chars = text.length - 7; // accounting for "Poll: ?"
+      let chars = text.length; // accounting for "Poll: ?"
 
-      if(chars < 20){ // test 19 and 20
+      if(chars < 20){
         header.text.height = 0.3;
       }
-      else if(chars < 25) { // test 29 and 30
+      else if(chars < 25) {
         header.text.height = 0.25;
       }
-      else if(chars < 30) { // test 29 and 30
+      else if(chars < 30) {
         header.text.height = 0.2;
       }
       else{ // any smaller and it'll be hard to read
@@ -62,12 +62,16 @@ export function setHeader(style: string, text: string){
 
       header.text.anchor = MRE.TextAnchorLocation.MiddleCenter;
       header.text.justify = MRE.TextJustify.Center;
-      header.transform.local.position = new MRE.Vector3(0, 2.3, 0);
+      header.transform.local.position = new MRE.Vector3(0, 2.4, 0);
+      break;
+    default:
+      break;
   }
+  if(DEBUG){ console.log(`Header height: ${header.text.height}`) }
 }
 
 export function pollStarted(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor) : MRE.Actor[] {
-  setHeader('Results', `Poll: ${poll.name}`);
+  setHeader('Results', `${poll.name}`);
   return createScreenChoices(context, poll);
 }
 
@@ -148,11 +152,11 @@ export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, 
       buttonSpacing = 0.4;
       break;
     case 5:
-      y = 0;
+      y = 0.07;
       buttonSpacing = 0.35;
       break;
     case 6:
-      y = 0.1;
+      y = 0.05;
       buttonSpacing = 0.3;
       break;
   }
