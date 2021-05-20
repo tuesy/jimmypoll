@@ -6,18 +6,17 @@ TODO: add demo world
 
 # Quickstart
 
-Try out the app with a sample poll:
+Try it out with a sample poll:
 
 ```
 wss://mankindforward-poll.herokuapp.com?poll=quickstart
 ```
 
-Browse through some featured polls:
+Once the app launches, click on the heart button to load the poll. Browse the table below for more polls and change a parameter `?poll=<name>` to preload it:
 
 | Name       | Category   | Questions   | Description        |
 | ---------- | ---------- | ----------- | ------------------ |
 | quickstart | tutorial   | 3           | show you the ropes |
-
 
 # Usage
 
