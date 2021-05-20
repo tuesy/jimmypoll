@@ -2,7 +2,7 @@
 
 JimmyPoll is an Altspace app for running polls or quizes. Hosts asks questions and people vote in real-time. Great for breaking the ice at meetups or surveying the team at meetings or even playing a trivia game. It's easy to put up a question on-the-fly or preload a set questions.
 
-TODO: add demo world
+There's a demo Altspace world here: https://account.altvr.com/worlds/1046572460192825569/spaces/1741224889605423539
 
 # Quickstart
 
