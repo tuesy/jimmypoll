@@ -82,7 +82,7 @@ function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.A
   screenChoices = MRE.Actor.Create(context, {
     actor: {
       name: 'Choices',
-      transform: { local: { position: { x: -1.3, y: 2, z: 0 } } },
+      transform: { local: { position: { x: -1.6, y: 2, z: 0 } } },
       collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
       text: {
         contents: null,

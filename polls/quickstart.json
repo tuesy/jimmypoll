@@ -1,0 +1,45 @@
+{
+  "favorites": [
+    {
+      "name": "What is JimmyPoll?",
+      "choices": [
+        "Bitterly cold city in Siberia",
+        "Awesome Altspace app",
+        "Son of JimmyCam",
+        "Learn more at github.com/tuesy/poll"
+      ]
+    },
+    {
+      "name": "Are there free polls?",
+      "choices": [
+        "Absolutely",
+        "Pass ?poll=<name>",
+        "Learn more at github.com/tuesy/poll"
+      ]
+    },
+    {
+      "name": "Can you change the screen background?",
+      "choices": [
+        "Thank goodness",
+        "Pass ?bg=<1-9>",
+        "Learn more at github.com/tuesy/poll"
+      ]
+    },
+    {
+      "name": "Can you change the screen brightness?",
+      "choices": [
+        "Yup",
+        "Pass ?brt=<value>",
+        "Learn more at github.com/tuesy/poll"
+      ]
+    },
+    {
+      "name": "Can I use my own Content Pack?",
+      "choices": [
+        "Thought you'd never ask",
+        "Pass ?content_pack=<content pack id>",
+        "Learn more at github.com/tuesy/poll"
+      ]
+    }
+  ]
+}

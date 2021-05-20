@@ -7,8 +7,8 @@ import * as Utils from "./utils";
 const fetch = require('node-fetch');
 const MAX_CHOICES = 6;
 const MAIN_BUTTON_SPACING = 0.34;
-const DEBUG = false;
 const SEPARATOR = '|';
+const DEBUG = false;
 
 export type PollDescriptor = {
   name: string,
@@ -140,7 +140,12 @@ export default class Poll {
   private userJoined(user: MRE.User) {
     if(this.canManagePolls(user)){
       this.createPollButtonFor(user);
-      this.createFavoritesButtonFor(this.context, this.params, user);
+      if(this.params.content_pack){
+        this.loadContentPack(this.params, user);
+      }
+      else if(this.params.poll){
+        this.loadBundledPoll(this.params, user);
+      }
     }
 
     this.wireUpControls(Controls.attach(this.context, this.attachedControls, user.id, this.polls[this.pollIdFor(user)]));
@@ -174,7 +179,96 @@ export default class Poll {
     });
   }
 
+
+  private createFavoritesButtonFor(context: MRE.Context, user: MRE.User, importedPolls: any){
+    const position = { x: UI.HELP_BUTTON_POSITION.x - (MAIN_BUTTON_SPACING * 2), y: UI.HELP_BUTTON_POSITION.y, z: UI.HELP_BUTTON_POSITION.z }; // to the left of the poll button
+    const favoritesButton = MRE.Actor.CreateFromLibrary(this.context, {
+      resourceId: 'artifact:1579238678213952234', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579238678213952234
+      actor: {
+        name: 'Content Pack Button',
+        transform: { local: { position: position } },
+        collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+        exclusiveToUser: user.id
+      }
+    });
+    favoritesButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
+      // toggling the Favorites
+      if(this.favorites.has(user.id)){
+        this.favorites.get(user.id).destroy();
+        this.favorites.delete(user.id);
+      }
+      else{
+        const favs = MRE.Actor.Create(this.context, {
+          actor: {
+            transform: {
+              local: {
+                position: { x: 2.3, y: 2.9, z: 0 },
+                rotation: MRE.Quaternion.FromEulerAngles(0, 0 * MRE.DegreesToRadians, 0)
+              }
+            },
+            exclusiveToUser: user.id
+          }
+        });
+
+        // default, up to 8
+        let y = -0.35;
+        let buttonSpacing = 0.3;
+        let choiceSpacing = 0.2;
+        let height = 0.2;
+        let scale = 1.0;
+
+        // space out the buttons vertically based on the number of polls
+        if(importedPolls.length > 8){ // up to 15
+          y = -0.34;
+          buttonSpacing = 0.15;
+          choiceSpacing = 0.2;
+          height = 0.2;
+          scale = 0.5;
+        }
+
+        for(let i = 0; i < importedPolls.length; i++){
+          let button = MRE.Actor.CreateFromLibrary(context, {
+            resourceId: 'artifact:1579238678213952234', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579238678213952234
+            actor: {
+              name: 'Favorite Button',
+              transform: { local: { position: { x: 0, y: y, z: 0 }, scale: { x: scale, y: scale, z: scale } } },
+              collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
+              parentId: favs.id
+            }
+          });
+
+          button.setBehavior(MRE.ButtonBehavior).onClick(user => {
+            this.startPoll(this.pollIdFor(user), importedPolls[i].name + SEPARATOR + (importedPolls[i].choices.join(SEPARATOR)));
+          });
+
+          let label = MRE.Actor.Create(context, {
+            actor: {
+              transform: { local: { position: { x: choiceSpacing, y: 0, z: 0 } } },
+              text: {
+                contents: importedPolls[i].name,
+                height: height,
+                anchor: MRE.TextAnchorLocation.MiddleLeft,
+                justify: MRE.TextJustify.Left,
+                font: UI.FONT
+              },
+              parentId: button.id
+            }
+          });
+
+          y -= buttonSpacing;
+        }
+
+        this.favorites.set(user.id, favs);
+      }
+    });
+
+
+  }
+
+
   /*
+    Load Favorites from a Content Pack if you pass ?content_pack=<content_pack_id>
+
     Specify a url to a JSON file
     e.g. ws://10.0.1.119:3901?content_pack=1739750885568807748
     https://account.altvr.com/content_packs/1739750885568807748/raw.json
@@ -188,109 +282,37 @@ export default class Poll {
             "two"
           ]
         },
-        {
-          "name": "Poll 2",
-          "choices": [
-            "one",
-            "two",
-            "three"
-          ]
-        }
+        ...
       ]
     }
   */
-  private createFavoritesButtonFor(context: MRE.Context, params: MRE.ParameterSet, user: MRE.User){
+  private loadContentPack(params: MRE.ParameterSet, user: MRE.User){
     if(!params.content_pack){ return }
-
-    let uri = 'https://account.altvr.com/api/content_packs/' + this.params.content_pack + '/raw.json';
+    let uri = 'https://account.altvr.com/api/content_packs/' + params.content_pack + '/raw.json';
 
     fetch(uri)
       .then((res: any) => res.json())
       .then((json: any) => {
         let importedPolls = Object.assign({}, json).favorites;
         if(!importedPolls){ return }
-
-        const position = { x: UI.HELP_BUTTON_POSITION.x - (MAIN_BUTTON_SPACING * 2), y: UI.HELP_BUTTON_POSITION.y, z: UI.HELP_BUTTON_POSITION.z }; // to the left of the poll button
-        const favoritesButton = MRE.Actor.CreateFromLibrary(this.context, {
-          resourceId: 'artifact:1579238678213952234', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579238678213952234
-          actor: {
-            name: 'Content Pack Button',
-            transform: { local: { position: position } },
-            collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-            exclusiveToUser: user.id
-          }
-        });
-        favoritesButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
-          // toggling the Favorites
-          if(this.favorites.has(user.id)){
-            this.favorites.get(user.id).destroy();
-            this.favorites.delete(user.id);
-          }
-          else{
-            const favs = MRE.Actor.Create(this.context, {
-              actor: {
-                transform: {
-                  local: {
-                    position: { x: 2.3, y: 2.9, z: 0 },
-                    rotation: MRE.Quaternion.FromEulerAngles(0, 0 * MRE.DegreesToRadians, 0)
-                  }
-                },
-                exclusiveToUser: user.id
-              }
-            });
-
-            // default, up to 8
-            let y = -0.35;
-            let buttonSpacing = 0.3;
-            let choiceSpacing = 0.2;
-            let height = 0.2;
-            let scale = 1.0;
-
-            // space out the buttons vertically based on the number of polls
-            if(importedPolls.length > 8){ // up to 15
-              y = -0.34;
-              buttonSpacing = 0.15;
-              choiceSpacing = 0.2;
-              height = 0.2;
-              scale = 0.5;
-            }
-
-            for(let i = 0; i < importedPolls.length; i++){
-              let button = MRE.Actor.CreateFromLibrary(context, {
-                resourceId: 'artifact:1579238678213952234', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579238678213952234
-                actor: {
-                  name: 'Favorite Button',
-                  transform: { local: { position: { x: 0, y: y, z: 0 }, scale: { x: scale, y: scale, z: scale } } },
-                  collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-                  parentId: favs.id
-                }
-              });
-
-              button.setBehavior(MRE.ButtonBehavior).onClick(user => {
-                this.startPoll(this.pollIdFor(user), importedPolls[i].name + SEPARATOR + (importedPolls[i].choices.join(SEPARATOR)));
-              });
-
-              let label = MRE.Actor.Create(context, {
-                actor: {
-                  transform: { local: { position: { x: choiceSpacing, y: 0, z: 0 } } },
-                  text: {
-                    contents: importedPolls[i].name,
-                    height: height,
-                    anchor: MRE.TextAnchorLocation.MiddleLeft,
-                    justify: MRE.TextJustify.Left,
-                    font: UI.FONT
-                  },
-                  parentId: button.id
-                }
-              });
-
-              y -= buttonSpacing;
-            }
-
-            this.favorites.set(user.id, favs);
-          }
-        });
+        this.createFavoritesButtonFor(this.context, user, importedPolls);
       })
+  }
+
+  // Load Favorites from the /polls folder if you pass ?poll=<name>
+  // e.g. ws://10.0.1.119:3901?poll=quickstart
+  private loadBundledPoll(params: MRE.ParameterSet, user: MRE.User){
+    if(!params.poll){ return }
+    let json = require(`../polls/${params.poll}.json`);
+
+    if(DEBUG){ console.log(json) };
+
+    let importedPolls = Object.assign({}, json).favorites;
+
+    if(DEBUG){ console.log(importedPolls) };
+
+    if(!importedPolls){ return }
+    this.createFavoritesButtonFor(this.context, user, importedPolls);
   }
 
   private wireUpControls(buttons: MRE.Actor[]){
