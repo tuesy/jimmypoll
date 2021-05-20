@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 const MAX_CHOICES = 6;
 const MAIN_BUTTON_SPACING = 0.34;
 const SEPARATOR = '|';
+const EXAMPLE = "man's best friend|dog|cat|other";
 const DEBUG = false;
 
 export type PollDescriptor = {
@@ -153,7 +154,7 @@ export default class Poll {
 
   private createPollButtonFor(user: MRE.User){
     const position = { x: UI.HELP_BUTTON_POSITION.x - MAIN_BUTTON_SPACING, y: UI.HELP_BUTTON_POSITION.y, z: UI.HELP_BUTTON_POSITION.z }; // to the left of the help button
-    let text = `Enter a question and click "OK" to start a new poll.\n\nLearn more at github.com/tuesy/poll`;
+    let text = `Enter a question and click "OK" to start a new poll. Add custom answers at the end separated by "|". Leave empty to see an example: \n\n"${EXAMPLE}"\n\nLearn more at github.com/tuesy/poll`;
     const button = MRE.Actor.CreateFromLibrary(this.context, {
       resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
       actor: {
@@ -166,8 +167,11 @@ export default class Poll {
     button.setBehavior(MRE.ButtonBehavior).onClick(user => {
       user.prompt(text, true)
       .then(res => {
-        if(res.submitted && res.text.length > 0){
-          this.startPoll(this.pollIdFor(user), res.text);
+        if(res.submitted){
+          if(res.text.length < 1)
+            this.startPoll(this.pollIdFor(user), EXAMPLE);
+          else
+            this.startPoll(this.pollIdFor(user), res.text);
         }
         else{
           // user clicked 'Cancel'
