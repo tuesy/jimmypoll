@@ -1,14 +1,29 @@
 # Overview
 
-Poll is an Altspace MRE app for taking quick polls. Hosts asks questions and people can respond in real-time. Great for breaking the ice at meetups or surveying the team at meetings.
+JimmyPoll is an Altspace app for running polls or quizes. Hosts asks questions and people vote in real-time. Great for breaking the ice at meetups or surveying the team at meetings or even playing a trivia game. It's easy to put up a question on-the-fly or preload a set questions.
 
 TODO: add demo world
+
+# Quickstart
+
+Try out the app with a sample poll:
+
+```
+wss://mankindforward-poll.herokuapp.com?poll=quickstart
+```
+
+Browse through some featured polls:
+
+| Name       | Category   | Questions   | Description        |
+| ---------- | ---------- | ----------- | ------------------ |
+| quickstart | tutorial   | 3           | show you the ropes |
+
 
 # Usage
 
 ## Spawning the App
 
-You can also place it manually using:
+You can place it manually using:
 
 ```
 wss://mankindforward-poll.herokuapp.com
@@ -18,7 +33,7 @@ wss://mankindforward-poll.herokuapp.com
 
 ![Hosting Screenshot](https://github.com/tuesy/poll/blob/main/hosting.png?raw=true)
 
-Only hosts see an orange "Poll" button at the bottom right of the screen. When you click it, you can enter a question to start a poll. The app will automatically format your question by capitalizing the first letter and adding aquestion mark at the end if there isn't one. This makes polling easier and faster. For example:
+Only hosts see an orange "Poll" button at the bottom right of the screen. When you click it, you can enter a question to start a poll. The app will automatically format your question by capitalizing the first letter and adding a question mark at the end if there isn't one. This makes polling easier and faster. For example:
 
 ```
 are we in a simulation
@@ -28,11 +43,11 @@ are we in a simulation
 > 1. Yes
 > 2. No
 
-When you click "OK" after entering the question, you start a poll. Users will hear a sound and see two choices by default, "Yes" and "No", that they can vote on. Once the first vote is submitted the screen will show live poll results. Users can change their vote at any time and vote as often as they'd like--each user has a single vote. When you click the Poll button again and enter another question, a new poll will start.
+When you click "OK" after entering the question, you start a poll. Users will hear a sound and see two choices by default, "Yes" and "No", that they can vote on. Once the first vote is submitted the screen will show live results. Users can change their vote at any time but each user has a single vote. When you click the Poll button again and enter another question, a new poll will start.
 
-## Custom Choices
+## Custom Answers
 
-Hosts can customize the choices beyond "Yes" and "No". You can specify up to *6* choices by appending them to the end of the question separated by the "|" character. For example:
+Hosts can customize the answers beyond "Yes" and "No". You can specify up to *6* by appending them to the end of the question separated by the "|" character. For example:
 
 ```
 how many fingers am I holding up|one|two|three|four
@@ -95,7 +110,7 @@ wss://mankindforward-poll.herokuapp.com?bg=9
 
 ## Background Brightness
 
-The screen's brightness depends on the lighting in your World or Event. If you have a directional light, just rotating the app will change the brightness. You can adjust it by setting a parameter:
+The screen's brightness depends on the lighting in your World or Event. If you have a directional light, just rotating the app may change the brightness. You can adjust it by setting a parameter:
 
 ```
 wss://mankindforward-poll.herokuapp.com?brt=0.5
@@ -113,7 +128,7 @@ You can preload polls with the Favorites feature by specifying a Content Pack:
 wss://mankindforward-poll.herokuapp.com?content_pack=1739750885568807748
 ```
 
-To create your own, start by navigating to http://account.altvr.com/content_packs/new. Give it a name and fill in the "Content" field with your own polls with this format:
+To create your own, start by navigating to http://account.altvr.com/content_packs/new. Give it a name and fill in the "Content" field with your own polls in this format:
 
 ```javascript
 {
@@ -141,15 +156,11 @@ Click "Create" and then click "Copy to Clipboard" next to the ID. This is the va
 
 > ...?content_pack=\<your-id-here\>
 
-Try an old Altspace survey:
+Try an Altspace survey:
 
 ```
 wss://mankindforward-poll.herokuapp.com?content_pack=1739835756899205385
 ```
-
-# Sample Content Packs
-
-## Altspace User Survey
 
 https://account.altvr.com/content_packs/1739835756899205385
 
