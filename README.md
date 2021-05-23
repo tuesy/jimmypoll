@@ -12,11 +12,14 @@ Try it out with a sample poll:
 wss://mankindforward-poll.herokuapp.com?poll=quickstart
 ```
 
-Once the app launches, click on the heart button to load the poll. Browse the table below for more polls and change a parameter `?poll=<name>` to preload it:
+Once the app launches, click on the heart button to load the poll. Browse the "polls" folder more polls and change a parameter `?poll=<name>` to preload it.
 
-| Name       | Category   | Questions   | Description        |
-| ---------- | ---------- | ----------- | ------------------ |
-| quickstart | tutorial   | 3           | show you the ropes |
+| Name            | Category   | Description                               |
+| ----------      | ---------- | ----------                                |
+| quickstart      | tutorial   | show you the ropes                        |
+| trivia-general  | trivia     | general knowledge trivia from opentdb.com |
+| trivia-altspace | trivia     | trivia about Altspace itself              |
+
 
 # Usage
 

@@ -1,0 +1,88 @@
+{
+  "favorites": [
+    {
+      "name": "What alcoholic drink is made from molasses?",
+      "choices": [
+        "Gin",
+        "Vodka",
+        "Whisky",
+        "Rum"
+      ],
+      "answer": "Rum",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Foie gras is a French delicacy typically made from what part of a duck or goose?",
+      "choices": [
+        "Heart",
+        "Stomach",
+        "Intestines",
+        "Liver"
+      ],
+      "answer": "Liver",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the profession of Elon Musk's mom, Maye Musk?",
+      "choices": [
+        "Professor",
+        "Biologist",
+        "Musician",
+        "Model"
+      ],
+      "answer": "Model",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In a standard set of playing cards, which is the only king without a moustache?",
+      "choices": [
+        "Spades",
+        "Diamonds",
+        "Clubs",
+        "Hearts"
+      ],
+      "answer": "Hearts",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Earth is located in which galaxy?",
+      "choices": [
+        "The Mars Galaxy",
+        "The Galaxy Note",
+        "The Black Hole",
+        "The Milky Way Galaxy"
+      ],
+      "answer": "The Milky Way Galaxy",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Rolex is a company that specializes in what type of product?",
+      "choices": [
+        "Cars",
+        "Computers",
+        "Sports equipment",
+        "Watches"
+      ],
+      "answer": "Watches",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "A doctor with a PhD is a doctor of what?",
+      "choices": [
+        "Psychology",
+        "Phrenology",
+        "Physical Therapy",
+        "Philosophy"
+      ],
+      "answer": "Philosophy",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+  ]
+}

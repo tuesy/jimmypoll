@@ -1,0 +1,84 @@
+{
+  "favorites": [
+    {
+      "name": "What was Altspace's original name?",
+      "choices": [
+        "Altspace",
+        "Alt + Space",
+        "Qualia 3D",
+        "Campfire Simultor"
+      ],
+      "answer": "Qualia 3D"
+    },
+    {
+      "name": "What is the Altspace slogan?",
+      "choices": [
+        "Hold on to your butts",
+        "Be there together",
+        "A better reality awaits",
+        "Enter the rift"
+      ],
+      "answer": "Be there together"
+    },
+    {
+      "name": "Which of the following was an Altspace welcome space?",
+      "choices": [
+        "Exhibition",
+        "Spire",
+        "Tea House",
+        "Highrise"
+      ],
+      "answer": "Exhibition"
+    },
+    {
+      "name": "Who has NOT done an event in Altspace?",
+      "choices": [
+        "Bill Nye",
+        "Reggie Watts",
+        "Drew Carey",
+        "Terry Crews"
+      ],
+      "answer": "Terry Crews"
+    },
+    {
+      "name": "What is the oldest Altspace environment?",
+      "choices": [
+        "Conference Room",
+        "Highrise",
+        "Tea Garden",
+        "Desert Island"
+      ],
+      "answer": "Highrise"
+    },
+    {
+      "name": "What is the name of the Altspace band?",
+      "choices": [
+        "Zero Latency",
+        "Riffing the Rift",
+        "Aye, Marima",
+        "The Rubenoids"
+      ],
+      "answer": "The Rubenoids"
+    },
+    {
+      "name": "Who is Camilla Dee?",
+      "choices": [
+        "The secret co-founder",
+        "A ghost who haunts the campfire",
+        "The first employee",
+        "A test dummy"
+      ],
+      "answer": "A test dummy"
+    },
+    {
+      "name": "What HMD has Altspace NOT supported?",
+      "choices": [
+        "Google Daydream",
+        "Samsung GearVR",
+        "Oculus DK 2",
+        "Google Cardboard"
+      ],
+      "answer": "Google Cardboard"
+    }
+  ]
+}
