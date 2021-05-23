@@ -9,7 +9,7 @@ There's a demo Altspace world here: https://account.altvr.com/worlds/10465724601
 Try it out with a sample poll:
 
 ```
-wss://mres.altvr.com/jimmypoll?poll=quickstart
+wss://mres.altvr.com/jimmypoll/?poll=quickstart
 ```
 
 Once the app launches, click on the heart button to load the poll. Browse the "polls" folder more polls and change a parameter `?poll=<name>` to preload it.
@@ -68,47 +68,47 @@ By default, the app will randomly select a background on startup but you can spe
 
 ![Background Tile 1](https://github.com/tuesy/jimmypoll/blob/main/public/tile01.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=1
+wss://mres.altvr.com/jimmypoll/?bg=1
 ```
 
 ![Background Tile 2](https://github.com/tuesy/jimmypoll/blob/main/public/tile02.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=2
+wss://mres.altvr.com/jimmypoll/?bg=2
 ```
 
 ![Background Tile 3](https://github.com/tuesy/jimmypoll/blob/main/public/tile03.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=3
+wss://mres.altvr.com/jimmypoll/?bg=3
 ```
 
 ![Background Tile 4](https://github.com/tuesy/jimmypoll/blob/main/public/tile04.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=4
+wss://mres.altvr.com/jimmypoll/?bg=4
 ```
 
 ![Background Tile 5](https://github.com/tuesy/jimmypoll/blob/main/public/tile05.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=5
+wss://mres.altvr.com/jimmypoll/?bg=5
 ```
 
 ![Background Tile 6](https://github.com/tuesy/jimmypoll/blob/main/public/tile06.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=6
+wss://mres.altvr.com/jimmypoll/?bg=6
 ```
 
 ![Background Tile 7](https://github.com/tuesy/jimmypoll/blob/main/public/tile07.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=7
+wss://mres.altvr.com/jimmypoll/?bg=7
 ```
 
 ![Background Tile 8](https://github.com/tuesy/jimmypoll/blob/main/public/tile08.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=8
+wss://mres.altvr.com/jimmypoll/?bg=8
 ```
 
 ![Background Tile 9](https://github.com/tuesy/jimmypoll/blob/main/public/tile09.png?raw=true)
 ```
-wss://mres.altvr.com/jimmypoll?bg=9
+wss://mres.altvr.com/jimmypoll/?bg=9
 ```
 
 ## Background Brightness
@@ -116,7 +116,7 @@ wss://mres.altvr.com/jimmypoll?bg=9
 The screen's brightness depends on the lighting in your World or Event. If you have a directional light, just rotating the app may change the brightness. You can adjust it by setting a parameter:
 
 ```
-wss://mres.altvr.com/jimmypoll?brt=0.5
+wss://mres.altvr.com/jimmypoll/?brt=0.5
 ```
 
 The default is *0.3* and *1.0* is the brightest. If it's still too bright at *0.1*, you can't set it to *0* but you can set a really small value like *0.01*.
@@ -128,7 +128,7 @@ The default is *0.3* and *1.0* is the brightest. If it's still too bright at *0.
 You can preload polls with the Favorites feature by specifying a Content Pack:
 
 ```
-wss://mres.altvr.com/jimmypoll?content_pack=1739750885568807748
+wss://mres.altvr.com/jimmypoll/?content_pack=1739750885568807748
 ```
 
 Only hosts can see the Favorites button. To create your own, start by navigating to http://account.altvr.com/content_packs/new. Give it a name and fill in the "Content" field with your own polls in this format ("answer" is optional):
@@ -164,7 +164,7 @@ Click "Create" and then click "Copy to Clipboard" next to the ID. This is the va
 Try an Altspace survey:
 
 ```
-wss://mres.altvr.com/jimmypoll?content_pack=1739835756899205385
+wss://mres.altvr.com/jimmypoll/?content_pack=1739835756899205385
 ```
 
 https://account.altvr.com/content_packs/1739835756899205385
