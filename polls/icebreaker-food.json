@@ -1,0 +1,18 @@
+{
+  "favorites": [
+    {
+      "name": "Pineapple on your pizza !!!!??",
+      "choices": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "name": "What's the best sandwich ever?",
+      "choices": [
+        "Peanut Butter and Jelly",
+        "Ham and Cheese"
+      ]
+    }
+  ]
+}
