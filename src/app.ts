@@ -13,12 +13,18 @@ const DEBUG = false;
 
 export type PollDescriptor = {
   name: string,
-  choices: PollChoiceDescriptor[]
+  choices: PollChoiceDescriptor[],
+  answer?: string,
+  difficulty?: string,
+  category?: string
 };
 
 export type ImportedPollDescriptor = {
   name: string,
-  choices: string[]
+  choices: string[],
+  answer?: string,
+  difficulty?: string,
+  category?: string
 }
 
 export type PollChoiceDescriptor = {
@@ -245,11 +251,16 @@ export default class Poll {
             this.startPoll(this.pollIdFor(user), importedPolls[i].name + SEPARATOR + (importedPolls[i].choices.join(SEPARATOR)));
           });
 
+          let text = importedPolls[i].name;
+
+          if(importedPolls[i].answer)
+            text += ` (${importedPolls[i].answer})`;
+
           let label = MRE.Actor.Create(context, {
             actor: {
               transform: { local: { position: { x: choiceSpacing, y: 0, z: 0 } } },
               text: {
-                contents: importedPolls[i].name,
+                contents: text,
                 height: height,
                 anchor: MRE.TextAnchorLocation.MiddleLeft,
                 justify: MRE.TextJustify.Left,

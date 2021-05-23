@@ -1,0 +1,184 @@
+{
+  "favorites": [
+    {
+      "name": "What word represents the letter 'T' in the NATO phonetic alphabet?",
+      "choices": [
+        "Target",
+        "Taxi",
+        "Turkey",
+        "Tango"
+      ],
+      "answer": "Tango",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which Italian automobile manufacturer gained majority control of U.S. automobile manufacturer Chrysler in 2011?",
+      "choices": [
+        "Maserati",
+        "Alfa Romeo",
+        "Ferrari",
+        "Fiat"
+      ],
+      "answer": "Fiat",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the name given to Indian food cooked over charcoal in a clay oven?",
+      "choices": [
+        "Biryani",
+        "Pani puri",
+        "Tiki masala",
+        "Tandoori"
+      ],
+      "answer": "Tandoori",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the French word for \"hat\"?",
+      "choices": [
+        "Bonnet",
+        " &Eacute;charpe",
+        " Casque",
+        "Chapeau"
+      ],
+      "answer": "Chapeau",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What country saw a world record 315 million voters turn out for elections on May 20, 1991?",
+      "choices": [
+        "United States of America",
+        "Soviet Union",
+        "Poland",
+        "India"
+      ],
+      "answer": "India",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The new One World Trade Center in Manhattan, New York City was designed by which architect? ",
+      "choices": [
+        "Bjarke Ingels",
+        "Michael Arad",
+        "Fumihiko Maki",
+        "David Childs"
+      ],
+      "answer": "David Childs",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What year was Apple Inc. founded?",
+      "choices": [
+        "1978",
+        "1980",
+        "1974",
+        "1976"
+      ],
+      "answer": "1976",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "According to Fair Works Australia, how long do you have to work to get Long Service Leave?",
+      "choices": [
+        "2 years",
+        "8 years",
+        "6 months",
+        "7 years"
+      ],
+      "answer": "7 years",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which of the following presidents is not on Mount Rushmore?",
+      "choices": [
+        "Theodore Roosevelt",
+        "Abraham Lincoln",
+        "Thomas Jefferson",
+        "John F. Kennedy"
+      ],
+      "answer": "John F. Kennedy",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Named after the mallow flower, mauve is a shade of what?",
+      "choices": [
+        "Red",
+        "Brown",
+        "Pink",
+        "Purple"
+      ],
+      "answer": "Purple",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which country, not including Japan, has the most people of japanese decent?",
+      "choices": [
+        "China",
+        "South Korea",
+        "United States of America",
+        "Brazil"
+      ],
+      "answer": "Brazil",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the Zodiac symbol for Gemini?",
+      "choices": [
+        "Fish",
+        "Scales",
+        "Maiden",
+        "Twins"
+      ],
+      "answer": "Twins",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the full title of the Prime Minister of the UK?",
+      "choices": [
+        "Duke of Cambridge",
+        "Her Majesty's Loyal Opposition",
+        "Manager of the Crown Estate",
+        "First Lord of the Treasury"
+      ],
+      "answer": "First Lord of the Treasury",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Who is the youngest person to recieve a Nobel Prize?",
+      "choices": [
+        "Lawrence Bragg",
+        "Werner Heisenberg",
+        "Yasser Arafat",
+        "Malala Yousafzai"
+      ],
+      "answer": "Malala Yousafzai",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the profession of Elon Musk's mom, Maye Musk?",
+      "choices": [
+        "Professor",
+        "Biologist",
+        "Musician",
+        "Model"
+      ],
+      "answer": "Model",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    }
+  ]
+}

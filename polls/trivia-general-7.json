@@ -1,0 +1,184 @@
+{
+  "favorites": [
+    {
+      "name": "What does a milliner make and sell?",
+      "choices": [
+        "Shoes",
+        "Belts",
+        "Shirts",
+        "Hats"
+      ],
+      "answer": "Hats",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What does the 'S' stand for in the abbreviation SIM, as in SIM card? ",
+      "choices": [
+        "Single",
+        "Secure",
+        "Solid",
+        "Subscriber"
+      ],
+      "answer": "Subscriber",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
+      "choices": [
+        "Sphere",
+        "Cylinder",
+        "Pyramid",
+        "Cube"
+      ],
+      "answer": "Cube",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which one of the following rhythm games was made by Harmonix?",
+      "choices": [
+        "Meat Beat Mania",
+        "Guitar Hero Live",
+        "Dance Dance Revolution",
+        "Rock Band"
+      ],
+      "answer": "Rock Band",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What country saw a world record 315 million voters turn out for elections on May 20, 1991?",
+      "choices": [
+        "United States of America",
+        "Soviet Union",
+        "Poland",
+        "India"
+      ],
+      "answer": "India",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "How long did it take the motorized window washers of the original World Trade Center to clean the entire exterior of the building?",
+      "choices": [
+        "3 Weeks",
+        "1 Week",
+        "2 Months",
+        "1 Month"
+      ],
+      "answer": "1 Month",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In what year was McDonald's founded?",
+      "choices": [
+        "1964",
+        "1951",
+        "1947",
+        "1955"
+      ],
+      "answer": "1955",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What do the letters of the fast food chain KFC stand for?",
+      "choices": [
+        "Kentucky Fresh Cheese",
+        "Kibbled Freaky Cow",
+        "Kiwi Food Cut",
+        "Kentucky Fried Chicken"
+      ],
+      "answer": "Kentucky Fried Chicken",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In a 1994 CBS interview, Microsoft co-founder Bill Gates performed what unusual trick on camera?",
+      "choices": [
+        "Jumping backwards over a desk",
+        "Standing on his head",
+        "Typing on a keyboard during a handstand",
+        "Jumping over an office chair"
+      ],
+      "answer": "Jumping over an office chair",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is Tasmania?",
+      "choices": [
+        "A flavor of Ben and Jerry's ice-cream",
+        "A Psychological Disorder",
+        "The Name of a Warner Brothers Cartoon Character",
+        "An Australian State"
+      ],
+      "answer": "An Australian State",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which American manufactured submachine gun was informally known by the American soldiers that used it as \"Grease Gun\"?",
+      "choices": [
+        "Colt 9mm",
+        "Thompson",
+        "MAC-10",
+        "M3"
+      ],
+      "answer": "M3",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Located in Chile, El Teniente is the world's largest underground mine for what metal?",
+      "choices": [
+        "Iron",
+        "Nickel",
+        "Silver",
+        "Copper"
+      ],
+      "answer": "Copper",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "When someone is cowardly, they are said to have what color belly?",
+      "choices": [
+        "Green",
+        "Red",
+        "Blue",
+        "Yellow"
+      ],
+      "answer": "Yellow",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the weight of a Gold Bar in Fallout: New Vegas?",
+      "choices": [
+        "30 Pounds",
+        "40 Pounds",
+        "32.50 Pounds",
+        "35 Pounds"
+      ],
+      "answer": "35 Pounds",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The drug cartel run by Pablo Escobar originated in which South American city?",
+      "choices": [
+        "Bogot&aacute;",
+        "Quito",
+        "Cali",
+        "Medell&iacute;n"
+      ],
+      "answer": "Medell&iacute;n",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    }
+  ]
+}

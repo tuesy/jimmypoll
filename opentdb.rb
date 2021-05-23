@@ -25,6 +25,7 @@ p ARGV if DEBUG
 
 require 'faraday'
 require 'json'
+require 'cgi'
 
 category = ARGV[0]
 filename = 'trivia.json'
@@ -33,16 +34,15 @@ uri = "https://opentdb.com/api.php?amount=#{amount}&category=#{category}&type=mu
 response = Faraday.get uri
 json = JSON.parse(response.body)
 
-
 polls = []
 
 json['results'].each do |x|
   poll = {
-    name: x['question'],
-    choices: x['incorrect_answers'] + [x['correct_answer']],
-    answer: x['correct_answer'],
-    difficulty: x['difficulty'],
-    category: x['category']
+    name: CGI.unescapeHTML(x['question']),
+    choices: (x['incorrect_answers'] + [x['correct_answer']]).map{|s| CGI.unescapeHTML(s)},
+    answer: CGI.unescapeHTML(x['correct_answer']),
+    difficulty: CGI.unescapeHTML(x['difficulty']),
+    category: CGI.unescapeHTML(x['category'])
   }
   polls << poll
 end

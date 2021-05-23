@@ -1,51 +1,27 @@
 {
   "favorites": [
     {
-      "name": "When was the Declaration of Independence approved by the Second Continental Congress?",
+      "name": "What alcoholic drink is made from molasses?",
       "choices": [
-        "May 4, 1776",
-        "June 4, 1776",
-        "July 2, 1776",
-        "July 4, 1776"
+        "Gin",
+        "Vodka",
+        "Whisky",
+        "Rum"
       ],
-      "answer": "July 4, 1776",
-      "difficulty": "medium",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "On a dartboard, what number is directly opposite No. 1?",
-      "choices": [
-        "20",
-        "12",
-        "15",
-        "19"
-      ],
-      "answer": "19",
+      "answer": "Rum",
       "difficulty": "easy",
       "category": "General Knowledge"
     },
     {
-      "name": "Which language is NOT Indo-European?",
+      "name": "In 2013 how much money was lost by Nigerian scams?",
       "choices": [
-        "Russian",
-        "Greek",
-        "Latvian",
-        "Hungarian"
+        "$95 Million",
+        "$956 Million",
+        "$2.7 Billion",
+        "$12.7 Billion"
       ],
-      "answer": "Hungarian",
+      "answer": "$12.7 Billion",
       "difficulty": "medium",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "Sciophobia is the fear of what?",
-      "choices": [
-        "Eating",
-        "Bright lights",
-        "Transportation",
-        "Shadows"
-      ],
-      "answer": "Shadows",
-      "difficulty": "hard",
       "category": "General Knowledge"
     },
     {
@@ -61,83 +37,47 @@
       "category": "General Knowledge"
     },
     {
-      "name": "What alcoholic drink is mainly made from juniper berries?",
+      "name": "Five dollars is worth how many nickles?",
       "choices": [
-        "Vodka",
-        "Rum",
-        "Tequila",
-        "Gin"
+        "50",
+        "25",
+        "69",
+        "100"
       ],
-      "answer": "Gin",
-      "difficulty": "medium",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "The Swedish word &quot;Grunka&quot; means what in English?",
-      "choices": [
-        "People",
-        "Place",
-        "Pineapple",
-        "Thing"
-      ],
-      "answer": "Thing",
-      "difficulty": "hard",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "The term &quot;scientist&quot; was coined in which year?",
-      "choices": [
-        "1933",
-        "1942",
-        "1796",
-        "1833"
-      ],
-      "answer": "1833",
-      "difficulty": "medium",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "According to the United States&#039; CDC, one in how many Americans die annually due to smoking?",
-      "choices": [
-        "Twenty",
-        "Ten",
-        "One hundred",
-        "Five"
-      ],
-      "answer": "Five",
-      "difficulty": "medium",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "Which restaurant&#039;s mascot is a clown?",
-      "choices": [
-        "Whataburger",
-        "Burger King",
-        "Sonic",
-        "McDonald&#039;s"
-      ],
-      "answer": "McDonald&#039;s",
+      "answer": "100",
       "difficulty": "easy",
       "category": "General Knowledge"
     },
     {
-      "name": "What was Mountain Dew&#039;s original slogan?",
+      "name": "What is the name of Poland in Polish?",
       "choices": [
-        "Give Me A Dew",
-        "Do The Dew",
-        "Get&#039; that barefoot feelin&#039; drinkin&#039; Mountain Dew",
-        "Yahoo! Mountain Dew... It&#039;ll tickle your innards!"
+        "Pupcia",
+        "Polszka",
+        "P&oacute;land",
+        "Polska"
       ],
-      "answer": "Yahoo! Mountain Dew... It&#039;ll tickle your innards!",
-      "difficulty": "medium",
+      "answer": "Polska",
+      "difficulty": "easy",
       "category": "General Knowledge"
     },
     {
-      "name": "Which iconic Disneyland attraction was closed in 2017 to be remodeled as a &quot;Guardians of the Galaxy&quot; themed ride?",
+      "name": "De Eemhof, Port Zelande and Het Heijderbos are holiday villas owned by what company?",
+      "choices": [
+        "Yelloh Village",
+        "Keycamp",
+        "Villa Plus",
+        "Center Parcs"
+      ],
+      "answer": "Center Parcs",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which iconic Disneyland attraction was closed in 2017 to be remodeled as a \"Guardians of the Galaxy\" themed ride?",
       "choices": [
         "The Haunted Mansion",
         "Pirates of the Caribbean",
-        "Peter Pan&#039;s Flight",
+        "Peter Pan's Flight",
         "Twilight Zone Tower of Terror"
       ],
       "answer": "Twilight Zone Tower of Terror",
@@ -145,39 +85,99 @@
       "category": "General Knowledge"
     },
     {
-      "name": "Whose greyscale face is on the kappa emoticon on Twitch?",
+      "name": "What year was the RoboSapien toy robot released?",
       "choices": [
-        "Justin DeSeno",
-        "John DeSeno",
-        "Jimmy DeSeno",
-        "Josh DeSeno"
+        "2000",
+        "2001",
+        "2006",
+        "2004"
       ],
-      "answer": "Josh DeSeno",
-      "difficulty": "medium",
-      "category": "General Knowledge"
-    },
-    {
-      "name": "In the MMO RPG &quot;Realm of the Mad God&quot;, what dungeon is widely considered to be the most difficult?",
-      "choices": [
-        "Snake Pit",
-        "The Tomb of the Acient&#039;s",
-        "The Puppet Master&#039;s Theater",
-        "The Shatter&#039;s"
-      ],
-      "answer": "The Shatter&#039;s",
+      "answer": "2004",
       "difficulty": "hard",
       "category": "General Knowledge"
     },
     {
-      "name": "What is the full title of the Prime Minister of the UK?",
+      "name": "What is the Portuguese word for \"Brazil\"?",
       "choices": [
-        "Duke of Cambridge",
-        "Her Majesty&#039;s Loyal Opposition",
-        "Manager of the Crown Estate",
-        "First Lord of the Treasury"
+        "Brazil",
+        "Brasilia",
+        "Bras&iacute;l",
+        "Brasil"
       ],
-      "answer": "First Lord of the Treasury",
+      "answer": "Brasil",
       "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which country, not including Japan, has the most people of japanese decent?",
+      "choices": [
+        "China",
+        "South Korea",
+        "United States of America",
+        "Brazil"
+      ],
+      "answer": "Brazil",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the Zodiac symbol for Gemini?",
+      "choices": [
+        "Fish",
+        "Scales",
+        "Maiden",
+        "Twins"
+      ],
+      "answer": "Twins",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Foie gras is a French delicacy typically made from what part of a duck or goose?",
+      "choices": [
+        "Heart",
+        "Stomach",
+        "Intestines",
+        "Liver"
+      ],
+      "answer": "Liver",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The drug cartel run by Pablo Escobar originated in which South American city?",
+      "choices": [
+        "Bogot&aacute;",
+        "Quito",
+        "Cali",
+        "Medell&iacute;n"
+      ],
+      "answer": "Medell&iacute;n",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Frank Lloyd Wright was the architect behind what famous building?",
+      "choices": [
+        "Villa Savoye",
+        "Sydney Opera House",
+        "The Space Needle",
+        "The Guggenheim"
+      ],
+      "answer": "The Guggenheim",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What kind of aircraft was developed by Igor Sikorsky in the United States in 1942?",
+      "choices": [
+        "Stealth Blimp",
+        "Jet",
+        "Space Capsule",
+        "Helicopter"
+      ],
+      "answer": "Helicopter",
+      "difficulty": "easy",
       "category": "General Knowledge"
     }
   ]

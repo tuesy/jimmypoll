@@ -1,0 +1,184 @@
+{
+  "favorites": [
+    {
+      "name": "In past times, what would a gentleman keep in his fob pocket?",
+      "choices": [
+        "Money",
+        "Keys",
+        "Notebook",
+        "Watch"
+      ],
+      "answer": "Watch",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Rolex is a company that specializes in what type of product?",
+      "choices": [
+        "Cars",
+        "Computers",
+        "Sports equipment",
+        "Watches"
+      ],
+      "answer": "Watches",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "A doctor with a PhD is a doctor of what?",
+      "choices": [
+        "Psychology",
+        "Phrenology",
+        "Physical Therapy",
+        "Philosophy"
+      ],
+      "answer": "Philosophy",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which one of the following rhythm games was made by Harmonix?",
+      "choices": [
+        "Meat Beat Mania",
+        "Guitar Hero Live",
+        "Dance Dance Revolution",
+        "Rock Band"
+      ],
+      "answer": "Rock Band",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the unit of currency in Laos?",
+      "choices": [
+        "Ruble",
+        "Konra",
+        "Dollar",
+        "Kip"
+      ],
+      "answer": "Kip",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What did the Spanish autonomous community of Catalonia ban in 2010, that took effect in 2012?",
+      "choices": [
+        "Fiestas",
+        "Flamenco",
+        "Mariachi",
+        "Bullfighting"
+      ],
+      "answer": "Bullfighting",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The New York Times slogan is, &ldquo;All the News That&rsquo;s Fit to&hellip;&rdquo;",
+      "choices": [
+        "Digest",
+        "Look",
+        "Read",
+        "Print"
+      ],
+      "answer": "Print",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is a Burgee?",
+      "choices": [
+        "A rope",
+        "A window",
+        "A type of food",
+        "A flag"
+      ],
+      "answer": "A flag",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which item of clothing is usually worn by a Scotsman at a wedding?",
+      "choices": [
+        "Skirt",
+        "Dress",
+        "Rhobes",
+        "Kilt"
+      ],
+      "answer": "Kilt",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In which fast food chain can you order a Jamocha Shake?",
+      "choices": [
+        "McDonald's",
+        "Burger King",
+        "Wendy's",
+        "Arby's"
+      ],
+      "answer": "Arby's",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is Cynophobia the fear of?",
+      "choices": [
+        "Birds",
+        "Flying",
+        "Germs",
+        "Dogs"
+      ],
+      "answer": "Dogs",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Terry Gilliam was an animator that worked with which British comedy group?",
+      "choices": [
+        "The Goodies&lrm;",
+        "The League of Gentlemen&lrm;",
+        "The Penny Dreadfuls",
+        "Monty Python"
+      ],
+      "answer": "Monty Python",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which American manufactured submachine gun was informally known by the American soldiers that used it as \"Grease Gun\"?",
+      "choices": [
+        "Colt 9mm",
+        "Thompson",
+        "MAC-10",
+        "M3"
+      ],
+      "answer": "M3",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Directly between the Washington Monument and the Reflecting Pool is a memorial to which war?",
+      "choices": [
+        "Vietnam War",
+        "American Civil War",
+        "American Revolutionary War",
+        "World War II"
+      ],
+      "answer": "World War II",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which of the following is not the host of a program on NPR?",
+      "choices": [
+        "Terry Gross",
+        "Ira Glass",
+        "Peter Sagal",
+        "Ben Shapiro"
+      ],
+      "answer": "Ben Shapiro",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    }
+  ]
+}
