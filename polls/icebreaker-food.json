@@ -8,6 +8,16 @@
       ]
     },
     {
+      "name": "How do you like your steak?",
+      "choices": [
+        "Rare",
+        "Medium rare",
+        "Medium",
+        "Medium well",
+        "Well done"
+      ]
+    },
+    {
       "name": "What's the best sandwich ever?",
       "choices": [
         "Peanut Butter and Jelly",
