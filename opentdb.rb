@@ -9,7 +9,7 @@
 #         "Bitterly cold city in Siberia",
 #         "Awesome Altspace app",
 #         "Son of JimmyCam",
-#         "Learn more at github.com/tuesy/poll"
+#         "Learn more at github.com/tuesy/jimmypoll"
 #       ]
 #     },
 #     ...

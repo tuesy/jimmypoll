@@ -6,7 +6,7 @@
         "Bitterly cold city in Siberia",
         "Awesome Altspace app",
         "Son of JimmyCam",
-        "Learn more at github.com/tuesy/poll"
+        "Learn more at github.com/tuesy/jimmypoll"
       ]
     },
     {
@@ -14,7 +14,7 @@
       "choices": [
         "Absolutely",
         "Pass ?poll=<name>",
-        "Learn more at github.com/tuesy/poll"
+        "Learn more at github.com/tuesy/jimmypoll"
       ]
     },
     {
@@ -22,7 +22,7 @@
       "choices": [
         "Thank goodness",
         "Pass ?bg=<1-9>",
-        "Learn more at github.com/tuesy/poll"
+        "Learn more at github.com/tuesy/jimmypoll"
       ]
     },
     {
@@ -30,7 +30,7 @@
       "choices": [
         "Yup",
         "Pass ?brt=<value>",
-        "Learn more at github.com/tuesy/poll"
+        "Learn more at github.com/tuesy/jimmypoll"
       ]
     },
     {
@@ -38,7 +38,7 @@
       "choices": [
         "Thought you'd never ask",
         "Pass ?content_pack=<content pack id>",
-        "Learn more at github.com/tuesy/poll"
+        "Learn more at github.com/tuesy/jimmypoll"
       ]
     }
   ]
