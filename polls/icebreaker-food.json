@@ -18,10 +18,13 @@
       ]
     },
     {
-      "name": "What's the best sandwich ever?",
+      "name": "What's the best sandwich ever (US Edition)?",
       "choices": [
-        "Peanut Butter and Jelly",
-        "Ham and Cheese"
+        "PB and J",
+        "Ham and Cheese",
+        "Grilled Cheese",
+        "BLT",
+        "Reuben"
       ]
     }
   ]
