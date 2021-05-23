@@ -1,0 +1,184 @@
+{
+  "favorites": [
+    {
+      "name": "When was the Declaration of Independence approved by the Second Continental Congress?",
+      "choices": [
+        "May 4, 1776",
+        "June 4, 1776",
+        "July 2, 1776",
+        "July 4, 1776"
+      ],
+      "answer": "July 4, 1776",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "On a dartboard, what number is directly opposite No. 1?",
+      "choices": [
+        "20",
+        "12",
+        "15",
+        "19"
+      ],
+      "answer": "19",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which language is NOT Indo-European?",
+      "choices": [
+        "Russian",
+        "Greek",
+        "Latvian",
+        "Hungarian"
+      ],
+      "answer": "Hungarian",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Sciophobia is the fear of what?",
+      "choices": [
+        "Eating",
+        "Bright lights",
+        "Transportation",
+        "Shadows"
+      ],
+      "answer": "Shadows",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which of the following buildings is example of a structure primarily built in the Art Deco architectural style?",
+      "choices": [
+        "Taipei 101",
+        "One Detroit Center",
+        "Westendstrasse 1",
+        "Niagara Mohawk Building"
+      ],
+      "answer": "Niagara Mohawk Building",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What alcoholic drink is mainly made from juniper berries?",
+      "choices": [
+        "Vodka",
+        "Rum",
+        "Tequila",
+        "Gin"
+      ],
+      "answer": "Gin",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The Swedish word &quot;Grunka&quot; means what in English?",
+      "choices": [
+        "People",
+        "Place",
+        "Pineapple",
+        "Thing"
+      ],
+      "answer": "Thing",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The term &quot;scientist&quot; was coined in which year?",
+      "choices": [
+        "1933",
+        "1942",
+        "1796",
+        "1833"
+      ],
+      "answer": "1833",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "According to the United States&#039; CDC, one in how many Americans die annually due to smoking?",
+      "choices": [
+        "Twenty",
+        "Ten",
+        "One hundred",
+        "Five"
+      ],
+      "answer": "Five",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which restaurant&#039;s mascot is a clown?",
+      "choices": [
+        "Whataburger",
+        "Burger King",
+        "Sonic",
+        "McDonald&#039;s"
+      ],
+      "answer": "McDonald&#039;s",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What was Mountain Dew&#039;s original slogan?",
+      "choices": [
+        "Give Me A Dew",
+        "Do The Dew",
+        "Get&#039; that barefoot feelin&#039; drinkin&#039; Mountain Dew",
+        "Yahoo! Mountain Dew... It&#039;ll tickle your innards!"
+      ],
+      "answer": "Yahoo! Mountain Dew... It&#039;ll tickle your innards!",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which iconic Disneyland attraction was closed in 2017 to be remodeled as a &quot;Guardians of the Galaxy&quot; themed ride?",
+      "choices": [
+        "The Haunted Mansion",
+        "Pirates of the Caribbean",
+        "Peter Pan&#039;s Flight",
+        "Twilight Zone Tower of Terror"
+      ],
+      "answer": "Twilight Zone Tower of Terror",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Whose greyscale face is on the kappa emoticon on Twitch?",
+      "choices": [
+        "Justin DeSeno",
+        "John DeSeno",
+        "Jimmy DeSeno",
+        "Josh DeSeno"
+      ],
+      "answer": "Josh DeSeno",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In the MMO RPG &quot;Realm of the Mad God&quot;, what dungeon is widely considered to be the most difficult?",
+      "choices": [
+        "Snake Pit",
+        "The Tomb of the Acient&#039;s",
+        "The Puppet Master&#039;s Theater",
+        "The Shatter&#039;s"
+      ],
+      "answer": "The Shatter&#039;s",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the full title of the Prime Minister of the UK?",
+      "choices": [
+        "Duke of Cambridge",
+        "Her Majesty&#039;s Loyal Opposition",
+        "Manager of the Crown Estate",
+        "First Lord of the Treasury"
+      ],
+      "answer": "First Lord of the Treasury",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    }
+  ]
+}
