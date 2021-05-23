@@ -307,7 +307,16 @@ export default class Poll {
   // e.g. ws://10.0.1.119:3901?poll=quickstart
   private loadBundledPoll(params: MRE.ParameterSet, user: MRE.User){
     if(!params.poll){ return }
-    let json = require(`../polls/${params.poll}.json`);
+
+    let json = null;
+
+    // handle if the poll doesn't exist
+    try{
+      json = require(`../polls/${params.poll}.json`);
+    }
+    catch{
+      return;
+    }
 
     if(DEBUG){ console.log(json) };
 
