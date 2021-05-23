@@ -243,7 +243,7 @@ function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
 }
 
 export function createHelpButton(context: MRE.Context, assets: MRE.AssetContainer){
-  let text = `Take a poll!\n\nWhen a poll starts you'll hear a sound and see choices on the screen.\n\nYou can vote by clicking the button next to your choice. You may change your vote as often as you'd like.\n\nOnce the first vote is in, results will update on the screen live.`;
+  let text = `Take a poll!\n\nWhen a poll starts you'll hear a sound and see choices on the screen.\n\nYou can vote by clicking the button next to your choice. You may change your vote as often as you'd like.\n\nOnce the first vote is in, results will update on the screen live.\n\nLearn more at github.com/tuesy/poll`;
 
   const Button = MRE.Actor.CreateFromLibrary(context, {
     resourceId: 'artifact:1579238405710021245',
