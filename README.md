@@ -29,7 +29,7 @@ Once the app launches, click on the heart button to load the poll. Browse the "p
 JimmyPoll is a featured app. You can find it in World Editor > Featured > SDK Apps. You can place it manually using:
 
 ```
-wss://mres.altvr.com/jimmypoll
+wss://mres.altvr.com/jimmypoll/
 ```
 
 ## Hosting
