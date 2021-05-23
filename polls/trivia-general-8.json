@@ -1,0 +1,184 @@
+{
+  "favorites": [
+    {
+      "name": "What name represents the letter \"M\" in the NATO phonetic alphabet?",
+      "choices": [
+        "Matthew",
+        "Mark",
+        "Max",
+        "Mike"
+      ],
+      "answer": "Mike",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which of the following chemicals are found in eggplant seeds?",
+      "choices": [
+        "Mescaline",
+        "Cyanide",
+        "Psilocybin",
+        "Nicotine"
+      ],
+      "answer": "Nicotine",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What was the nickname given to the Hughes H-4 Hercules, a heavy transport flying boat which achieved flight in 1947?",
+      "choices": [
+        "Noah's Ark",
+        "Fat Man",
+        "Trojan Horse",
+        "Spruce Goose"
+      ],
+      "answer": "Spruce Goose",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the German word for \"spoon\"?",
+      "choices": [
+        "Gabel",
+        "Messer",
+        "Essst&auml;bchen",
+        "L&ouml;ffel"
+      ],
+      "answer": "L&ouml;ffel",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the Swedish word for \"window\"?",
+      "choices": [
+        "H&aring;l",
+        "Sk&auml;rm",
+        "Ruta",
+        "F&ouml;nster"
+      ],
+      "answer": "F&ouml;nster",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "When was Nintendo founded?",
+      "choices": [
+        "October 19th, 1891",
+        "March 4th, 1887",
+        "December 27th, 1894",
+        "September 23rd, 1889"
+      ],
+      "answer": "September 23rd, 1889",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which restaurant's mascot is a clown?",
+      "choices": [
+        "Whataburger",
+        "Burger King",
+        "Sonic",
+        "McDonald's"
+      ],
+      "answer": "McDonald's",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "According to the 2014-2015 Australian Bureau of Statistics, what percentage of Australians were born overseas?",
+      "choices": [
+        "13%",
+        "20%",
+        "7%",
+        "28%"
+      ],
+      "answer": "28%",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Who invented Pastafarianism?",
+      "choices": [
+        "Eric Tignor",
+        "Bill Nye",
+        "Zach Soldi",
+        "Bobby Henderson"
+      ],
+      "answer": "Bobby Henderson",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Whose greyscale face is on the kappa emoticon on Twitch?",
+      "choices": [
+        "Justin DeSeno",
+        "John DeSeno",
+        "Jimmy DeSeno",
+        "Josh DeSeno"
+      ],
+      "answer": "Josh DeSeno",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which of the following is the IATA code for Manchester Airport?",
+      "choices": [
+        "EGLL",
+        "LHR",
+        "EGCC",
+        "MAN"
+      ],
+      "answer": "MAN",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What zodiac sign is represented by a pair of scales?",
+      "choices": [
+        "Aries",
+        "Capricorn",
+        "Sagittarius",
+        "Libra"
+      ],
+      "answer": "Libra",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In ancient Greece, if your job were a \"hippeus\" which of these would you own?",
+      "choices": [
+        "Weave",
+        "Guitar",
+        "Boat",
+        "Horse"
+      ],
+      "answer": "Horse",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the profession of Elon Musk's mom, Maye Musk?",
+      "choices": [
+        "Professor",
+        "Biologist",
+        "Musician",
+        "Model"
+      ],
+      "answer": "Model",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which country has the union jack in its flag?",
+      "choices": [
+        "South Africa",
+        "Canada",
+        "Hong Kong",
+        "New Zealand"
+      ],
+      "answer": "New Zealand",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    }
+  ]
+}

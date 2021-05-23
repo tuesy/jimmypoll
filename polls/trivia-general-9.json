@@ -1,0 +1,184 @@
+{
+  "favorites": [
+    {
+      "name": "What alcoholic drink is made from molasses?",
+      "choices": [
+        "Gin",
+        "Vodka",
+        "Whisky",
+        "Rum"
+      ],
+      "answer": "Rum",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which American president appears on a one dollar bill?",
+      "choices": [
+        "Thomas Jefferson",
+        "Abraham Lincoln",
+        "Benjamin Franklin",
+        "George Washington"
+      ],
+      "answer": "George Washington",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What is the name of the Jewish New Year?",
+      "choices": [
+        "Elul",
+        "New Year",
+        "Succoss",
+        "Rosh Hashanah"
+      ],
+      "answer": "Rosh Hashanah",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Who is the founder of \"The Lego Group\"?",
+      "choices": [
+        " Jens Niels Christiansen",
+        "Kirstine Christiansen",
+        " Gerhardt Kirk Christiansen",
+        "Ole Kirk Christiansen"
+      ],
+      "answer": "Ole Kirk Christiansen",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which of the following carbonated soft drinks were introduced first?",
+      "choices": [
+        "Coca-Cola",
+        "Sprite",
+        "Mountain Dew",
+        "Dr. Pepper"
+      ],
+      "answer": "Dr. Pepper",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What year was Apple Inc. founded?",
+      "choices": [
+        "1978",
+        "1980",
+        "1974",
+        "1976"
+      ],
+      "answer": "1976",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In what year was McDonald's founded?",
+      "choices": [
+        "1964",
+        "1951",
+        "1947",
+        "1955"
+      ],
+      "answer": "1955",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What was Mountain Dew's original slogan?",
+      "choices": [
+        "Give Me A Dew",
+        "Do The Dew",
+        "Get' that barefoot feelin' drinkin' Mountain Dew",
+        "Yahoo! Mountain Dew... It'll tickle your innards!"
+      ],
+      "answer": "Yahoo! Mountain Dew... It'll tickle your innards!",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What was the first ever London Underground line to be built?",
+      "choices": [
+        "Circle Line",
+        "Bakerloo Line",
+        "Victoria Line",
+        "Metropolitan Line"
+      ],
+      "answer": "Metropolitan Line",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "What was Bank of America originally established as?",
+      "choices": [
+        "Bank of Long Island",
+        "Bank of Pennsylvania",
+        "Bank of Charlotte",
+        "Bank of Italy"
+      ],
+      "answer": "Bank of Italy",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which product did Nokia, the telecommunications company, originally sell?",
+      "choices": [
+        "Phones",
+        "Computers",
+        "Processors",
+        "Paper"
+      ],
+      "answer": "Paper",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Which country drives on the left side of the road?",
+      "choices": [
+        "Germany",
+        "Russia",
+        "China",
+        "Japan"
+      ],
+      "answer": "Japan",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "The likeness of which president is featured on the rare $2 bill of USA currency?",
+      "choices": [
+        "Martin Van Buren",
+        "Ulysses Grant",
+        "John Quincy Adams",
+        "Thomas Jefferson"
+      ],
+      "answer": "Thomas Jefferson",
+      "difficulty": "easy",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "In \"Battle Cats\", what is Moneko / MISS Moneko's critical percentage rate?",
+      "choices": [
+        "20%",
+        "10%",
+        "25%",
+        "15%"
+      ],
+      "answer": "15%",
+      "difficulty": "hard",
+      "category": "General Knowledge"
+    },
+    {
+      "name": "Linus Pauling, one of the only winners of multiple Nobel Prizes, earned his Nobel Prizes in Chemistry and what?",
+      "choices": [
+        "Physics",
+        "Economics",
+        "Physiology/Medicine",
+        "Peace"
+      ],
+      "answer": "Peace",
+      "difficulty": "medium",
+      "category": "General Knowledge"
+    }
+  ]
+}
