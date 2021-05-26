@@ -100,11 +100,10 @@ export default class JimmyPoll {
       }
     }
 
-    // recreate the screen controls
     UI.updateHeader(this.header, 'Results', `${poll.name}`);
 
+    // recreate the screen controls
     this.choices = UI.recreateChoices(this, this.choices);
-
     this.wireUpControls(UI.updateChoices(this, poll, this.choices));
 
     // play a sound for everyone to let people know a new poll started
