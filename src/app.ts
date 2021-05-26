@@ -1,7 +1,6 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 import * as UI from "./ui";
 import * as Audio from "./audio";
-import * as Controls from "./controls";
 import * as Utils from "./utils";
 
 const fetch = require('node-fetch');
@@ -14,7 +13,7 @@ const DEBUG = false;
 
 export type PollDescriptor = {
   name: string,
-  choices: PollChoiceDescriptor[],
+  choices: ChoiceDescriptor[],
   answer?: string,
   difficulty?: string,
   category?: string
@@ -28,7 +27,7 @@ export type ImportedPollDescriptor = {
   category?: string
 }
 
-export type PollChoiceDescriptor = {
+export type ChoiceDescriptor = {
   name: string,
   userIds: Set<MRE.Guid>
 }
@@ -40,8 +39,9 @@ export default class JimmyPoll {
   private header: MRE.Actor;
   private helpButton: MRE.Actor;
 
-  private attachedControls = new Map<MRE.Guid, MRE.Actor>();
-  private favorites = new Map<MRE.Guid, MRE.Actor>();
+  private favoriteButtons = new Map<MRE.Guid, MRE.Actor>();
+  private pollButtons = new Map<MRE.Guid, MRE.Actor>();
+
   private polls: { [key: string]: PollDescriptor } = {};
 
 	constructor(public context: MRE.Context, public params: MRE.ParameterSet) {
@@ -99,12 +99,6 @@ export default class JimmyPoll {
       }
     }
 
-    // recreate everyone's controls
-    for (let i = 0; i < this.context.users.length; i++){
-      let user = this.context.users[i];
-      this.wireUpControls(Controls.attach(this.context, this.attachedControls, user.id, poll));
-    }
-
     // recreate the screen controls
     this.wireUpControls(UI.pollStarted(this, this.header, poll));
 
@@ -151,7 +145,17 @@ export default class JimmyPoll {
   }
 
   private userLeft(user: MRE.User) {
-    Controls.unattach(this.attachedControls, user.id);
+    // cleanup Favorite Button
+    if(this.favoriteButtons.has(user.id)){
+      this.favoriteButtons.get(user.id).destroy();
+      this.favoriteButtons.delete(user.id);
+    }
+
+    // cleanup Poll Button
+    if(this.pollButtons.has(user.id)){
+      this.pollButtons.get(user.id).destroy();
+      this.pollButtons.delete(user.id);
+    }
   }
 
   private userJoined(user: MRE.User) {
@@ -164,13 +168,10 @@ export default class JimmyPoll {
         this.loadBundledPoll(this.params, user);
       }
     }
-
-    this.wireUpControls(Controls.attach(this.context, this.attachedControls, user.id, this.polls[this.pollIdFor(user)]));
   }
 
   private createPollButtonFor(user: MRE.User){
     const position = { x: UI.HELP_BUTTON_POSITION.x - MAIN_BUTTON_SPACING, y: UI.HELP_BUTTON_POSITION.y, z: UI.HELP_BUTTON_POSITION.z }; // to the left of the help button
-    let text = POLL_BUTTON_TEXT;
     const button = MRE.Actor.CreateFromLibrary(this.context, {
       resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
       actor: {
@@ -181,7 +182,7 @@ export default class JimmyPoll {
       }
     });
     button.setBehavior(MRE.ButtonBehavior).onClick(user => {
-      user.prompt(text, true)
+      user.prompt(POLL_BUTTON_TEXT, true)
       .then(res => {
         if(res.submitted){
           if(res.text.length < 1)
@@ -197,6 +198,7 @@ export default class JimmyPoll {
         console.error(err);
       });
     });
+    this.pollButtons.set(user.id, button);
   }
 
 
@@ -205,7 +207,7 @@ export default class JimmyPoll {
     const favoritesButton = MRE.Actor.CreateFromLibrary(this.context, {
       resourceId: 'artifact:1579238678213952234', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579238678213952234
       actor: {
-        name: 'Content Pack Button',
+        name: 'Favorites Button',
         transform: { local: { position: position } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
         exclusiveToUser: user.id
@@ -213,9 +215,9 @@ export default class JimmyPoll {
     });
     favoritesButton.setBehavior(MRE.ButtonBehavior).onClick(user => {
       // toggling the Favorites
-      if(this.favorites.has(user.id)){
-        this.favorites.get(user.id).destroy();
-        this.favorites.delete(user.id);
+      if(this.favoriteButtons.has(user.id)){
+        this.favoriteButtons.get(user.id).destroy();
+        this.favoriteButtons.delete(user.id);
       }
       else{
         const favs = MRE.Actor.Create(this.context, {
@@ -283,11 +285,9 @@ export default class JimmyPoll {
           y -= buttonSpacing;
         }
 
-        this.favorites.set(user.id, favs);
+        this.favoriteButtons.set(user.id, favs);
       }
     });
-
-
   }
 
 
@@ -353,9 +353,7 @@ export default class JimmyPoll {
     for (let i = 0; i < buttons.length; i++){
       buttons[i].setBehavior(MRE.ButtonBehavior).onClick(user => {
         this.takePoll(user, i);
-        // play a sound for the user to give feedback since most people don't have haptic feedback enabled (to save battery)
-        // attach this to the controls so it's exclusive to the user
-        Audio.playClickSound(this.assets, Controls.watchFor(this.attachedControls, user.id));
+        Audio.playClickSound(this.assets, this.screen);
       });
     }
   }

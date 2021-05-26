@@ -1,5 +1,5 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
-import { PollDescriptor, PollChoiceDescriptor } from "./app";
+import { PollDescriptor, ChoiceDescriptor } from "./app";
 import JimmyPoll from "./app"
 
 export const APP_NAME = 'JimmyPoll';
