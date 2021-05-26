@@ -15,7 +15,7 @@ const BACKGROUND_WIDTH = 7.8;
 const BACKGROUND_HEIGHT = 4.38;
 const BACKGROUND_DEPTH = 0.02;
 
-const DEBUG = true;
+const DEBUG = false;
 
 let backgroundImage : string;
 let backgroundImageBrightness = 0.3; // remember to update the README
