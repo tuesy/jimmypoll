@@ -34,21 +34,30 @@ export type PollChoiceDescriptor = {
 }
 
 export default class JimmyPoll {
-	private assets: MRE.AssetContainer;
+	public assets: MRE.AssetContainer;
+
+  private screen: MRE.Actor;
+  private header: MRE.Actor;
+  private helpButton: MRE.Actor;
+
   private attachedControls = new Map<MRE.Guid, MRE.Actor>();
   private favorites = new Map<MRE.Guid, MRE.Actor>();
   private polls: { [key: string]: PollDescriptor } = {};
 
-	constructor(private context: MRE.Context, private params: MRE.ParameterSet) {
-		this.context.onStarted(() => this.started());
+	constructor(public context: MRE.Context, public params: MRE.ParameterSet) {
+	  this.assets = new MRE.AssetContainer(context);
+
+    this.context.onStarted(() => this.started());
     this.context.onUserLeft(user => this.userLeft(user));
     this.context.onUserJoined(user => this.userJoined(user));
 	}
 
 	private async started() {
-    this.assets = new MRE.AssetContainer(this.context);
     UI.chooseBackgroundImage(this.params);
-    UI.create(this.context, this.assets);
+    this.screen = UI.createScreen(this);
+    this.header = UI.createHeader(this);
+    this.helpButton = UI.createHelpButton(this);
+    UI.updateHeader(this.header, 'Title', UI.APP_NAME);
     Audio.preload(this.assets);
 	}
 
@@ -97,12 +106,12 @@ export default class JimmyPoll {
     }
 
     // recreate the screen controls
-    this.wireUpControls(UI.pollStarted(this.context, this.assets, poll));
+    this.wireUpControls(UI.pollStarted(this, this.header, poll));
 
     // play a sound for everyone to let people know a new poll started
-    Audio.pollStarted(this.assets, UI.screenHeader);
+    Audio.playStartSound(this.assets, this.screen);
 
-    UI.updateResults(this.context, this.assets, poll);
+    UI.updateResults(this, poll);
 
     if(DEBUG){
       console.log(`[Poll][Start] "${poll.name}" (${pollId})`);
@@ -121,7 +130,7 @@ export default class JimmyPoll {
         else
           poll.choices[i].userIds.delete(user.id);
       }
-      UI.updateResults(this.context, this.assets, poll);
+      UI.updateResults(this, poll);
     }
   }
 
@@ -346,7 +355,7 @@ export default class JimmyPoll {
         this.takePoll(user, i);
         // play a sound for the user to give feedback since most people don't have haptic feedback enabled (to save battery)
         // attach this to the controls so it's exclusive to the user
-        Audio.pollTaken(this.assets, Controls.watchFor(this.attachedControls, user.id));
+        Audio.playClickSound(this.assets, Controls.watchFor(this.attachedControls, user.id));
       });
     }
   }

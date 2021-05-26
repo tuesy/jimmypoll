@@ -1,14 +1,13 @@
 import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 import { PollDescriptor, PollChoiceDescriptor } from "./app";
+import JimmyPoll from "./app"
 
-const APP_NAME = 'JimmyPoll';
-
+export const APP_NAME = 'JimmyPoll';
+export const FONT = MRE.TextFontFamily.Cursive;
 export const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
 
 const SCREEN_HEIGHT = 1.5;
 const SCREEN_SCALE = 0.5;
-
-export const FONT = MRE.TextFontFamily.Cursive;
 
 const BACKGROUND_IMAGES = ["tile01.png", "tile02.png", "tile03.png", "tile04.png", "tile05.png", "tile06.png", "tile07.png", "tile08.png", "tile09.png"];
 const BACKGROUND_TEXTURE_SCALE = {x: 4, y: 2} // sets how often the pattern repeats--bigger is more tiles. Tiles are square but screen is ~2:1
@@ -16,24 +15,29 @@ const BACKGROUND_WIDTH = 7.8;
 const BACKGROUND_HEIGHT = 4.38;
 const BACKGROUND_DEPTH = 0.02;
 
-const DEBUG = false;
+const DEBUG = true;
 
 let backgroundImage : string;
 let backgroundImageBrightness = 0.3; // remember to update the README
-export let screenHeader : MRE.Actor;
 let screenChoices : MRE.Actor;
 
-export function create(context: MRE.Context, assets: MRE.AssetContainer){
-  createScreen(context, assets);
-  setHeader('Title', APP_NAME);
-  createHelpButton(context, assets);
+// hosts can choose a background
+// hosts can also adjust the brightness
+export function chooseBackgroundImage(params: MRE.ParameterSet){
+  let index = Number(params.bg);
+  let total = BACKGROUND_IMAGES.length;
+  let brightness = Number(params.brt)
+
+  if(index > 0 && index < total)
+    backgroundImage = BACKGROUND_IMAGES[index-1];
+  else // randomly choose one by default
+    backgroundImage = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)];
+
+  if(brightness > 0 && brightness < 1)
+    backgroundImageBrightness = brightness;
 }
 
-// setTitle('Title', 'Poll App')
-// setTitle('Results', 'Poll: Are we living in a simulation?')
-export function setHeader(style: string, text: string){
-  let header = screenHeader;
-
+export function updateHeader(header: MRE.Actor, style: string, text: string){
   header.text.contents = text;
 
   switch (style) {
@@ -70,9 +74,9 @@ export function setHeader(style: string, text: string){
   if(DEBUG){ console.log(`Header height: ${header.text.height}`) }
 }
 
-export function pollStarted(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor) : MRE.Actor[] {
-  setHeader('Results', `${poll.name}`);
-  return createScreenChoices(context, poll);
+export function pollStarted(app: JimmyPoll, header: MRE.Actor, poll: PollDescriptor) : MRE.Actor[] {
+  updateHeader(header, 'Results', `${poll.name}`);
+  return createScreenChoices(app.context, poll);
 }
 
 function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.Actor [] {
@@ -132,7 +136,7 @@ function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.A
   return buttons;
 }
 
-export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, poll: PollDescriptor){
+export function updateResults(app: JimmyPoll, poll: PollDescriptor){
   let total = poll.choices.reduce((sum, current) => sum + current.userIds.size, 0);
   let y = 0;
   let buttonSpacing = 0;
@@ -177,27 +181,11 @@ export function updateResults(context: MRE.Context, assets: MRE.AssetContainer, 
 
 }
 
-// hosts can choose a background
-// hosts can also adjust the brightness
-export function chooseBackgroundImage(params: MRE.ParameterSet){
-  let index = Number(params.bg);
-  let total = BACKGROUND_IMAGES.length;
-  let brightness = Number(params.brt)
-
-  if(index > 0 && index < total)
-    backgroundImage = BACKGROUND_IMAGES[index-1];
-  else // randomly choose one by default
-    backgroundImage = BACKGROUND_IMAGES[Math.floor(Math.random() * BACKGROUND_IMAGES.length)];
-
-  if(brightness > 0 && brightness < 1)
-    backgroundImageBrightness = brightness;
-}
-
-function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
-  const screen = MRE.Actor.CreateFromLibrary(context, {
+export function createScreen(app: JimmyPoll) : MRE.Actor{
+  const screen = MRE.Actor.CreateFromLibrary(app.context, {
     resourceId: 'artifact:1338743673998803669', // https://account.altvr.com/kits/1329955493782749272/artifacts/1338743673998803669
     actor: {
-      name: 'Theater Screen',
+      name: 'Screen',
       transform: { local: { position: { x: 0, y: SCREEN_HEIGHT, z: 0.1 }, scale: {x: SCREEN_SCALE, y: SCREEN_SCALE, z: 1} } },
       collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
     }
@@ -207,45 +195,53 @@ function createScreen(context: MRE.Context, assets: MRE.AssetContainer){
   if(DEBUG)
     console.log(`Background: ${backgroundImage}, brightness: ${backgroundImageBrightness}`);
 
-  const backgroundTexture = assets.createTexture("bgTex", { uri: backgroundImage } );
-  const backgroundMaterial = assets.createMaterial("bgMat", {
+  const backgroundTexture = app.assets.createTexture("bgTex", { uri: backgroundImage } );
+
+  const backgroundMaterial = app.assets.createMaterial("bgMat", {
     mainTextureId: backgroundTexture.id,
     mainTextureScale: BACKGROUND_TEXTURE_SCALE,
     emissiveTextureId: backgroundTexture.id,
     emissiveTextureScale: BACKGROUND_TEXTURE_SCALE,
     emissiveColor: new MRE.Color3(backgroundImageBrightness, backgroundImageBrightness, backgroundImageBrightness)
   });
-  const background = MRE.Actor.Create(context, {
+
+  // background
+  MRE.Actor.Create(app.context, {
     actor: {
       transform: { local: { position: { x: 0, y: 0, z: -BACKGROUND_DEPTH } } }, // -Z is towards you when looking at the screen
       appearance: {
-          meshId: assets.createBoxMesh("cube", BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_DEPTH).id, // X is width, Y is height, Z is depth when looking at screen
+          meshId: app.assets.createBoxMesh("cube", BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_DEPTH).id, // X is width, Y is height, Z is depth when looking at screen
           materialId: backgroundMaterial.id
       },
       parentId: screen.id
     }
   });
 
-  screenHeader = MRE.Actor.Create(context, {
+  return screen;
+}
+
+export function createHeader(app: JimmyPoll) : MRE.Actor{
+  const header = MRE.Actor.Create(app.context, {
     actor: {
       name: 'Header',
       transform: { local: { position: { x: 0, y: 0, z: 0 } } },
       collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
       text: {
-        contents: null,
-        height: null,
+        contents: 'This is teh header',
+        height: 0.4,
         anchor: MRE.TextAnchorLocation.MiddleCenter,
         justify: MRE.TextJustify.Center,
         font: FONT
       }
     }
   });
+  return header;
 }
 
-export function createHelpButton(context: MRE.Context, assets: MRE.AssetContainer){
+export function createHelpButton(app: JimmyPoll) : MRE.Actor {
   let text = `Take a poll!\n\nWhen a poll starts you'll hear a sound and see choices on the screen.\n\nYou can vote by clicking the button next to your choice. You may change your vote as often as you'd like.\n\nOnce the first vote is in, results will update on the screen live.\n\nLearn more at github.com/tuesy/jimmypoll`;
 
-  const Button = MRE.Actor.CreateFromLibrary(context, {
+  const button = MRE.Actor.CreateFromLibrary(app.context, {
     resourceId: 'artifact:1579238405710021245',
     actor: {
       name: 'Help Button',
@@ -253,7 +249,7 @@ export function createHelpButton(context: MRE.Context, assets: MRE.AssetContaine
       collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } }
     }
    });
-  Button.setBehavior(MRE.ButtonBehavior).onClick(user => {
+  button.setBehavior(MRE.ButtonBehavior).onClick(user => {
     user.prompt(text).then(res => {
         if(res.submitted){
           // clicked 'OK'
@@ -266,7 +262,7 @@ export function createHelpButton(context: MRE.Context, assets: MRE.AssetContaine
       console.error(err);
     });
   });
+
+  return button;
 }
-
-
 

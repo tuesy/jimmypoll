@@ -3,13 +3,13 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 const DEBUG = false;
 
 export function preload(assets: MRE.AssetContainer){
-  assets.createSound('startSound', { uri: 'start.ogg' } );
-  assets.createSound('clickSound', { uri: 'click.ogg' } );
+  assets.createSound('start', { uri: 'start.ogg' } );
+  assets.createSound('click', { uri: 'click.ogg' } );
 }
 
-export function pollStarted(assets: MRE.AssetContainer, actor: MRE.Actor){
+export function playStartSound(assets: MRE.AssetContainer, actor: MRE.Actor){
   if(actor){
-    actor.startSound(assets.sounds.find(x => x.name === 'startSound').id, {
+    actor.startSound(assets.sounds.find(x => x.name === 'start').id, {
       volume: 0.1,
       looping: false,
       doppler: 0.0,
@@ -19,9 +19,9 @@ export function pollStarted(assets: MRE.AssetContainer, actor: MRE.Actor){
   }
 }
 
-export function pollTaken(assets: MRE.AssetContainer, actor: MRE.Actor){
+export function playClickSound(assets: MRE.AssetContainer, actor: MRE.Actor){
   if(actor){
-    actor.startSound(assets.sounds.find(x => x.name === 'clickSound').id, {
+    actor.startSound(assets.sounds.find(x => x.name === 'click').id, {
       volume: 0.1,
       looping: false,
       doppler: 0.0,
