@@ -9,7 +9,7 @@ export function preload(assets: MRE.AssetContainer){
 
 export function pollStarted(assets: MRE.AssetContainer, actor: MRE.Actor){
   if(actor){
-    actor.startSound(findSoundId(assets, 'startSound'), {
+    actor.startSound(assets.sounds.find(x => x.name === 'startSound').id, {
       volume: 0.1,
       looping: false,
       doppler: 0.0,
@@ -21,7 +21,7 @@ export function pollStarted(assets: MRE.AssetContainer, actor: MRE.Actor){
 
 export function pollTaken(assets: MRE.AssetContainer, actor: MRE.Actor){
   if(actor){
-    actor.startSound(findSoundId(assets, 'clickSound'), {
+    actor.startSound(assets.sounds.find(x => x.name === 'clickSound').id, {
       volume: 0.1,
       looping: false,
       doppler: 0.0,
@@ -29,9 +29,4 @@ export function pollTaken(assets: MRE.AssetContainer, actor: MRE.Actor){
       rolloffStartDistance: 2.5
     });
   }
-}
-
-// look up the sound by name (e.g. startSound)
-function findSoundId(assets: MRE.AssetContainer, name: string) : MRE.Guid{
-  return assets.sounds.filter(x => x.name == name)[0].id;
 }
