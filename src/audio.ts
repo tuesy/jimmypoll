@@ -14,7 +14,7 @@ export function pollStarted(assets: MRE.AssetContainer, actor: MRE.Actor){
       looping: false,
       doppler: 0.0,
       spread: 0.7,
-      rolloffStartDistance: 2.5
+      rolloffStartDistance: 1000 // everyone needs to hear it, albeit at a low volume
     });
   }
 }
@@ -26,7 +26,7 @@ export function pollTaken(assets: MRE.AssetContainer, actor: MRE.Actor){
       looping: false,
       doppler: 0.0,
       spread: 0.7,
-      rolloffStartDistance: 1000 // everyone needs to hear it, albeit at a low volume
+      rolloffStartDistance: 2.5
     });
   }
 }
