@@ -38,6 +38,7 @@ export default class JimmyPoll {
   private screen: MRE.Actor;
   private header: MRE.Actor;
   private helpButton: MRE.Actor;
+  private choices: MRE.Actor;
 
   private favoriteButtons = new Map<MRE.Guid, MRE.Actor>();
   private pollButtons = new Map<MRE.Guid, MRE.Actor>();
@@ -100,12 +101,16 @@ export default class JimmyPoll {
     }
 
     // recreate the screen controls
-    this.wireUpControls(UI.pollStarted(this, this.header, poll));
+    UI.updateHeader(this.header, 'Results', `${poll.name}`);
+
+    this.choices = UI.recreateChoices(this, this.choices);
+
+    this.wireUpControls(UI.updateChoices(this, poll, this.choices));
 
     // play a sound for everyone to let people know a new poll started
     Audio.playStartSound(this.assets, this.screen);
 
-    UI.updateResults(this, poll);
+    UI.updateResults(this, poll, this.choices);
 
     if(DEBUG){
       console.log(`[Poll][Start] "${poll.name}" (${pollId})`);
@@ -124,7 +129,7 @@ export default class JimmyPoll {
         else
           poll.choices[i].userIds.delete(user.id);
       }
-      UI.updateResults(this, poll);
+      UI.updateResults(this, poll, this.choices);
     }
   }
 

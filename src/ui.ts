@@ -18,7 +18,6 @@ const DEBUG = false;
 
 let backgroundImage : string;
 let backgroundImageBrightness = 0.3; // remember to update the README
-let screenChoices : MRE.Actor;
 
 // hosts can choose a background
 // hosts can also adjust the brightness
@@ -73,16 +72,11 @@ export function updateHeader(header: MRE.Actor, style: string, text: string){
   if(DEBUG){ console.log(`Header height: ${header.text.height}`) }
 }
 
-export function pollStarted(app: JimmyPoll, header: MRE.Actor, poll: PollDescriptor) : MRE.Actor[] {
-  updateHeader(header, 'Results', `${poll.name}`);
-  return createScreenChoices(app.context, poll);
-}
+export function recreateChoices(app: JimmyPoll, choices: MRE.Actor) : MRE.Actor {
+  if(choices)
+    choices.destroy();
 
-function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.Actor [] {
-  if(screenChoices)
-    screenChoices.destroy();
-
-  screenChoices = MRE.Actor.Create(context, {
+  const actor = MRE.Actor.Create(app.context, {
     actor: {
       name: 'Choices',
       transform: { local: { position: { x: -1.6, y: 2, z: 0 } } },
@@ -97,25 +91,30 @@ function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.A
     }
   });
 
+  return actor;
+}
+
+export function updateChoices(app: JimmyPoll, poll: PollDescriptor, choices: MRE.Actor) : MRE.Actor [] {
+
   let buttons : MRE.Actor[] = [];
   let y = -0.2;
   const buttonSpacing = 0.3;
   const choiceSpacing = 0.2;
 
   for(let i = 0; i < poll.choices.length; i++){
-    let button = MRE.Actor.CreateFromLibrary(context, {
+    let button = MRE.Actor.CreateFromLibrary(app.context, {
       resourceId: 'artifact:1579239603192201565', // https://account.altvr.com/kits/1579230775574790691/artifacts/1579239603192201565
       actor: {
         name: 'Screen Button',
         transform: { local: { position: { x: 0, y: y, z: 0 } } },
         collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
-        parentId: screenChoices.id
+        parentId: choices.id
       }
     });
 
     buttons.push(button);
 
-    let label = MRE.Actor.Create(context, {
+    let label = MRE.Actor.Create(app.context, {
       actor: {
         transform: { local: { position: { x: choiceSpacing, y: 0, z: 0 } } },
         text: {
@@ -135,7 +134,7 @@ function createScreenChoices(context: MRE.Context, poll: PollDescriptor) : MRE.A
   return buttons;
 }
 
-export function updateResults(app: JimmyPoll, poll: PollDescriptor){
+export function updateResults(app: JimmyPoll, poll: PollDescriptor, choices: MRE.Actor){
   let total = poll.choices.reduce((sum, current) => sum + current.userIds.size, 0);
   let y = 0;
   let buttonSpacing = 0;
@@ -169,8 +168,8 @@ export function updateResults(app: JimmyPoll, poll: PollDescriptor){
   for(let i = 0; i < poll.choices.length; i++){
     let votes = poll.choices[i].userIds.size;
     let percentage = Math.round(votes / total * 100);
-    let button = screenChoices.children[i];
-    let label = screenChoices.children[i].children[0];
+    let button = choices.children[i];
+    let label = choices.children[i].children[0];
     if(total > 0){ // don't add percentages until there are votes
       label.text.contents = `${percentage}%  ${poll.choices[i].name} (${votes})\n`;
     }
