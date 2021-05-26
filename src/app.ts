@@ -100,7 +100,7 @@ export default class JimmyPoll {
     this.wireUpControls(UI.pollStarted(this.context, this.assets, poll));
 
     // play a sound for everyone to let people know a new poll started
-    Audio.pollStarted(UI.screenHeader);
+    Audio.pollStarted(this.assets, UI.screenHeader);
 
     UI.updateResults(this.context, this.assets, poll);
 
@@ -346,7 +346,7 @@ export default class JimmyPoll {
         this.takePoll(user, i);
         // play a sound for the user to give feedback since most people don't have haptic feedback enabled (to save battery)
         // attach this to the controls so it's exclusive to the user
-        Audio.pollTaken(Controls.watchFor(this.attachedControls, user.id));
+        Audio.pollTaken(this.assets, Controls.watchFor(this.attachedControls, user.id));
       });
     }
   }
