@@ -57,7 +57,7 @@ export default class JimmyPoll {
     this.screen = UI.createScreen(this);
     this.header = UI.createHeader(this);
     this.helpButton = UI.createHelpButton(this);
-    UI.updateHeader(this.header, 'Title', UI.APP_NAME);
+    UI.updateHeader(this.header, 'Title', 'JimmyPoll');
     Audio.preload(this.assets);
 	}
 

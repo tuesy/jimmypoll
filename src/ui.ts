@@ -2,7 +2,6 @@ import * as MRE from '@microsoft/mixed-reality-extension-sdk';
 import { PollDescriptor, ChoiceDescriptor } from "./app";
 import JimmyPoll from "./app"
 
-export const APP_NAME = 'JimmyPoll';
 export const FONT = MRE.TextFontFamily.Cursive;
 export const HELP_BUTTON_POSITION = { x: 1.74, y: 0.6, z: 0 }; // bottom right corner of the screen
 
@@ -227,8 +226,8 @@ export function createHeader(app: JimmyPoll) : MRE.Actor{
       transform: { local: { position: { x: 0, y: 0, z: 0 } } },
       collider: { geometry: { shape: MRE.ColliderType.Box, size: { x: 0.5, y: 0.2, z: 0.01 } } },
       text: {
-        contents: 'This is teh header',
-        height: 0.4,
+        contents: null,
+        height: null,
         anchor: MRE.TextAnchorLocation.MiddleCenter,
         justify: MRE.TextJustify.Center,
         font: FONT
