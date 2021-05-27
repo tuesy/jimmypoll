@@ -67,6 +67,10 @@ export default class JimmyPoll {
     let pollName = Utils.pollNameFrom(inputs);
     let choiceNames = Utils.choiceNamesFrom(inputs, MAX_CHOICES);
 
+    // make sure audio assets are all loaded
+    // only hosts can initiate this so there shouldn't be any crazy race conditions
+    Audio.preload(this.assets);
+
     if(DEBUG)
       console.log(`inputs: ${inputs}, pollName: ${pollName}, choiceNames: ${choiceNames}`);
 
