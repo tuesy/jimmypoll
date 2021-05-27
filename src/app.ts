@@ -172,7 +172,6 @@ export default class JimmyPoll {
         this.loadBundledPoll(this.params, user);
       }
     }
-    Audio.preload(this.assets);
   }
 
   private createPollButtonFor(user: MRE.User){
